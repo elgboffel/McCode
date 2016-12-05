@@ -1,0 +1,17 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.FrontPage>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>@Model.Content.Headline</h1>
+            @if (Model.Content.Lead != string.Empty)
+            {
+                <p class="lead">@Model.Content.Lead</p>
+            }
+        </div>
+    </div>
+</div>

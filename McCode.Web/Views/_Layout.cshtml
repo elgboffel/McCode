@@ -1,0 +1,28 @@
+﻿@using ClientDependency.Core.Mvc
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+    <link href="~/content/css/font-awesome.css" rel="stylesheet">
+    <link href="~/content/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+    @RenderBody()
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
+        crossorigin="anonymous"></script>
+
+    @Html.RenderJsHere()
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Styleguide>
+@using ClientDependency.Core.Mvc
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using McCode.Web.Models.PartialViewModels
+@using Our.Umbraco.Picture
+@{
+    Layout = "_Layout.cshtml";
+
+    Html.RequiresJs("~/scripts/app/main-nav.js");
+
+    var page = Model.Content.AncestorOrSelf<Website>().Descendant<GridPage>();
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-3">
+            <!-- Mobile nav -->
+            <nav id="mainNav" class="main-nav">
+                <div class="nav-menu">
+                    <div id="navBtn" class="nav-btn">
+                        <div class="background"></div>
+                    </div>
+                </div>
+                <div class="navs">
+                    <ul>
+                        <li><a href="#">Forside</a></li>
+                        <li><a href="#">Cases</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Styleguide</a></li>
+                        <li><a href="#">kontakt</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Box btn -->
+            <div class="box-btn">
+                <a href="#">Boxed border 1</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            @Html.Partial("Modules/_PageHead", new PageHeadViewModel
+           {
+               Image = Umbraco.Media(page.Image),
+               Height = 200,
+               GridSize = 6
+           })            
+        </div>
+    </div>
+</div>

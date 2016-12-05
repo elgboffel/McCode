@@ -1,0 +1,23 @@
+﻿@inherits UmbracoViewPage<PageHeadViewModel>
+@using McCode.Web.Models.PartialViewModels
+
+@if (Model.Image != null)
+{
+    var img = Model.Image;
+    var picture = Umbraco.Picture(Model.Image)
+    .Source("(min-width:1200px)", img.GetCropUrl(width: ResizeImage(1140, Model.GridSize, 30), height: Model.Height, preferFocalPoint: true))
+    .Source("(min-width:992px)", img.GetCropUrl(width: ResizeImage(960, Model.GridSize, 30), height: Model.Height, preferFocalPoint: true))
+    .Source("(min-width:768px)", img.GetCropUrl(width: ResizeImage(720, Model.GridSize, 30), height: Model.Height, preferFocalPoint: true))
+    .Source("(min-width:576px)", img.GetCropUrl(width: 510, height: Model.Height, preferFocalPoint: true))
+    .Srcset(img.GetCropUrl(width: 545, height: Model.Height, preferFocalPoint: true));
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int padding)
+    {
+        int size = ((containerSize / 12) * gridSize) - padding;
+        return size;
+    }
+}
