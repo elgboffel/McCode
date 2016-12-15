@@ -1,17 +1,28 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Styleguide>
-@using ClientDependency.Core.Mvc
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @using McCode.Web.Models.PartialViewModels
-@using Our.Umbraco.Picture
 @{
     Layout = "_Layout.cshtml";
 
     Html.RequiresJs("~/scripts/app/main-nav.js");
 
     var page = Model.Content.AncestorOrSelf<Website>().Descendant<GridPage>();
+
+    IEnumerable<IPublishedContent> blogList = Model.Content
+        .AncestorOrSelf<Website>()
+        .Children<BlogSection>()
+        .FirstOrDefault()
+        .Descendants<BlogPage>();
 }
 
 <div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h2>Mobile Menu</h2>
+            <hr />
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-12 col-sm-3">
             <!-- Mobile nav -->
@@ -35,10 +46,24 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
+            <hr />
+            <h2>Buttons & Forms</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
             <!-- Box btn -->
             <div class="box-btn">
                 <a href="#">Boxed border 1</a>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h2>Media</h2>
+            <hr />
         </div>
     </div>
     <div class="row">
@@ -49,6 +74,22 @@
                Height = 200,
                GridSize = 6
            })            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h2>List</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            @Html.Partial("Modules/_List", new ListViewModel
+           {
+               Headline = blogList.FirstOrDefault().AncestorOrSelf<BlogSection>().Name,
+               List = blogList
+           }) 
         </div>
     </div>
 </div>

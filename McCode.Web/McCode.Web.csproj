@@ -360,6 +360,8 @@
     <Content Include="Config\Lang\ru-RU.user.xml" />
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
+    <Content Include="content\components\handlebars\handlebars.js" />
+    <Content Include="content\components\picturefill\dist\picturefill.js" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="nuget.exe" />
@@ -578,6 +580,15 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="content\scss\main-nav.scss" />
     <Content Include="Views\Partials\Modules\_PageHead.cshtml" />
+    <Content Include="App_Data\Models\all.dll.path" />
+    <Content Include="App_Data\Models\models.hash" />
+    <Content Include="Views\Partials\Modules\_List.cshtml" />
+    <Content Include="Views\BlogFolder.cshtml" />
+    <Content Include="Views\BlogPage.cshtml" />
+    <Content Include="Views\BlogSection.cshtml" />
+    <Content Include="Views\PageList.cshtml" />
+    <Content Include=".bowerrc" />
+    <Content Include="bower.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -816,6 +827,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\InfiniteListController.cs" />
+    <Compile Include="Extensions\ImageSizeCalcExtension.cs" />
+    <Compile Include="Models\InfiniteListModel.cs" />
+    <Compile Include="Models\PartialViewModels\ListViewModel.cs" />
     <Compile Include="Models\PartialViewModels\PageHeadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -827,8 +842,10 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="scripts\app\infinite-list.ts" />
     <TypeScriptCompile Include="scripts\app\main-nav.ts" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

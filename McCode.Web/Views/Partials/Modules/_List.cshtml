@@ -1,0 +1,61 @@
+﻿@inherits UmbracoViewPage<ListViewModel>
+@using McCode.Web.Models.PartialViewModels
+@using McCode.Web.Models
+@using Newtonsoft.Json
+
+@{
+    Html.RequiresJs("~/scripts/app/infinite-list.js")
+        .RequiresJs("~/content/components/handlebars/handlebars.js");
+
+
+    var list = new List<InfiniteListItemModel>();
+
+    foreach(var item in Model.List)
+    {
+        list.Add(
+                new InfiniteListItemModel
+                {
+                    Name = item.Name,
+                    Lead = item.GetPropertyValue<string>("lead", ""),
+                    Url = item.Url
+                }
+            );
+    }
+
+    var jsonList = JsonConvert.SerializeObject(list);
+}
+
+<div class="list" data-list="@jsonList" data-section="1">
+    @if (!string.IsNullOrEmpty(Model.Headline))
+    {
+        <h3>@Model.Headline</h3>
+    }
+    @if (Model.List.Any())
+    {
+        <ul id="infiniteList" class="list-unstyled">
+            @foreach (var i in Model.List)
+            {
+                @RenderList(i)
+            }
+        </ul>
+    }
+</div>
+
+@helper RenderList(IPublishedContent node)
+{
+    <li>
+        <a href="@node.Url">
+
+            <h4>@(node.GetPropertyValue<string>("headline", node.Name))</h4>
+
+            @if (node.HasValue("lead"))
+            {
+                <p>@(node.GetPropertyValue<string>("lead"))</p>
+            }
+        </a>
+    </li>
+}
+
+<script id="infiniteListSection" type="text/template">
+    {{this}}
+</script>
