@@ -1,11 +1,5 @@
 ﻿/// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/handlebars/handlebars-1.0.0.d.ts" />
-
-interface Window {
-    getInfiniteList(section: any): void;
-
-}
-
 namespace App {
     export class InfiniteList {
         private _element: HTMLElement;
@@ -18,13 +12,8 @@ namespace App {
             var sectionCount = $(this._element).data().section;
             var list = $(this._element).data().list;
             console.log(list);
-            $(this._element).on('click', function () {
-                $.ajax({
-                    contentType: 'application/json',
-                    accepts: 'application:json',
-                    url: '/umbraco/api/infinitelist/getinfinitelist?sectionCount=' + sectionCount + '&list=' + list,
-                    method: 'GET'
-                }).then(
+            $(this._element).on('click', function() {
+                this.getList(sectionCount, list).then(
                     (result: string) => {
                         var source = $("#infiniteListSection").html();
                         var template = Handlebars.compile(source);
@@ -38,6 +27,15 @@ namespace App {
                             console.log('Woops! Computer said no way, Jose')
                         }
                     });
+            });
+        }
+
+        getList(sectionCount, list): any {
+            return $.ajax({
+                contentType: 'application/json',
+                accepts: 'application:json',
+                url: '/umbraco/api/infinitelist/getinfinitelist?sectionCount=' + sectionCount + '&list=' + list,
+                method: 'GET'
             });
         }
     }

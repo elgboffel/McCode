@@ -12,12 +12,7 @@ var App;
             var list = $(this._element).data().list;
             console.log(list);
             $(this._element).on('click', function () {
-                $.ajax({
-                    contentType: 'application/json',
-                    accepts: 'application:json',
-                    url: '/umbraco/api/infinitelist/getinfinitelist?sectionCount=' + sectionCount + '&list=' + list,
-                    method: 'GET'
-                }).then(function (result) {
+                this.getList(sectionCount, list).then(function (result) {
                     var source = $("#infiniteListSection").html();
                     var template = Handlebars.compile(source);
                     var context = result;
@@ -31,6 +26,14 @@ var App;
                 });
             });
         };
+        InfiniteList.prototype.getList = function (sectionCount, list) {
+            return $.ajax({
+                contentType: 'application/json',
+                accepts: 'application:json',
+                url: '/umbraco/api/infinitelist/getinfinitelist?sectionCount=' + sectionCount + '&list=' + list,
+                method: 'GET'
+            });
+        };
         return InfiniteList;
     }());
     App.InfiniteList = InfiniteList;
@@ -41,3 +44,4 @@ $(function () {
         var infiniteList = new App.InfiniteList(elements[i]);
     }
 });
+//# sourceMappingURL=infinite-list.js.map
