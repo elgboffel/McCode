@@ -8,9 +8,11 @@
     "picturefill": "^3.0.1",
     "owl-carousel2": "^2.1.6",
     "handlebars": "^4.0.5",
-    "angularjs": "^1.6.2"
+    "angularjs": "^1.6.2",
+    "bootstrap": "^3.3.7"
   },
   "resolutions": {
-    "jquery-validate": "^1.14.0"
+    "jquery-validate": "^1.14.0",
+    "bootstrap": "^3.3.7"
   }
 }

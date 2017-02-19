@@ -1,0 +1,8 @@
+﻿<div ng-controller="BlockquoteController">
+    <div class="blockquote">
+        <div id="{{control.$uniqueId}}" class="blockquote-text" contenteditable="true" ng-model="control.value.text">
+            <div>Write your quote here</div>
+        </div>
+        <input class="blockquote-byline" type="text" ng-model="control.value.byline" placeholder="— Crazy hunch-backed old guy from the movie Aladdin" />
+    </div>
+</div>

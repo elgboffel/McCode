@@ -1,0 +1,87 @@
+﻿@inherits UmbracoViewPage<CardViewModel>
+@using McCode.Web.Models.ComponentModels
+
+@{
+    string showSeperatorArticleType = !string.IsNullOrEmpty(Model.Trumpet) ? ":" : null;
+    bool isCaptionCardType = Model.CardType == "caption";
+}
+
+<div class="card @(Model.CardType)">
+    @if(!string.IsNullOrEmpty(Model.Url))
+    {
+        @:<a href="@Model.Url">
+    }
+    @if (Model.Image != null)
+    {
+        @RenderImage(Model.Image)
+    } else
+    {
+        <div class="border-top"></div>
+    }
+
+    <div class="card-spacer"></div>
+    @if(!string.IsNullOrEmpty(Model.Headline))
+    {
+        <div class="inner">
+
+            @if(Model.ArticleType != null && Model.ArticleType.Any())
+            {
+                <small class="trumpet orange">@(Model.ArticleType.FirstOrDefault().Name)@showSeperatorArticleType</small>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Trumpet))
+            {
+                <small class="trumpet">@Model.Trumpet</small>
+            }
+            <div class="clearfix"></div>
+            @if(!string.IsNullOrEmpty(Model.Headline))
+            {
+                <h2>
+                    @Model.Headline
+                    <span class="line-hover"></span>
+                </h2>
+            }
+            @if (!string.IsNullOrEmpty(Model.Lead) && isCaptionCardType)
+            {
+                <p>@Umbraco.Truncate(Model.Lead, 70)</p>
+            }
+            else if (!string.IsNullOrEmpty(Model.Lead) && !isCaptionCardType && Model.Image == null)
+            {
+                <p>@Umbraco.Truncate(Model.Lead, 200)</p>
+
+            }
+            else
+            {
+                <p>@Umbraco.Truncate(Model.Lead, 90)</p>
+
+            }
+            <div class="card-bottom-spacer"></div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(Model.Url))
+    {
+        @:</a>
+    }
+</div>
+
+@helper RenderImage(IPublishedContent image)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1180, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(980, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(760, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(760, 12, 40), height: Model.ImageHeight, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: ResizeImage(462, 12, 40),  height: Model.ImageHeight, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

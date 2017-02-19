@@ -1,0 +1,39 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using McCode.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderFactbox(item)
+}
+
+@helper renderFactbox(LeBlenderValue content)
+{
+     <div class="grid-factbox">
+         @if(content.HasProperty("headline"))
+         {
+            <h2>@Html.Raw(content.GetValue("headline"))</h2>
+         }
+         @if (content.HasProperty("image"))
+         {
+             var image = content
+                 .GetValue<IEnumerable<IPublishedContent>>("image")
+                 .FirstOrDefault();
+
+            @Html.Partial(
+            "Components/_Media",
+            new MediaViewModel
+            {
+                Image = image,
+                GridSize = 6,
+                ImageHeight = 400,
+                ImageHeightMobile = 250,
+                GridTotalPadding = 30
+            })
+         }
+         @if(content.HasProperty("rte"))
+         {
+              @Html.Raw(content.GetValue<string>("rte"))
+         }
+     </div>
+}

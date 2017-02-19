@@ -1,28 +1,46 @@
-﻿@using ClientDependency.Core.Mvc
-@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using contentModels = McCode.Web.Models.ModelsBuilder
+
 @{
-	Layout = null;
+    Layout = null;
+
+    Html.RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1)
+        .RequiresCss("~/content/css/bootstrap.css", 1)
+        .RequiresCss("~/content/css/main.css", 2);
+
+    var website = Model.Content.AncestorOrSelf<contentModels.Website>();
 }
-
 <!DOCTYPE html>
-<html lang="en">
+<!--
+  Solution by
+  Johnny Kristensen
+  Kirkegårdsvej 10F, 2 4 · 8000 Aarhus C
+  www.McCode.dk
+  Tlf. +45 24 86 40 33
+-->
+<html lang="@Model.CurrentCulture.TwoLetterISOLanguageName" prefix="og: http://ogp.me/ns#">
 <head>
-    <title></title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="~/content/css/bootstrap.css" rel="stylesheet">
-    <link href="~/content/css/font-awesome.css" rel="stylesheet">
-    <link href="~/content/css/main.css" rel="stylesheet">
+    @*@Html.Raw(SEOChecker.Library.MetaData.Current.RenderTags())*@
+    @Html.CachedPartial("_Favicons", Model, 3600, false)
+    @Html.CachedPartial("_OpenGraph", Model, 300, true)
+    <link rel="alternate" type="application/rss+xml" title="@CurrentPage._siteName" href="rss.xml" />
+    @Html.RenderCssHere()
 </head>
-
 <body>
-
     @RenderBody()
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
-        crossorigin="anonymous"></script>
-
+    @Html.CachedPartial("_Footer", Model, 3600)
+    @Html.Partial("_CookieConsent")
+    <!-- ANALYTICS -->
+    @Html.Raw(website.Analytics)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" defer></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.4.1/jquery-migrate.min.js" defer></script>
+ @* <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>*@
+   @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>*@
     @Html.RenderJsHere()
 </body>
 </html>

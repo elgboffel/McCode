@@ -44,4 +44,3 @@ $(function () {
         var infiniteList = new App.InfiniteList(elements[i]);
     }
 });
-//# sourceMappingURL=infinite-list.js.map

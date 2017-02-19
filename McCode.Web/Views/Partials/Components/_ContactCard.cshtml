@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<ContactCardViewModel>
+@using McCode.Web.Models.ComponentModels
+
+<div class="contact-card">
+    <div class="contact-card-heading">
+        @if(Model.Image.Any())
+        {
+            var image = Model.Image.FirstOrDefault();
+            <img src="@image.GetCropUrl(width: 160, height: 160)" alt="@image.Name" />
+        }
+        <h4 class="contact-card-name">@Model.Name</h4>
+        @if(!string.IsNullOrEmpty(Model.Title))
+        {
+            <p class="contact-card-title h5">@Model.Title</p>
+        }
+        @if(!string.IsNullOrEmpty(Model.Department))
+        {
+            <p class="contact-card-department h6">@Model.Department</p>
+        }
+        <div class="spacer30"></div>
+    </div>
+    <div class="contact-card-contact">
+        @if(!string.IsNullOrEmpty(Model.Phone))
+        {
+            <p data-icon="&#xe090;">@Model.Phone</p>
+        }
+        @if(!string.IsNullOrEmpty(Model.Mobile))
+        {
+            <p data-icon="&#xe00b;">@Model.Mobile</p>
+        }
+        @if(!string.IsNullOrEmpty(Model.Mail))
+        {
+            <a data-icon="&#xe010;" href="mailto: @Model.Mail">@Model.Mail</a>
+        }
+    </div>
+</div>

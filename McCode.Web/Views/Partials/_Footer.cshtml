@@ -1,0 +1,59 @@
+﻿@inherits UmbracoViewPage
+@using contentModels = McCode.Web.Models.ModelsBuilder
+@using Our.Umbraco.LinksPicker.Models
+
+@{
+    var footer = Model
+        .AncestorOrSelf<contentModels.Website>()
+        .Layout;
+}
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                @foreach(var item in footer)
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-4 flex">
+                        @switch (item.DocumentTypeAlias)
+                        {
+                            case "multipleLinks":
+                                @renderLinks(item) break;
+
+                            default:
+                                @renderRte(item) break;
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</footer>
+
+@helper renderLinks(IPublishedContent multipleLinks)
+{
+    var links = multipleLinks
+        .GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>()) ;
+
+    <div class="footer-links">
+        @if(links.Any())
+        {
+            <ul class="list-unstyled">
+                @foreach(var link in links)
+                {
+                    <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@helper renderRte(IPublishedContent rte)
+{
+    if(rte.HasValue("rte"))
+    {
+        <div class="footer-rte">
+            @Html.Raw(rte.GetPropertyValue<IHtmlString>("rte", null))
+        </div>
+    }
+}

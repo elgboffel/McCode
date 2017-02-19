@@ -18,4 +18,3 @@ var mainNav = {
 (function () {
     mainNav.init();
 })();
-//# sourceMappingURL=main-nav.js.map

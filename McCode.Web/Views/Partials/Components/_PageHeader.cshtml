@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<PageHeaderViewModel>
+@using McCode.Web.Models.ComponentModels
+@using Umbraco.Web.Mvc
+
+
+<div class="page-header">
+    @if (!string.IsNullOrEmpty(Model.ArticleType))
+    {
+        <small class="trumpet">@Model.ArticleType</small>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Trompet))
+    {
+        <small class="trumpet">@Model.Trompet</small>
+    }
+
+    @if (Model.Date.Value.Year > 1)
+    {
+        <time class="trumpet">@Model.Date.Value.ToString("dd. MMMM yyyy")</time>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Headline))
+    {
+        <h1>@Model.Headline</h1>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Lead))
+    {
+        <p class="lead">@Model.Lead</p>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Author))
+    {
+        <p class="trumpet author">Af: @Html.Raw(Model.Author)</p>
+    }
+</div>

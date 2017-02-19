@@ -5,14 +5,15 @@
   "main": "Gulpfile.js",
   "author": "johnny kristensen",
   "license": "ISC",
-  "devDependencies": {
-    "classy": "^1.4.10",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-postcss": "^6.2.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-watch": "^4.3.5",
-    "tsd": "^0.6.5"
-  }
+    "devDependencies": {
+        "classy": "^1.4.10",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^3.1.1",
+        "gulp-postcss": "^6.2.0",
+        "gulp-sass": "^2.3.2",
+        "gulp-sourcemaps": "^1.6.0",
+        "gulp-watch": "^4.3.5",
+        "gulp-less": "^3.0.5",
+        "less-plugin-autoprefix": "^1.5.1"
+    }
 }
