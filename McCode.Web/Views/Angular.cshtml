@@ -1,45 +1,59 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using McCode.Web.Models.PartialViewModels
+@using McCode.Web.Models.ModelsBuilder
 @{
     Layout = "_Layout.cshtml";
 
-    Html.RequiresJs("~/content/components/angularjs/angular.js", new { @defer = string.Empty})
-        .RequiresJs("~/scripts/app/angular/angular.module.w3.js", new { @defer = string.Empty })
-        .RequiresJs("~/scripts/app/angular/angular.controller.w3.js", new { @defer = string.Empty });
+    Html.RequiresJs("~/content/components/angularjs/angular.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/angular/app.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/angular/w3.ctrl.js", new { @defer = string.Empty });
 }
-
-<div class="container" ng-app="angularW3" ng-controller="w3Ctrl">
+<div class="container" ng-app="app">
     <div class="row">
         <div class="col-xs-12">
             <h1>Angular W3 Tutorial</h1>
-            <hr />            
+            <hr />
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-controller="w3Ctrl">
         <div class="col-xs-12 col-md-4">
             <h4>Input</h4>
             <div class="form-group">
                 <input type="text" ng-model="firstName" class="form-control" placeholder="First name" />
                 <input type="text" ng-model="lastName" class="form-control" placeholder="Last name" />
-
                 <p>Full name: {{firstName + " " + lastName}}</p>
             </div>
             <h4>Order by selection</h4>
             <div class="form-group">
-                <select 
-                    ng-model="orderOption" 
-                    ng-options="x for x in options"
-                    class="form-control">
-                </select>
+                <select ng-model="orderOption"
+                        ng-options="x for x in options"
+                        class="form-control"></select>
             </div>
             <ul>
-                <li ng-repeat="name in names | orderBy:orderOption">{{name.name + ', ' + name.country}}</li>
+                <li ng-repeat="name in names | orderBy:orderOption">
+                    {{name.name + ', ' + name.country}}
+                </li>
             </ul>
-
             <h4>Current Url</h4>
             <p>{{currentUrl}}</p>
-
             <h4>Clock</h4>
             <time>{{currentTime}}</time>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Infinite List</h2>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            @Html.Partial(
+            "Modules/_List",
+            new ListViewModel
+            {
+                List = Model.Content.AncestorOrSelf<Website>().Descendants()
+            })
         </div>
     </div>
 </div>

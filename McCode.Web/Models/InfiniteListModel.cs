@@ -1,24 +1,16 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace McCode.Web.Models
 {
     public class InfiniteListModel
     {
-
-        public List<InfiniteListItemModel> list { get; set; }
-    }
-
-    public class InfiniteListItemModel
-    {
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("lead")]
         public string Lead { get; set; }
 
+        [JsonProperty("url")]
         public string Url { get; set; }
     }
 }

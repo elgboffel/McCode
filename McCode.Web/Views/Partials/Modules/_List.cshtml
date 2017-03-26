@@ -4,58 +4,49 @@
 @using Newtonsoft.Json
 
 @{
-    Html.RequiresJs("~/scripts/app/infinite-list.js")
-        .RequiresJs("~/content/components/handlebars/handlebars.js");
+    Html.RequiresJs("~/content/components/angularjs/angular.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/angular/app.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/angular/infinity-list.ctrl.js", new { @defer = string.Empty });
 
 
-    var list = new List<InfiniteListItemModel>();
-
-    foreach(var item in Model.List)
-    {
-        list.Add(
-                new InfiniteListItemModel
-                {
-                    Name = item.Name,
-                    Lead = item.GetPropertyValue<string>("lead", ""),
-                    Url = item.Url
-                }
-            );
-    }
-
-    var jsonList = JsonConvert.SerializeObject(list);
+    string[] list = Model.List.Select(x => x.Id.ToString()).ToArray();
 }
 
-<div class="list" data-list="@jsonList" data-section="1">
-    @if (!string.IsNullOrEmpty(Model.Headline))
-    {
-        <h3>@Model.Headline</h3>
-    }
+<div ng-controller="infiniteListCtrl" 
+     ng-init="data = @JsonConvert.SerializeObject(list);"
+     class="infinite-list"
+     data-page="{{page}}">
     @if (Model.List.Any())
     {
-        <ul id="infiniteList" class="list-unstyled">
-            @foreach (var i in Model.List)
-            {
-                @RenderList(i)
-            }
-        </ul>
+        foreach (var i in Model.List)
+        {
+            @RenderList(i)
+        }
     }
+    <pre>{{result}}</pre>
+    <div class="item" ng-repeat="item in result">
+        <a href="{{item.url}}">
+            <h4>{{item.name}}</h4>
+            <p>{{item.lead}}</p>
+        </a>
+    </div>
+    <a href="#"
+       class="btn btn-primary"
+       ng-click="getList()">Hent flere</a>
 </div>
 
 @helper RenderList(IPublishedContent node)
 {
-    <li>
+    <div class="item">
         <a href="@node.Url">
-
             <h4>@(node.GetPropertyValue<string>("headline", node.Name))</h4>
-
-            @if (node.HasValue("lead"))
-            {
-                <p>@(node.GetPropertyValue<string>("lead"))</p>
-            }
+            <p>
+                Laoreet ac, aliquam sit amet justo nunc tempor,
+                metus vel placerat suscipit, orci nisl iaculis eros,
+                a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut
+                vitae feugiat augue cras ut metus a risus iaculis scelerisque eu
+                ac ante fusce non varius purus aenean nec magna felis fusce vestibulum.
+            </p>
         </a>
-    </li>
+    </div>
 }
-
-<script id="infiniteListSection" type="text/template">
-    {{this}}
-</script>

@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	Layout = "_Layout.cshtml";
+
+    Html.RequiresJs("~/content/components/angularjs/angular.js", new { @defer = string.Empty })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.6.2/angular-resource.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/productApp/app.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/productApp/services/common.services.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/productApp/services/dataAccessService.js", new { @defer = string.Empty })
+        .RequiresJs("~/scripts/app/productApp/productListCtrl.js", new { @defer = string.Empty });
+}
+
+<div class="product-management" ng-app="productManagement">    
+    <div class="panel panel-primary"
+         ng-controller="productListCtrl as model">
+        <div class="panel-heading"
+             style="font-size:large">{{::model.title}}
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>
+                        <button type="button"
+                                class="btn btn-primary"
+                                ng-click="model.toggleImage()">
+                            {{model.showImage ? "Hide" : "Show"}} Image
+                        </button>
+                    </td>
+                    <td>Product</td>
+                    <td>Code</td>
+                    <td>Available</td>
+                    <td>Price</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="product in model.products">
+                    <td>
+                        <img ng-if="model.showImage"
+                             ng-src="{{product.imageUrl}}"
+                             style="width:50px;margin:2px"
+                             title="{{product.productName}}">
+                    </td>
+                    <td>{{ product.productName }} </td>
+                    <td>{{ product.productCode }}</td>
+                    <td>{{ product.releaseDate | date }}</td>
+                    <td>{{ product.price | currency }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

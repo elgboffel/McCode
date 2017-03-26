@@ -638,6 +638,8 @@
     <Content Include="Content\components\bootstrap\less\utilities.less" />
     <Content Include="Content\components\bootstrap\less\variables.less" />
     <Content Include="Content\components\bootstrap\less\wells.less" />
+    <Content Include="Views\ProductManagement.cshtml" />
+    <Content Include="scripts\typings.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -801,16 +803,27 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\app\angular\angular.controller.w3.ts" />
-    <TypeScriptCompile Include="scripts\app\angular\angular.module.w3.ts" />
+    <TypeScriptCompile Include="scripts\app\angular\infinity-list.ctrl.ts" />
+    <TypeScriptCompile Include="scripts\app\productApp\app.ts" />
+    <TypeScriptCompile Include="scripts\app\productApp\product.ts" />
+    <TypeScriptCompile Include="scripts\app\productApp\productListCtrl.ts" />
+    <TypeScriptCompile Include="scripts\app\productApp\services\common.services.ts" />
+    <TypeScriptCompile Include="scripts\app\productApp\services\dataAccessService.ts" />
+    <TypeScriptCompile Include="scripts\app\angular\w3.ctrl.ts" />
+    <TypeScriptCompile Include="scripts\app\angular\app.ts" />
     <TypeScriptCompile Include="scripts\app\carousel.jquery.ts" />
-    <TypeScriptCompile Include="scripts\app\infinite-list.ts" />
-    <TypeScriptCompile Include="scripts\app\main-nav.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="scripts\typings\owlcarousel\index.d.ts" />
     <TypeScriptCompile Include="scripts\typings\handlebars\handlebars-1.0.0.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

@@ -1,5 +1,8 @@
 {
   "globalDevDependencies": {
     "owlcarousel": "registry:dt/owlcarousel#1.3.0+20161229235626"
+  },
+  "dependencies": {
+    "angular-resource": "registry:dt/angular-resource#1.5.0+20161206185711"
   }
 }
