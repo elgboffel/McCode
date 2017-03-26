@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using Umbraco.Core.Models;
 
 namespace McCode.Web.Models
 {
@@ -12,5 +14,8 @@ namespace McCode.Web.Models
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("tags")]
+        public string[] Tags { get; set; }
     }
 }

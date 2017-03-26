@@ -8,6 +8,7 @@ using McCode.Web.Models;
 using Umbraco.Web;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using Umbraco.Core.Models;
 
 namespace McCode.Web.Controllers
 {
@@ -50,7 +51,8 @@ namespace McCode.Web.Controllers
                 {
                     Name = typedContent.Name,
                     Lead = typedContent.GetPropertyValue<string>("lead", ""),
-                    Url = typedContent.Url
+                    Url = typedContent.Url,
+                    Tags = typedContent.GetPropertyValue<IEnumerable<IPublishedContent>>("tags").Select(x => x.Name).ToArray()
                 };
 
                 list.Add(content);

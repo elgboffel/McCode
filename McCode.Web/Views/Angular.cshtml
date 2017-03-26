@@ -7,6 +7,8 @@
     Html.RequiresJs("~/content/components/angularjs/angular.js", new { @defer = string.Empty })
         .RequiresJs("~/scripts/app/angular/app.js", new { @defer = string.Empty })
         .RequiresJs("~/scripts/app/angular/w3.ctrl.js", new { @defer = string.Empty });
+
+    var website = Model.Content.AncestorOrSelf<Website>();
 }
 <div class="container" ng-app="app">
     <div class="row">
@@ -52,7 +54,8 @@
             "Modules/_List",
             new ListViewModel
             {
-                List = Model.Content.AncestorOrSelf<Website>().Descendants()
+                List = website.Descendants("gridPage"),
+                Tags = Umbraco.TypedContent(1171).Descendants("defaultTag")
             })
         </div>
     </div>

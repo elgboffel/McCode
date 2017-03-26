@@ -9,44 +9,37 @@
         .RequiresJs("~/scripts/app/angular/infinity-list.ctrl.js", new { @defer = string.Empty });
 
 
-    string[] list = Model.List.Select(x => x.Id.ToString()).ToArray();
+    var listOfIds = Model.List != null ? Model.List.Select(x => x.Id.ToString()).ToArray(): new string[] { };
+    var tags = Model.Tags != null ? Model.Tags.Select(x => x.Name).ToArray() : new string[] { };
+
 }
 
-<div ng-controller="infiniteListCtrl" 
-     ng-init="data = @JsonConvert.SerializeObject(list);"
-     class="infinite-list"
+<div ng-controller="infiniteListCtrl"
+     ng-init="data = @JsonConvert.SerializeObject(listOfIds); 
+        tags =  @JsonConvert.SerializeObject(tags);
+        getList()"
+     class="list"
      data-page="{{page}}">
-    @if (Model.List.Any())
-    {
-        foreach (var i in Model.List)
-        {
-            @RenderList(i)
-        }
-    }
-    <pre>{{result}}</pre>
-    <div class="item" ng-repeat="item in result">
-        <a href="{{item.url}}">
-            <h4>{{item.name}}</h4>
-            <p>{{item.lead}}</p>
-        </a>
+    <div class="list__filters">
+        <div class="list__tags">
+            <label ng-repeat="tag in tags">
+                <input type="checkbox" ng-model="search.tag" ng-checked="" />
+                {{tag}}
+            </label>
+        </div>
+        <label>Søg: <input ng-model="search.tags" /></label>
+    </div>
+    <pre>{{search}}</pre>
+    <div class="list__items">
+        <div class="list__item" ng-repeat="item in result | filter:search">
+            <a href="{{item.url}}">
+                <h4>{{item.name}}</h4>
+                <p>{{item.lead}}</p>
+                <small ng-repeat="tag in item.tags">{{tag}}</small>
+            </a>
+        </div>
     </div>
     <a href="#"
-       class="btn btn-primary"
+       class="btn--primary"
        ng-click="getList()">Hent flere</a>
 </div>
-
-@helper RenderList(IPublishedContent node)
-{
-    <div class="item">
-        <a href="@node.Url">
-            <h4>@(node.GetPropertyValue<string>("headline", node.Name))</h4>
-            <p>
-                Laoreet ac, aliquam sit amet justo nunc tempor,
-                metus vel placerat suscipit, orci nisl iaculis eros,
-                a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut
-                vitae feugiat augue cras ut metus a risus iaculis scelerisque eu
-                ac ante fusce non varius purus aenean nec magna felis fusce vestibulum.
-            </p>
-        </a>
-    </div>
-}
