@@ -30,3 +30,4 @@ var Application;
     }());
     Application.app.controller('w3Ctrl', W3Ctrl);
 })(Application || (Application = {}));
+//# sourceMappingURL=w3.ctrl.js.map

@@ -16,3 +16,4 @@ var Application;
         Common.appService.service('dataAccessService', DataAccessService);
     })(Common = Application.Common || (Application.Common = {}));
 })(Application || (Application = {}));
+//# sourceMappingURL=dataAccessService.js.map

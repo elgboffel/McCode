@@ -358,13 +358,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\GridEditors\css\editors.css" />
-    <Content Include="App_Plugins\GridEditors\css\editors.min.css" />
-    <Content Include="App_Plugins\GridEditors\Js\blockquote.controller.js" />
-    <Content Include="App_Plugins\GridEditors\Js\counter.controller.js" />
-    <Content Include="App_Plugins\GridEditors\Views\blockquote.html" />
-    <Content Include="App_Plugins\GridEditors\Views\counter.html" />
-    <Content Include="App_Plugins\GridEditors\Views\factbox.html" />
     <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.html" />
     <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.js" />
     <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\edit.html" />
@@ -522,13 +515,6 @@
     <Content Include="Views\NewsPage.cshtml" />
     <Content Include="Views\SearchPage.cshtml" />
     <Content Include="McCode.Web.wpp.targets" />
-    <Content Include="App_Plugins\GridEditors\css\editors.less" />
-    <Content Include="App_Plugins\GridEditors\package.manifest" />
-    <Content Include="App_Plugins\GridEditors\README.md" />
-    <Content Include="App_Plugins\GridEditors\Renders\Blockquote.cshtml" />
-    <Content Include="App_Plugins\GridEditors\Renders\Counter.cshtml" />
-    <Content Include="App_Plugins\GridEditors\Renders\Factbox.cshtml" />
-    <Content Include="App_Plugins\GridEditors\Renders\Web.config" />
     <Content Include="Content\less\default.less" />
     <Content Include="Content\less\main.less" />
     <Content Include="Views\MacroPartials\Carousel.cshtml" />
@@ -553,7 +539,7 @@
     <Content Include="Views\Partials\_OpenGraph.cshtml" />
     <Content Include="Views\Partials\_SharePage.cshtml" />
     <Content Include="App_Plugins\LinksPicker\package.manifest" />
-    <Content Include="App_Plugins\LeBlender\Web.config" />
+    <None Include="App_Plugins\LeBlender\Web.config" />
     <Content Include="App_Plugins\LeBlender\views_samples\Tabs.cshtml" />
     <Content Include="App_Plugins\LeBlender\views_samples\Highlight.cshtml" />
     <Content Include="App_Plugins\LeBlender\views_samples\Carousel.cshtml" />
@@ -640,6 +626,8 @@
     <Content Include="Content\components\bootstrap\less\wells.less" />
     <Content Include="Views\ProductManagement.cshtml" />
     <Content Include="scripts\typings.json" />
+    <None Include="Properties\PublishProfiles\Production.pubxml" />
+    <None Include="Properties\PublishProfiles\Staging.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

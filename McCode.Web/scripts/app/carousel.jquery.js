@@ -21,3 +21,4 @@ $(function () {
         var carousel = new App.Carousel(elements[i]);
     }
 });
+//# sourceMappingURL=carousel.jquery.js.map

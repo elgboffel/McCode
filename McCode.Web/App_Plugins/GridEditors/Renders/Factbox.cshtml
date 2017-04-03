@@ -1,5 +1,0 @@
-﻿@model dynamic
-@using Umbraco.Web.Templates
-<div class="factbox rich-text box-bordered theme-border-color">
-    @Html.Raw(TemplateUtilities.ParseInternalLinks(Model.value.ToString().Replace("\n", "<br />")))
-</div>

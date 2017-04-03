@@ -34,3 +34,4 @@ var Application;
     }());
     Application.app.controller('infiniteListCtrl', InfinityList);
 })(Application || (Application = {}));
+//# sourceMappingURL=infinity-list.ctrl.js.map
