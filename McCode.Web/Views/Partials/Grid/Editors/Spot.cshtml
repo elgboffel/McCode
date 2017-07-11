@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+
+@foreach (var item in Model.Items)
+{
+    @renderItem(item)
+}
+
+@helper renderItem(LeBlenderValue item)
+{ 
+    var trompet = item.GetValue<string>("trompet");
+    var heading = item.GetValue<string>("heading");
+    var nextSection = item.GetValue<string>("nextSectionTeaser");
+    var media = item.GetValue<IEnumerable<IPublishedContent>>("image");
+
+    if (media != null && media.Any())
+    {
+         var image = media.FirstOrDefault();
+
+        <div class="spot spot--bg" style="background: url(@image.Url) center center;">
+            @if (!string.IsNullOrEmpty(trompet))
+            {
+                <div class="spot__trompet">@trompet</div>
+            }
+
+            @if (!string.IsNullOrEmpty(heading))
+            {
+                <div class="spot__heading">@heading</div>
+            }
+            @if (!string.IsNullOrEmpty(nextSection))
+            {
+                <div class="spot__next">@nextSection</div>
+            }
+        </div>
+    }
+}

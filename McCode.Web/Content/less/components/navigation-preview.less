@@ -1,0 +1,43 @@
+﻿@import (reference) "../../components/bootstrap/less/variables.less";
+
+.navbar-preview {
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    &__breadcrumb {
+        > li {
+            display: inline-block;
+
+            + li:before {
+                content: "@{breadcrumb-separator}\00a0"; // Unicode space added since inline-block means non-collapsing white-space
+                padding: 0 5px;
+                color: #ccc;
+            }
+        }
+    }
+
+    &__dropdown {
+        position: relative;
+
+        ul {
+            position: absolute;
+        }
+    }
+
+    &__preview {
+        display: none;
+    }
+
+    &__image {
+        max-width: 300px;
+    }
+
+    &__heading {
+    }
+
+    &__lead {
+    }
+}

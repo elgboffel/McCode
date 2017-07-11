@@ -1,0 +1,20 @@
+﻿@import (reference) "../../components/bootstrap/less/variables.less";
+@import (reference) "../mixins/_fluid-font.less";
+
+.breadcrumb {
+    list-style: none;
+    > li {
+        display: inline-block;
+        + li:before {
+            content: "@{breadcrumb-separator}\00a0"; // Unicode space added since inline-block means non-collapsing white-space
+            padding: 0 5px;
+            color: #ccc;
+        }
+    }
+
+     &__link {
+        &--active {
+            color: @brand-primary;
+        }
+    }
+}

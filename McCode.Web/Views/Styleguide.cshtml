@@ -1,9 +1,14 @@
-﻿@inherits UmbracoTemplatePage
-@using ContentModels =  McCode.Web.Models.ModelsBuilder
+﻿@inherits UmbracoViewPage
+@using ContentModels =  Umbraco.ModelsBuilder
 @using McCode.Web.Models.PartialViewModels
 @{
-    Html.RequiresCss("~/content/css/bootstrap.css")
-        .RequiresCss("~/content/css/main.css");
+    Html.RequiresCss("https://fonts.googleapis.com/css?family=Rajdhani:300,700|Slabo+27px")
+        .RequiresCss("~/content/css/bootstrap.css")
+        .RequiresCss("~/content/css/main.css")
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = "" })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js", 1, 1, new { @defer = "" })
+        .RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1, 2, new { @defer = "" })
+        .RequiresJs("~/scripts/app/navbar.js", 1, 2, new { @defer = "" } );
 
 
     var webRoot = Umbraco.TypedContent(1068);
@@ -15,10 +20,54 @@
     //var newsList = webRoot.Children<NewsList>().DescendantsOrSelf<NewsPage>();
 }
 @Html.RenderCssHere()
+
+<div class="utility-bar">
+    <div class="language-selector">
+
+    </div>
+</div>
+<div class="navbar">
+    <div class="navbar__logo">
+        <img class="img-responsive" src="~/Content/images/logo.png" alt="Alternate Text" />
+        <div class="navbar__logo-text">
+            McCode
+        </div>
+    </div>
+    <nav class="navbar__link-list">
+        <ul>
+            <li>
+                <a class="navbar__link" href="#">Om mig</a>
+            </li>
+            <li>
+                <a class="navbar__link" href="#">Cases</a>
+                <ul class="dropdown">
+                    <li><a href="#">DANVA</a></li>
+                    <li><a href="#">Datagraf</a></li>
+                    <li><a href="#">Digital PR</a></li>
+                    <li><a href="#">Uddannelses&shy;forbundet</a></li>
+                    <li><a href="#">SCADA International</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="navbar__link" href="#">Blog</a>
+            </li>
+            <li>
+                <a class="navbar__link" href="#">Kontakt</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="navbar__more utility-bar--toggle">
+        <span>More</span>
+    </div>
+    <div class="navbar__search utility-bar--toggle">
+        <span>Lang</span>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1>Styleguide for @Model.Content.Name</h1>
+            <h1>Styleguide for @Model.Name</h1>
         </div>
     </div>
     <!-- Typography-->
@@ -158,6 +207,7 @@
     </div>*@
 </div>
 
+@Html.RenderJsHere();
 
 
 

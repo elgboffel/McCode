@@ -21,7 +21,7 @@
         @foreach (var crumb in breadcrumbs)
         {
             bool active = crumb.Equals(startNode);
-            <li class="@(active ? "active" : string.Empty)">
+            <li class="@(active ? "breadcrumb__link--active" : string.Empty)">
                 @if (active && Model.ShowCurrentPage != false)
                 {
                     @crumb.Name

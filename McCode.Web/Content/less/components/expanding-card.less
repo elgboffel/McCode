@@ -1,0 +1,90 @@
+﻿@import (reference) "../../components/bootstrap/less/variables.less";
+
+@primary-col: @brand-primary;
+@accent-col: @brand-alt;
+@easer: cubic-bezier(0.4, 0, 0.2, 1);
+@font-col: @text-color;
+@accent-font-col: #fff;
+
+.expanding-card {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    background-color: @primary-col;
+    border-radius: 50%;
+    width: 60px;
+    max-width: 60px;
+    height: 60px;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    overflow: hidden;
+    transition: all 0.2s 0.45s, height 0.2s @easer 0.25s, max-width 0.2s @easer 0.35s, width 0.2s @easer 0.35s;
+    color: @accent-font-col;
+
+    &__content {
+        display:flex;
+        flex-direction: column;
+        transform: translateY(100%);
+        width: 100%;
+        opacity: 0;
+        text-align: left;
+        transition: transform 0.2s @easer, opacity 0.2s 0.2s;
+    }
+
+    &__head, &__body {
+        padding: 20px 20px 0 20px;
+    }
+
+    &__head {
+        > h3 {
+            .h1();
+            margin: 0;
+            padding-bottom: 15px;
+        }
+    }
+
+    &__body {
+        display: flex;
+        flex-direction:column;
+        color: #000;
+        background-color: #FFF;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    &__action-bar {
+        padding-left: 15px;
+        border-top: 1px solid @accent-col;
+        width: 100%;
+        padding-bottom: 20px;
+        > a {
+            cursor: pointer;
+            text-transform: uppercase;
+            line-height: 52px;
+            color: @accent-col;
+
+            + a {
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+.expanding-card--expanded {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.17);
+    border-radius: 0;
+    width: 100%;
+    max-width: 320px;
+    padding: 0;
+    transition: all 0.2s, max-width 0.2s @easer 0.1s, height 0.3s ease 0.25s;
+
+    .expanding-card {
+
+
+        &__content {
+            transform: translateY(0px);
+            opacity: 1;
+            transition: transform 0.7s @easer 0.05s, opacity 0s;
+        }
+    }
+}

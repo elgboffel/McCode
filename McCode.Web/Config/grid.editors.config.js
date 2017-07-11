@@ -60,5 +60,41 @@
             ],
             "frontView": ""
         }
+    },
+    {
+        "name": "Spot",
+        "alias": "spot",
+        "view": "/App_Plugins/LeBlender/editors/leblendereditor/LeBlendereditor.html",
+        "icon": "icon-megaphone color-green",
+        "render": "/App_Plugins/LeBlender/editors/leblendereditor/views/Base.cshtml",
+        "config": {
+            "editors": [
+                {
+                    "name": "Trompet",
+                    "alias": "trompet",
+                    "propretyType": {},
+                    "dataType": "0cc0eba1-9960-42c9-bf9b-60e150b429ae"
+                },
+                {
+                    "name": "Heading",
+                    "alias": "heading",
+                    "propretyType": {},
+                    "dataType": "c6bac0dd-4ab9-45b1-8e30-e4b619ee5da3"
+                },
+                {
+                    "name": "Image",
+                    "alias": "image",
+                    "propretyType": {},
+                    "dataType": "93929b9a-93a2-4e2a-b239-d99334440a59"
+                },
+                {
+                    "name": "Next section teaser",
+                    "alias": "nextSectionTeaser",
+                    "propretyType": {},
+                    "dataType": "c6bac0dd-4ab9-45b1-8e30-e4b619ee5da3"
+                }
+            ],
+            "frontView": ""
+        }
     }
 ]

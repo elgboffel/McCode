@@ -1,0 +1,31 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<PlaygroundPage>
+@using McCode.Web.Models.ComponentModels
+@using System.Text.RegularExpressions
+@{
+    Layout = null;
+
+    Html.RequiresCss("https://fonts.googleapis.com/css?family=Rajdhani:300,700|Slabo+27px")
+        .RequiresCss("~/content/css/bootstrap.css")
+        .RequiresCss("~/content/css/main.css")
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = "" })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js", 1, 1, new { @defer = "" })
+        .RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1, 2, new { @defer = "" });
+
+    var pageName = Model.Name;
+
+    var partialPath = "Playground/_" + Regex.Replace(pageName, @"\s+", "");
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@pageName</title>
+    @Html.RenderCssHere()
+</head>
+<body>
+    @Html.Partial(partialPath, Model)
+    @Html.RenderJsHere()
+</body>
+</html>

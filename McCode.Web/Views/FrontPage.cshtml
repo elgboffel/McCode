@@ -4,4 +4,8 @@
 @using McCode.Web.Models.ComponentModels
 @{
 	Layout = "_Layout.cshtml";
+
+    var page = Model.Content;
 }
+
+@Html.GetGridHtml(page, "layout")
