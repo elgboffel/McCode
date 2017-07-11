@@ -643,6 +643,8 @@
     <Content Include="Content\less\components\breadcrumb.less" />
     <Content Include="Content\less\components\navigation-preview.less" />
     <Content Include="Content\less\components\expanding-card.less" />
+    <Content Include="Content\less\mixins\_text-underline.less" />
+    <Content Include="Content\less\mixins\_text-bullet.less" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Properties\PublishProfiles\Staging.pubxml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -720,6 +722,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="scripts\app\angular\infinity-list.ctrl.ts" />
     <TypeScriptCompile Include="scripts\app\components\expanding-card.ts" />
+    <TypeScriptCompile Include="scripts\app\components\navbar-preview.ts" />
     <TypeScriptCompile Include="scripts\app\navbar.ts" />
     <TypeScriptCompile Include="scripts\app\productApp\app.ts" />
     <TypeScriptCompile Include="scripts\app\productApp\product.ts" />

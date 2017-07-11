@@ -1,43 +1,64 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<PlaygroundPage>
 @using McCode.Web.Models.ComponentModels
 
-@{ 
-    Html.RequiresJs("~/scripts/app/components/expanding-card.js", 1, 3, new { @defer = "" });
+@{
+    Html.RequiresJs("~/scripts/app/components/navbar-preview.js", 1, 3, new { @defer = "" });
 }
 
 <div class="navbar-preview" role="navigation">
     <ul class="navbar-preview__breadcrumb">
         <li><a href="/">Home</a></li>
         <li class="navbar-preview__dropdown">
-            Current Page
-            <ul>
-                <li>
-                    Page
-                    <div class="navbar-preview__preview">
-                        <div class="navbar-preview__image">
-                            <img class="img-responsive" src="~/Content/images/Fentezi_25_119.jpg" alt="" />
+            <div class="navbar-preview__expander">
+                Current Page <span class="arrow-down"></span>
+                <ul class="dropdown__content">
+                    <li>
+                        <a href="#">Page</a>
+                        <div class="navbar-preview__preview">
+                            <div class="navbar-preview__image">
+                                <img class="img-responsive" src="~/Content/images/Fentezi_25_119.jpg" alt="" />
+                            </div>
+                            <div class="navbar-preview__content">
+                                <div class="navbar-preview__heading">Subsite Page</div>
+                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
+                            </div>
                         </div>
-                        <div class="navbar-preview__heading">Page</div>
-                        <div class="navbar-preview__lead">Page</div>
-                    </div>
-                </li>
-                <li>That Page</li>
-                <li>Another Page</li>
-            </ul>
+                    </li>
+                    <li>
+                        <a href="#">That Page</a>
+                        <div class="navbar-preview__preview">
+                            <div class="navbar-preview__image">
+                                <img class="img-responsive" src="~/Content/images/esper.jpg" alt="" />
+                            </div>
+                            <div class="navbar-preview__content">
+                                <div class="navbar-preview__heading">Subsite Page</div>
+                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#">Another Page</a>
+                        <div class="navbar-preview__preview">
+                            <div class="navbar-preview__image">
+                                <img class="img-responsive" src="~/Content/images/evil2_1600x1200.jpg" alt="" />
+                            </div>
+                            <div class="navbar-preview__content">
+                                <div class="navbar-preview__heading">Subsite Page</div>
+                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </li>
     </ul>
-</div>
-
-<div class="expanding-card"><span class="plus-expander">&#10006</span>
-  <div class="expanding-card__content">
-    <div class="expanding-card__head">
-      <h1>Expand</h1>
-    </div>
-    <div class="expanding-card__body">
-      <p>
-        There once was a wolf named <em>Knox</em>. He lived in a bright blue box. Until one day, his box blew away and he was left with only his <em>socks</em>.<br><br> Integer augue augue, fermentum at purus nec, euismod rutrum ex. Nulla pulvinar tortor ipsum, vel accumsan nunc rutrum sed. Praesent faucibus sollicitudin tempus. Phasellus congue ex tempor malesuada congue. Etiam vitae dui commodo, ultrices eros malesuada mi. Fusce suscipit eleifend lacus, at gravida urna gravida in. Nullam sodales a consequat leo nisl sit amet ipsum. Pellentesque aliquam dolor quam, et ultricies leo fringilla in. Nulla eu neque eu mauris malesuada efficitur ultrices sed mi. Vestibulum nec quam vitae purus ut sed velit. Vestibulum ultricies iaculis magna ut consequat.</p>
-      <div class="expanding-card__action-bar"><a>SHARE</a><a>LEARN MORE</a></div>
-    </div>
-  </div>
+    <ul class="navbar-preview__menu">
+        <li>
+            <a href="">Om mig</a>
+        </li>
+        <li>
+            <a href="#">Kontakt</a>
+        </li>
+    </ul>
 </div>
 
