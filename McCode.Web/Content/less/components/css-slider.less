@@ -1,0 +1,57 @@
+﻿@import (reference) "../../components/bootstrap/less/variables.less";
+@import (reference) "../mixins.less";
+
+.css-slider {
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+
+    &__item1, &__item2, &__item3, &__item4 {
+        position: absolute;
+        background-size: cover !important;
+        background-position: left top !important;
+        background-repeat: no-repeat !important;
+        width: 100vw;
+        height: 100%;
+        transform: translateX(-50px);
+        opacity: 0
+    }
+
+    &__item1 {
+        animation: slide 8s linear;
+        opacity: 1;
+        z-index: 1;
+    }
+
+    &__item2 {
+        animation: slide 8s linear 6s;
+        z-index: 2;
+    }
+
+    &__item3 {
+        animation: slide 8s linear 14s;
+        z-index: 3;
+    }
+
+    &__item4 {
+        animation: slide 8s linear 22s;
+        z-index: 4;
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-100px);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-400px);
+        opacity: 1;
+    }
+}

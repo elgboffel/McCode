@@ -1,11 +1,29 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<FrontPage>
-@using McCode.Web.Models.ModelsBuilder
-@using McCode.Web.Models.PartialModels
-@using McCode.Web.Models.ComponentModels
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<FrontPage>
+@using Umbraco.Web.PublishedContentModels
 @{
 	Layout = "_Layout.cshtml";
-
-    var page = Model.Content;
 }
-
-@Html.GetGridHtml(page, "layout")
+<header class="side-header">
+    <div class="prime-header">
+        <div class="prime-header__panel">
+            <div class="prime-header__title">Mc <span class="prime-bg-col">Code</span></div>
+        </div>
+        <div class="prime-header__content">
+            <h1>
+                Ohøj der, jeg er Johnny. Indsæt her noget <span class="prime-col">"karl-smart-i-en-fart"</span>, der bekræfter, at dette site er noget for dig.
+            </h1>
+        </div>
+    </div>
+</header>
+<main class="side-main side-main--fixed-height">
+    <div class="css-slider">
+        <div class="css-slider__item1" style="background: url(../Content/images/spectacles-snapchat.jpg)">
+        </div>
+        <div class="css-slider__item2" style="background: url(../Content/images/evil2_1600x1200.jpg)">
+        </div>
+        <div class="css-slider__item3" style="background: url(../Content/images/Fentezi_25_119.jpg)">
+        </div>
+        <div class="css-slider__item4" style="background: url(../Content/images/esper.jpg)">
+        </div>
+    </div>
+</main>

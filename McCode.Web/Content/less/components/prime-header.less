@@ -1,0 +1,38 @@
+﻿@import (reference) "../../components/bootstrap/less/variables.less";
+@import (reference) "../mixins.less";
+
+.prime-header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(29,29,29,1);
+    height: 100%;
+    color: #fff;
+    &__panel {
+        padding: 45px 45px 0px 45px;
+    }
+
+    &__title {
+        .fluid-font(24, 480, 34, 1200);
+        letter-spacing: -3px;
+        line-height: 1em;
+
+        > span {
+            padding: 0 5px 4px 1px;
+        }
+    }
+
+    &__content {
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        padding: 0 45px 45px 45px;
+
+        h1 {
+            font-family: @font-family-serif;
+            .fluid-font(32, 480, 48, 1200);
+            letter-spacing: -3px;
+            line-height: 1em;
+        }
+    }
+}

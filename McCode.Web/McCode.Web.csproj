@@ -435,6 +435,7 @@
     <Content Include="Content\images\evil2_1600x1200.jpg" />
     <Content Include="Content\images\Fentezi_25_119.jpg" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\spectacles-snapchat.jpg" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="nuget.exe" />
@@ -643,8 +644,11 @@
     <Content Include="Content\less\components\breadcrumb.less" />
     <Content Include="Content\less\components\navigation-preview.less" />
     <Content Include="Content\less\components\expanding-card.less" />
-    <Content Include="Content\less\mixins\_text-underline.less" />
+    <Content Include="Content\less\mixins\_text-styles.less" />
     <Content Include="Content\less\mixins\_text-bullet.less" />
+    <Content Include="Content\less\mixins.less" />
+    <Content Include="Content\less\components\prime-header.less" />
+    <Content Include="Content\less\components\css-slider.less" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Properties\PublishProfiles\Staging.pubxml" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -662,6 +666,7 @@
     <Content Include="Views\PlaygroundPage.cshtml" />
     <Content Include="Views\Partials\Playground\_NavigationPreview.cshtml" />
     <Content Include="Views\Partials\Playground\_ExpandingCard.cshtml" />
+    <Content Include="Views\Partials\Components\navbars\_NavbarPreview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

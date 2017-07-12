@@ -5,13 +5,13 @@
     Html.RequiresJs("~/scripts/app/components/navbar-preview.js", 1, 3, new { @defer = "" });
 }
 
-<div class="navbar-preview" role="navigation">
+<nav class="navbar-preview" role="navigation">
     <ul class="navbar-preview__breadcrumb">
         <li><a href="/">Home</a></li>
         <li class="navbar-preview__dropdown">
-            <div class="navbar-preview__expander">
+            <div class="navbar-preview__expander" data-placeholder="Se flere sider">
                 Current Page <span class="arrow-down"></span>
-                <ul class="dropdown__content">
+                <ul>
                     <li>
                         <a href="#">Page</a>
                         <div class="navbar-preview__preview">
@@ -60,5 +60,5 @@
             <a href="#">Kontakt</a>
         </li>
     </ul>
-</div>
+</nav>
 

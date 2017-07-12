@@ -1,16 +1,16 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using contentModels = McCode.Web.Models.ModelsBuilder
+@using Umbraco.Web.PublishedContentModels
 
 @{
     Layout = null;
-    Html.RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = "" })
+    Html.RequiresCss("https://fonts.googleapis.com/css?family=PT+Sans:400,700|PT+Serif:400,400i,700")
+        .RequiresCss("~/content/css/bootstrap.css")
+        .RequiresCss("~/content/css/main.css")
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = "" })
         .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js", 1, 1, new { @defer = "" })
-        .RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1, 2, new { @defer = "" })
-        .RequiresCss("https://fonts.googleapis.com/css?family=Rajdhani:300,700|Slabo+27px")
-        .RequiresCss("~/content/css/bootstrap.css", 1)
-        .RequiresCss("~/content/css/main.css", 2);
+        .RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1, 2, new { @defer = "" });
 
-    var website = Model.Content.AncestorOrSelf<contentModels.Website>();
+    var website = Model.Content.AncestorOrSelf<Website>();
 }
 <!DOCTYPE html>
 <!--
@@ -32,9 +32,10 @@
     @Html.RenderCssHere()
 </head>
 <body>
+    @Html.Partial("Components/Navbars/_NavbarPreview", Model)
     @RenderBody()
-    @Html.CachedPartial("_Footer", Model, 3600)
-    @Html.Partial("_CookieConsent")
+    @*@Html.CachedPartial("_Footer", Model, 3600)*@
+    @*@Html.Partial("_CookieConsent")*@
     <!-- ANALYTICS -->
     @Html.Raw(website.Analytics)
     @Html.RenderJsHere()

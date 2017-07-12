@@ -1,6 +1,7 @@
 ﻿@import (reference) "../components/bootstrap/less/variables.less";
 @import (reference) "../components/bootstrap/less/mixins.less";
 @import (reference) "../components/font-awesome/less/variables.less";
+@import (reference) "mixins.less";
 
 
 /*****************************************
@@ -13,6 +14,22 @@
 
 button {
     outline: none !important;
+}
+
+.prime-col {
+    color: @brand-primary;
+}
+
+.prime-bg-col {
+    background-color: @brand-primary;
+}
+
+.accent-col {
+    color: @brand-alt;
+}
+
+.accent-bg-col {
+    background-color: @brand-alt;
 }
 
 a {
@@ -95,6 +112,10 @@ picture {
     }
 }
 
+.overflow-hidden {
+    overflow:hidden;
+}
+
 .utility-bar {
     position: absolute;
     top:0;
@@ -159,4 +180,35 @@ picture {
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
     border-right: 10px solid @text-color;
+}
+
+/*
+*   SIDES
+*/
+
+.side-header, .side-main {
+    padding: 30px;
+    width: 50%;
+}
+
+.side-main {
+    position: absolute;
+    right: 0;
+    min-height: 100%;
+    padding-left: 15px;
+
+    &--fixed-height {
+        min-height: 0;
+        height: calc(~"100% - 63px");
+    }
+}
+
+.side-header {
+    position: absolute;
+    height: calc(~"100% - 63px");
+    min-width: 260px;
+    left: 0;
+    z-index: 1;
+    padding-right: 15px;
+
 }
