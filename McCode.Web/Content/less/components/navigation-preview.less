@@ -132,7 +132,7 @@
         cursor: pointer;
         min-width: 225px;
         .text-underline();
-
+        color: #b1b1b1;
         &:hover, &:focus {
             .text-underline--hover();
 
@@ -141,6 +141,10 @@
                 transition: border-color 200ms;
                 transition-delay: 250ms;
             }
+        }
+
+         li {
+            color: @font-color;
         }
 
         > span {
@@ -174,7 +178,7 @@
     }
 
     &__image {
-        width: 180px;
+        max-width: 225px;
         margin-right: 25px;
         flex: 4;
         opacity: 0;

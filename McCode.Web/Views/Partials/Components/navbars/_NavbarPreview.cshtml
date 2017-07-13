@@ -1,62 +1,64 @@
 ﻿@inherits UmbracoViewPage
 @using Umbraco.Web.PublishedContentModels
+@using McCode.Web.Models.ComponentModels
 
 @{
     Html.RequiresJs("~/scripts/app/components/navbar-preview.js", 1, 3, new { @defer = "" });
+
+    var website = Model.AncestorOrSelf<Website>();
+
+    var children = website.Children().Where(x => x.IsVisible());
 }
 <nav class="navbar-preview" role="navigation">
     <ul class="navbar-preview__breadcrumb">
-        <li><a href="/">Home</a></li>
+        <li><a href="/">Hjem</a></li>
         <li class="navbar-preview__dropdown">
             <div class="navbar-preview__expander" data-placeholder="Se flere sider">
-                Current Page <span class="arrow-down"></span>
-                <ul>
-                    <li>
-                        <a href="#">Page</a>
-                        <div class="navbar-preview__preview">
-                            <div class="navbar-preview__image">
-                                <img class="img-responsive" src="~/Content/images/Fentezi_25_119.jpg" alt="" />
-                            </div>
-                            <div class="navbar-preview__content">
-                                <div class="navbar-preview__heading">Subsite Page</div>
-                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#">That Page</a>
-                        <div class="navbar-preview__preview">
-                            <div class="navbar-preview__image">
-                                <img class="img-responsive" src="~/Content/images/esper.jpg" alt="" />
-                            </div>
-                            <div class="navbar-preview__content">
-                                <div class="navbar-preview__heading">Subsite Page</div>
-                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#">Another Page</a>
-                        <div class="navbar-preview__preview">
-                            <div class="navbar-preview__image">
-                                <img class="img-responsive" src="~/Content/images/evil2_1600x1200.jpg" alt="" />
-                            </div>
-                            <div class="navbar-preview__content">
-                                <div class="navbar-preview__heading">Subsite Page</div>
-                                <div class="navbar-preview__lead">Mi, id sollicitudin urna fermentum ut fusce varius nisl ac ipsum gravida vel pretium tellus.</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                Se andre sider <span class="arrow-down"></span>
+                @if (children.Any())
+                {
+                    <ul>
+                        @foreach (var child in children)
+                        {
+                            @RenderChild(child)
+                        }                    
+                    </ul>
+                }
             </div>
         </li>
     </ul>
     <ul class="navbar-preview__menu">
         <li>
-            <a href="">Om mig</a>
+            <a href="">Moi</a>
         </li>
         <li>
             <a href="#">Kontakt</a>
         </li>
     </ul>
 </nav>
+
+@helper RenderChild(IPublishedContent child) {
+    
+    <li>
+        <a href="@child.Url">@child.Name</a>
+        <div class="navbar-preview__preview">
+            <div class="navbar-preview__image">
+                @Html.Partial(
+                "Components/_Media",
+                new MediaViewModel()
+                {
+                    Image = child.GetPropertyValue<IPublishedContent>("heroImage", null),
+                    TypedWidth = 225,
+                })
+            </div>
+            <div class="navbar-preview__content">
+                <div class="navbar-preview__heading">@(child.GetPropertyValue<string>("headline", ""))</div>
+                @if (child.HasValue("lead"))
+                {
+                    <div class="navbar-preview__lead">@(child.GetPropertyValue<string>("lead"))</div>
+                }
+            </div>
+        </div>
+    </li>
+
+}

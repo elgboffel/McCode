@@ -1,0 +1,65 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Our.Umbraco.LinksPicker.Models
+@using Danva.Web.Models.ComponentModels
+@{
+    var items = Model.Items;
+
+    foreach (var item in items)
+    {
+        @renderContent(item)
+    }
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var link = content.GetValue<IEnumerable<LinksPickerItem>>("link");
+    var spotList = content.GetValue<IEnumerable<IPublishedContent>>("spotList");
+        <div class="panel">
+            <h4>@Html.Raw(content.GetValue<string>("headline"))</h4>
+            @if (link.Any())
+            {
+                <a href="@link.FirstOrDefault().Url" target="@link.FirstOrDefault().Target">Læs mere<i class="arrow"></i></a>
+            }
+        </div>
+        <div class="spot-list">
+            <div class="spot-list__inner">
+                @foreach (var spot in spotList)
+                {
+                    @renderSpot(spot)
+                }
+            </div>
+        </div>
+}
+
+@helper renderSpot(IPublishedContent spot)
+{
+    var image = spot.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault();
+    var link = spot.GetPropertyValue("link", Enumerable.Empty<LinksPickerItem>()).FirstOrDefault();
+    <div class="spot-list__item">
+        @if (link != null)
+        {
+            @:<a href="@link.Url" target="@link.Target">
+        }
+        @if (image != null)
+        {
+            @Html.Partial(
+                "Components/_Media",
+                new MediaViewModel
+                {
+                    Image = image,
+                    TypedWidth = 185,
+
+                })
+        }
+        @if (spot.HasValue("headline"))
+        {
+            <h4>@Html.Raw(spot.GetPropertyValue<string>("headline"))</h4>
+        }
+        <div class="spot-list__spacer"></div>
+        @if (link != null)
+        {
+            @:</a>
+        }
+    </div>
+}

@@ -10,21 +10,19 @@
     *@
     <!-- og -->
     @RenderProperties()
-    var media = new List<IPublishedContent>();
-    media.AddRange(Model.Content.GetPropertyValue("ogImages", Enumerable.Empty<IPublishedContent>()));
-    @RenderMedia(media)
     <!-- ./og (updated: @DateTime.Now.ToString())-->
 }
 
 @helper RenderProperties()
 {
-    <!-- Open Graph -->
+    var image = Model.Content.GetPropertyValue("ogImages", Model.Content.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())).FirstOrDefault();
+
     <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="@Model.Content.GetPropertyValue("siteName", true, "")" />
     @*<meta property="og:type" content="article" />*@
     <meta property="og:locale" content="@Model.CurrentCulture.ToString().Replace("-", "_")" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:title" content="@Model.Content.GetPropertyValue("ogTitle", "")" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:title" content="@Model.Content.GetPropertyValue("ogTitle", Model.Content.GetPropertyValue("headline", Model.Content.Name))" />
     <meta prefix="og: http://ogp.me/ns#" property="og:url" content="@Model.Content.UrlAbsolute()" />
-    <meta prefix="og: http://ogp.me/ns#" property="og:description" content="@Model.Content.GetPropertyValue( "ogDescription", "" )" />
+    <meta prefix="og: http://ogp.me/ns#" property="og:description" content="@Model.Content.GetPropertyValue( "ogDescription", Model.Content.GetPropertyValue("lead", "" ))" />
     <meta prefix="og: http://ogp.me/ns#" property="og:updated_time" content="@Model.Content.UpdateDate.ToIsoString()" />
 
     <!-- Twitter Card -->
@@ -37,38 +35,16 @@
 
     <!-- Facebook -->
     <meta prefix="og: http://ogp.me/ns#" property="fb:app_id" content="@Model.Content.GetPropertyValue("facebookAppId", true, "")" />
-}
 
-@helper RenderMedia(IEnumerable<IPublishedContent> selectedMedia)
-{
-    <!-- media -->
-if (selectedMedia.Any())
-{
-    foreach (IPublishedContent media in selectedMedia)
+    <!-- Image -->
+    if(image != null)
     {
-        if (media.DocumentTypeAlias == "Image")
-        {
-                @RenderImage(media);
-            }
-        }
+            <meta name="twitter:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
+            <meta prefix="og: http://ogp.me/ns#" property="og:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
+            <meta prefix="og: http://ogp.me/ns#" property="og:image:type" content="@GetMimeType(image)" />
+            <meta prefix="og: http://ogp.me/ns#" property="og:image:width" content="@image.GetPropertyValue("umbracoWidth", "")" />
+            <meta prefix="og: http://ogp.me/ns#" property="og:image:height" content="@image.GetPropertyValue("umbracoHeight", "")" />
     }
-    else
-    {
-        <!-- empty -->
-}
-    <!-- ./media -->
-}
-
-@helper RenderImage(IPublishedContent image)
-{
-if (image != null)
-{
-        <meta name="twitter:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
-        <meta prefix="og: http://ogp.me/ns#" property="og:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
-        <meta prefix="og: http://ogp.me/ns#" property="og:image:type" content="@GetMimeType(image)" />
-        <meta prefix="og: http://ogp.me/ns#" property="og:image:width" content="@image.GetPropertyValue("umbracoWidth", "")" />
-        <meta prefix="og: http://ogp.me/ns#" property="og:image:height" content="@image.GetPropertyValue("umbracoHeight", "")" />
-}
 }
 
 @helper RenderVideo(IPublishedContent video)
@@ -101,3 +77,4 @@ if (image != null)
         return null;
     }
 }
+

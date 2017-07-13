@@ -31,7 +31,7 @@ namespace SCADA.Web
                 if ((args.Context.Request.RawUrl.Contains(".jpg") || args.Context.Request.RawUrl.Contains(".jpeg")) && !args.QueryString.Contains("quality="))
                 {
                     // 75 is pretty good for web output. You might be able to push it down to 65.
-                    args.QueryString += "&quality=75";
+                    args.QueryString += "&quality=100";
                 }
 
                 /*if (args.Context.Request.RawUrl.Contains(".png") && !args.QueryString.Contains("format=png8"))

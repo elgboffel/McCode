@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace McCode.Web.Models.ComponentModels
+namespace Danva.Web.Models.ComponentModels
 {
     public class NewsletterViewModel
     {

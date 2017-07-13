@@ -5,6 +5,8 @@ namespace McCode.Web.Models.ComponentModels
 {
     public class ListViewModel
     {
+        public IPublishedContent CurrentPage { get; set; }
+
         public string Headline { get; set; }
 
         public string Lead { get; set; }

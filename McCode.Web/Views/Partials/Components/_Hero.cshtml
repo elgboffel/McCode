@@ -1,16 +1,18 @@
 ﻿@inherits UmbracoViewPage<HeroViewModel>
-@using McCode.Web.Models.ComponentModels
+@using Danva.Web.Models.ComponentModels
 
 <div class="hero">
-    @if(Model.Image.Any())
-    {
-        var image = Model.Image.FirstOrDefault();
-        @RenderImage(image)
-    }
+    <div class="hero-image">
+        @if(Model.Image.Any())
+        {
+            var image = Model.Image.FirstOrDefault();
+            @RenderImage(image)
+        }
+    </div>
 
     @if(!string.IsNullOrEmpty(Model.Headline))
     {
-        <h2>@Html.Raw(Model.Headline)</h2>
+        <small>@Html.Raw(Model.Headline)</small>
     }
 </div>
 

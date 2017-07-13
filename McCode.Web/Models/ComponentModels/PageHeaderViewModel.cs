@@ -13,6 +13,8 @@ namespace McCode.Web.Models.ComponentModels
 
         public string Headline { get; set; }
 
+        public bool AltHeading { get; set; }
+
         public string Lead { get; set; }
 
         public string Author { get; set; }

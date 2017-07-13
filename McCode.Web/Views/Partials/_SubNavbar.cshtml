@@ -1,0 +1,60 @@
+﻿@inherits UmbracoTemplatePage
+
+@{
+    IPublishedContent parent = Model.Content.Parent;
+
+    IEnumerable<IPublishedContent> children = Model.Content.Children()
+        .Where(c => c.IsVisible());
+
+    IEnumerable<IPublishedContent> siblings = parent.Children()
+        .Where(c => c.IsVisible());
+
+    var forceSiblingsList = Model.Content.IsDocumentType("eventFolder") &&
+                            Model.Content.IsDocumentType("newsFolder") &&
+                            Model.Content.IsDocumentType("consultationFolder");
+    var newsList = Model.Content.AncestorOrSelf("newsList");
+    var consultationList = Model.Content.AncestorOrSelf("consultationList");
+    var altNav = newsList != null || consultationList != null;
+}
+
+<div class="sub-navbar hidden-xs">
+    <div class="container">
+        <nav class="row flex">
+            <div class="col-xs-12 col-sm-3 col-md-2 flex parent-page">
+                <a class="truncate" href="@parent.Url"><span class="arrow-left"></span>@parent.Name</a>
+            </div>
+            <div class="col-xs-12 col-sm-9 col-md-10 flex navigation">
+                    @if(children.Any() && !forceSiblingsList && !altNav)
+                    {
+                        @RenderNavs(children)
+                    }
+                    else if (newsList != null)
+                    {
+                        @RenderNavs(newsList.Children())
+                    }
+                    else if(consultationList != null)
+                    {
+                        @RenderNavs(consultationList.Children())
+                    }
+                    else
+                    {
+                        @RenderNavs(siblings)
+                    }
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+@helper RenderNavs(IEnumerable<IPublishedContent> children)
+{
+
+    <ul class="list-unstyled">
+        @foreach (var child in children)
+        {
+            var hasChildren = child.Children().Any();
+            var active = child.Equals(Model.Content) ? "active" : null;
+            <li class="@active"><a href="@child.Url">@child.Name@if(hasChildren) {<span class="arrow"></span>}</a></li>
+        }
+    </ul>
+}

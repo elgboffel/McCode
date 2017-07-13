@@ -1,0 +1,99 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@using Umbraco.Web
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+var helper = new UmbracoHelper(UmbracoContext.Current);
+var currentPage = helper.TypedContent(helper.UmbracoContext.PageId);
+var primaryNews = content.GetValue<IEnumerable<IPublishedContent>>("pickedNews");
+var secondaryNews = content.GetValue<IEnumerable<IPublishedContent>>("multipleNewsPicker");
+
+var startIndex = primaryNews != null ? 0 : 1;
+
+    <div class="frontpage-news-section">
+        <div class="row flex">
+            <div class="col-xs-12 col-md-7 col-lg-8 flex flex--direction-column">
+                <div class="line-border-thick"></div>
+                @if(primaryNews != null) {
+                    @renderPrimaryNews(primaryNews)
+                }
+                <div class="line-border-thin"></div>
+            </div>
+            <div class="col-xs-12 col-md-5 col-lg-4 flex">
+                <div class="line-border-thick-skew-right"></div>
+                @for(var i = startIndex; i < secondaryNews.Count(); i++)
+                {
+                    var item = secondaryNews.ElementAt(i);
+                    @renderNewsList(item, i)
+                }
+                <div class="line-border-thin"></div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@helper renderPrimaryNews(IEnumerable<IPublishedContent> pickedNews)
+{
+    var news = pickedNews.FirstOrDefault();
+    <div class="large-card">
+            @Html.Partial(
+                "Components/_Card",
+                new CardViewModel
+                {
+                    Image = news.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
+                    GridSize = 8,
+                    GridSizeMD = 7,
+                    ImageHeight = 360,
+                    ImageHeightMD = 300,
+                    MobileImageHeight = 250,
+                    Url = news.Url,
+                    Date = news.GetPropertyValue<DateTime>("date").ToString("d/M yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                    Headline = news.GetPropertyValue<string>("headline", news.Name),
+                    Lead = news.GetPropertyValue<string>("lead", ""),
+                    ShowLargePrimaryTag = true,
+                    PrimaryTag = news.GetPropertyValue("primaryTag", Enumerable.Empty<IPublishedContent>()).FirstOrDefault()
+                })
+    </div>
+}
+
+@helper renderNewsList(IPublishedContent page, int i)
+{
+    var image = page.GetPropertyValue("teaserImage",
+                page.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>()))
+                .FirstOrDefault();
+    <div class="card-small">
+        @if (i != 0)
+        {
+            <div class="line-border-thin-skew-right"></div>
+        }
+        @Html.Partial(
+            "Components/_Card",
+            new CardViewModel
+            {
+                Image = image,
+                TypedWidth = 150,
+                TypedWidthSM = 264,
+                TypedWidthXS = 252,
+                ImageHeight = 150,
+                MobileImageHeight = 250,
+                Url = page.Url,
+                Date = page.GetPropertyValue<DateTime>("date").ToString("d/M yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                Headline = page.GetPropertyValue<string>("teaserHeadline",
+                                page.GetPropertyValue<string>("headline", page.Name)),
+                Lead = page.GetPropertyValue<string>("teaserLead",
+                            page.GetPropertyValue<string>("lead", "")),
+                Truncate = 100,
+                PrimaryTag = page.GetPropertyValue("primaryTag", Enumerable.Empty<IPublishedContent>()).FirstOrDefault()
+
+            })
+    </div>
+}

@@ -1,0 +1,60 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@using Umbraco.Web
+
+@foreach (var item in Model.Items)
+{
+        @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var contentPicker = content.GetValue<IEnumerable<IPublishedContent>>("contentPicker");
+    if (contentPicker.Any())
+    {
+        var link = content.GetValue<IEnumerable<Our.Umbraco.LinksPicker.Models.LinksPickerItem>>("link");
+
+        <div class="panel">
+            <h4>@Html.Raw(content.GetValue<string>("headline"))</h4>
+            @if (link.Any())
+            {
+                <a href="@link.FirstOrDefault().Url" target="@link.FirstOrDefault().Target">Læs mere<i class="arrow"></i></a>
+            }
+        </div>
+        <div class="row event-list flex">
+            @for (var i = 0; i < contentPicker.Count(); i++)
+            {
+                var element = contentPicker.ElementAt(i);
+                @renderContent(element, i)
+            }
+        </div>
+    }
+}
+
+@helper renderContent(IPublishedContent page, int index)
+{
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 flex">
+        <div class="list-box">
+            @Html.Partial(
+            "Components/_Card",
+            new CardViewModel
+            {
+                Image = page.GetPropertyValue("teaserImage", page.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())).FirstOrDefault(),
+                GridSize = 3,
+                ImageHeight = 145,
+                MobileImageHeight = 250,
+                Url = page.Url,
+                Date = page.GetPropertyValue<DateTime>("eventStart").ToString("d/M yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                AltDatePosition = true,
+                Headline = page.GetPropertyValue<string>("teaserHeadline",
+                                    page.GetPropertyValue<string>("headline", page.Name)),
+                Lead = page.GetPropertyValue<string>("teaserLead",
+                                page.GetPropertyValue<string>("lead", "")),
+                EventPlace = page.GetPropertyValue<string>("eventPlace", "")
+            })
+        </div>
+    </div>
+
+}

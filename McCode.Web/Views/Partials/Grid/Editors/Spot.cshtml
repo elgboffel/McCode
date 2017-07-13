@@ -1,36 +1,39 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@using Umbraco.Web
 
 @foreach (var item in Model.Items)
 {
-    @renderItem(item)
+        @renderContent(item)
 }
 
-@helper renderItem(LeBlenderValue item)
-{ 
-    var trompet = item.GetValue<string>("trompet");
-    var heading = item.GetValue<string>("heading");
-    var nextSection = item.GetValue<string>("nextSectionTeaser");
-    var media = item.GetValue<IEnumerable<IPublishedContent>>("image");
+@helper renderContent(LeBlenderValue content)
+{
+var image = content.GetValue<IEnumerable<IPublishedContent>>("image");
+var hasImage = image != null ? image.FirstOrDefault() : null;
 
-    if (media != null && media.Any())
-    {
-         var image = media.FirstOrDefault();
-
-        <div class="spot spot--bg" style="background: url(@image.Url) center center;">
-            @if (!string.IsNullOrEmpty(trompet))
+var trumpet = content.GetValue<string>("trumpet");
+var headline = content.GetValue<string>("headline");
+var rte = content.GetValue<IHtmlString>("content");
+var link = content.GetValue<IEnumerable<Our.Umbraco.LinksPicker.Models.LinksPickerItem>>("link");
+var renderedUrl = link.Any() ? link.FirstOrDefault().Url : "";
+    <div class="spot flex">
+        @Html.Partial(
+            "Components/_Card",
+            new CardViewModel
             {
-                <div class="spot__trompet">@trompet</div>
+                Image = hasImage,
+                GridSize = 6,
+                ImageHeight = 350,
+                MobileImageHeight = 250,
+                Trumpet = trumpet,
+                Headline = headline,
+                RTE = rte,
+                Url = renderedUrl
             }
-
-            @if (!string.IsNullOrEmpty(heading))
-            {
-                <div class="spot__heading">@heading</div>
-            }
-            @if (!string.IsNullOrEmpty(nextSection))
-            {
-                <div class="spot__next">@nextSection</div>
-            }
-        </div>
-    }
+        )
+        <div class="line-border-thin-skew-right push-bottom"></div>
+    </div>
 }

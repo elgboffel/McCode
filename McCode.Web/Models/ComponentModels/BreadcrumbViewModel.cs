@@ -9,9 +9,12 @@ namespace McCode.Web.Models.ComponentModels
 
         public bool ShowCurrentPage { get; set; }
 
+        public bool ShowWebRoot { get; set; }
+
         public BreadcrumbViewModel()
         {
             this.ShowCurrentPage = true;
+            this.ShowWebRoot = true;
         }
     }
 }

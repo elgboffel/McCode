@@ -1,5 +1,6 @@
 ﻿@inherits UmbracoViewPage<MediaViewModel>
 @using McCode.Web.Models.ComponentModels
+@using Our.Umbraco.Picture
 
 @if(Model.Image != null)
 {
@@ -7,12 +8,37 @@
 
     var mobileHeight = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
 
+    if (Model.TypedWidth != 0)
+    {
+        @renderTypedMedia(image, mobileHeight)
+    } else
+    {
+        @renderMedia(image, mobileHeight)
+    }
+}
+
+@helper renderTypedMedia(IPublishedContent image, int mobileHeight)
+{
     var picture = Umbraco.Picture(image)
-    .Source("(min-width:992px)", ResizeImage(1200, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
-    .Source("(min-width:768px)", ResizeImage(992, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
-    .Source("(min-width:480px)", ResizeImage(768, 12, Model.GridTotalPadding), mobileHeight)
-    .Srcset(ResizeImage(768, 12, Model.GridTotalPadding), mobileHeight)
+    .Source("(min-width:1440px)", ResizeImage(Model.TypedWidth, 12, 0), Model.ImageHeight)
+    .Source("(min-width:992px)", ResizeImage(Model.TypedWidthMD > 0 ? Model.TypedWidthMD : Model.TypedWidth, 12, 0), Model.ImageHeightMD > 0 ? Model.ImageHeightMD : Model.ImageHeight)
+    .Source("(min-width:768px)", ResizeImage(Model.TypedWidthSM > 0 ? Model.TypedWidthSM : Model.TypedWidth, 12, Model.GridTotalPadding), Model.ImageHeightSM > 0 ? Model.ImageHeightSM : Model.ImageHeight)
+    .Source("(min-width:480px)", ResizeImage(Model.TypedWidthXS > 0 ? Model.TypedWidthXS : Model.TypedWidth, 12, Model.GridTotalPadding), Model.ImageHeightXS > 0 ? Model.ImageHeightXS : Model.ImageHeight)
+    .Srcset(ResizeImage(Model.TypedWidthXXS > 0 ? Model.TypedWidthXXS : 480, 12, Model.GridTotalPadding), Model.ImageHeightMD > 0 ? Model.ImageHeightMD : mobileHeight)
     .Alt(image.Name);
+
+    @Html.RenderPicture(picture);
+}
+
+@helper renderMedia(IPublishedContent image, int mobileHeight)
+{
+var picture = Umbraco.Picture(image)
+.Source("(min-width:1200px)", ResizeImage(1380, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
+.Source("(min-width:992px)", ResizeImage(970, Model.GridSizeMD > 0 ? Model.GridSizeMD : Model.GridSize, Model.GridTotalPadding), Model.ImageHeightMD > 0 ? Model.ImageHeightMD : Model.ImageHeight)
+.Source("(min-width:768px)", ResizeImage(992, Model.GridSizeSM > 0 ? Model.GridSizeSM : 12, Model.GridTotalPadding), Model.ImageHeightSM > 0 ? Model.ImageHeightSM : Model.ImageHeight)
+.Source("(min-width:480px)", ResizeImage(768, Model.GridSizeXS > 0 ? Model.GridSizeXS : 12, Model.GridTotalPadding), Model.ImageHeightXS > 0 ? Model.ImageHeightXS : mobileHeight)
+.Srcset(ResizeImage(480, Model.GridSizeXXS > 0 ? Model.GridSizeXXS : 12, Model.GridTotalPadding), Model.ImageHeightXXS > 0 ? Model.ImageHeightXXS : mobileHeight)
+.Alt(image.Name);
 
     @Html.RenderPicture(picture);
 }

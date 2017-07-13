@@ -1,87 +1,141 @@
 ﻿@inherits UmbracoViewPage<CardViewModel>
-@using McCode.Web.Models.ComponentModels
-
+@using Danva.Web.Models.ComponentModels
 @{
-    string showSeperatorArticleType = !string.IsNullOrEmpty(Model.Trumpet) ? ":" : null;
-    bool isCaptionCardType = Model.CardType == "caption";
+    var fullWidth = Model.Image != null ? null : "style=width:100%";
+    var children = Model.Children;
 }
-
-<div class="card @(Model.CardType)">
-    @if(!string.IsNullOrEmpty(Model.Url))
+<div class="card">
+    @if(!string.IsNullOrEmpty(Model.Url) && !children.Any())
+    {
+        @:<a href="@Model.Url">
+    }
+    @if(!string.IsNullOrEmpty(Model.Url) && children.Any())
     {
         @:<a href="@Model.Url">
     }
     @if (Model.Image != null)
     {
-        @RenderImage(Model.Image)
-    } else
-    {
-        <div class="border-top"></div>
-    }
-
-    <div class="card-spacer"></div>
-    @if(!string.IsNullOrEmpty(Model.Headline))
-    {
-        <div class="inner">
-
-            @if(Model.ArticleType != null && Model.ArticleType.Any())
-            {
-                <small class="trumpet orange">@(Model.ArticleType.FirstOrDefault().Name)@showSeperatorArticleType</small>
-            }
-
-            @if (!string.IsNullOrEmpty(Model.Trumpet))
-            {
-                <small class="trumpet">@Model.Trumpet</small>
-            }
-            <div class="clearfix"></div>
-            @if(!string.IsNullOrEmpty(Model.Headline))
-            {
-                <h2>
-                    @Model.Headline
-                    <span class="line-hover"></span>
-                </h2>
-            }
-            @if (!string.IsNullOrEmpty(Model.Lead) && isCaptionCardType)
-            {
-                <p>@Umbraco.Truncate(Model.Lead, 70)</p>
-            }
-            else if (!string.IsNullOrEmpty(Model.Lead) && !isCaptionCardType && Model.Image == null)
-            {
-                <p>@Umbraco.Truncate(Model.Lead, 200)</p>
-
-            }
-            else
-            {
-                <p>@Umbraco.Truncate(Model.Lead, 90)</p>
-
-            }
-            <div class="card-bottom-spacer"></div>
+        <div class="card-image">
+            @Html.Partial(
+           "Components/_Media",
+           new MediaViewModel
+           {
+               Image = Model.Image,
+               TypedWidth = Model.TypedWidth,
+               TypedWidthMD = Model.TypedWidthMD,
+               TypedWidthSM = Model.TypedWidthSM,
+               TypedWidthXS = Model.TypedWidthXS,
+               TypedWidthXXS = Model.TypedWidthXXS,
+               GridSize = Model.GridSize,
+               GridSizeMD = Model.GridSizeMD,
+               GridSizeSM = Model.GridSizeSM,
+               GridSizeXS = Model.GridSizeXS,
+               GridSizeXXS = Model.GridSizeXXS,
+               ImageHeight = Model.ImageHeight,
+               ImageHeightMD = Model.ImageHeightMD,
+               ImageHeightSM = Model.ImageHeightSM,
+               ImageHeightXS = Model.ImageHeightXS,
+               ImageHeightXXS = Model.ImageHeightXXS,
+               ImageHeightMobile = Model.MobileImageHeight
+           })
         </div>
     }
+@if (!string.IsNullOrEmpty(Model.Url) && children.Any())
+{
+    @:</a>
+}
 
-    @if(!string.IsNullOrEmpty(Model.Url))
+@if (!string.IsNullOrEmpty(Model.Headline))
+{
+    <div class="card-content @Umbraco.If(Model.Image == null, "no-image")" @fullWidth>
+        <div class="card-info">
+            @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && !Model.AltDatePosition)
+            {
+                <time>@Model.Date </time>
+            }
+            @if (Model.PrimaryTag != null && !Model.ShowLargePrimaryTag)
+            {
+                <span>| @Model.PrimaryTag.Name</span>
+            }
+        </div>
+        @if (!string.IsNullOrEmpty(Model.Trumpet))
+                {
+            <small class="trumpet">@Model.Trumpet</small>
+        }
+        @if (Model.Children.Any())
+                {
+            @renderSqueezeBox(Model.Children)
+        }
+        else
+        {
+            <h2>@Html.Raw(Model.Headline)</h2>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && Model.AltDatePosition)
+                {
+            <time><span>Dato: </span>@Model.Date </time>
+        }
+        @if (!string.IsNullOrEmpty(Model.Category))
+        {
+            <small class="category">@Model.Category</small>
+        }
+        @if (!string.IsNullOrEmpty(Model.Url) && children.Any())
+        {
+            @:<a href="@Model.Url">
+        }
+        <div class="card-content-inner">
+            @if (!string.IsNullOrEmpty(Model.Lead))
+                {
+                <p>@Umbraco.Truncate(Model.Lead, Model.Truncate)</p>
+            }
+            @if (Model.RTE != null)
+            {
+                <div class="card-text">
+                    @Model.RTE
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.EventPlace))
+            {
+                <div class="card-event-place">
+                    <div class="line-border-thin-skew-right"></div>
+                    <span>Placering: </span>@Model.EventPlace
+                </div>
+            }
+            @if (Model.PrimaryTag != null && Model.ShowLargePrimaryTag)
+                {
+                <div>
+                    <div class="primary-tag">@Model.PrimaryTag.Name</div>
+                </div>
+            }
+            <div class="card-spacer"></div>
+        </div>
+    @if (!string.IsNullOrEmpty(Model.Url) && children.Any())
     {
         @:</a>
     }
-</div>
-
-@helper RenderImage(IPublishedContent image)
-{
-    var picture = Umbraco.Picture(image)
-    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1180, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
-    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(980, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
-    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(760, Model.GridSize, 40), height: Model.ImageHeight, preferFocalPoint: true))
-    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(760, 12, 40), height: Model.ImageHeight, preferFocalPoint: true))
-    .Srcset(image.GetCropUrl(width: ResizeImage(462, 12, 40),  height: Model.ImageHeight, preferFocalPoint: true))
-    .Alt(image.Name);
-
-    @picture.Html();
+    </div>
 }
 
-@functions {
-    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
-    {
-        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
-        return size;
-    }
+@if (!string.IsNullOrEmpty(Model.Url) && !children.Any())
+{
+    @:</a>
+
+}
+</div>
+<div class="card-bottom-spacer"></div>
+
+@helper renderSqueezeBox(IEnumerable<IPublishedContent> children) {
+    <div class="squeeze-box">
+        <h2 class="squeeze-box__expander" data-id="@("squeeze-box" + Model.Id)" data-url="@Model.Url"><span class="arrow"></span>@Html.Raw(Model.Headline)</h2>
+        <div id="@("squeeze-box" + Model.Id)" class="squeeze-box__content">
+            <div class="line-border-xs-skew-right"></div>
+            <ul class="list-unstyled">
+                @foreach (var child in children)
+                {
+                    <li class="squeeze-box__item" data-url="@child.Url"><a href="@child.Url">@child.Name</a></li>
+                }
+            </ul>
+            <div class="line-border-thin-skew-right"></div>
+        </div>
+    </div>
 }

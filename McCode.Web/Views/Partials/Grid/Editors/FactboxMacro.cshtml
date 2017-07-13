@@ -1,0 +1,41 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web.Templates
+@using Our.Umbraco.Picture
+@{
+    string byline = Model.MacroParameters["byline"].ToString();
+    string boxPlacement = Model.MacroParameters["boxPlacement"].ToString();
+    int imageId = Model.MacroParameters.GetValue<int>("image", 0);
+    string text = TemplateUtilities.ParseInternalLinks(
+        HttpUtility.HtmlDecode(
+            Model.MacroParameters.GetValue("text", string.Empty)
+        )
+    );
+}
+
+<div class="grid-factbox @boxPlacement">
+    @if (imageId != 0)
+    {
+        @RenderImage(imageId)
+    }
+    <div class="factbox-content">
+        @if(!string.IsNullOrEmpty(byline))
+        {
+            <small>@byline</small>
+        }
+        <h3>@(Model.MacroParameters["headline"])</h3>
+        @Html.Raw(TemplateUtillitiesExtensions.ParseInternalMediaLinks(text))
+    </div>
+</div>
+
+@helper RenderImage(int imageId)
+{
+    IPublishedContent image = Umbraco.TypedMedia(imageId);
+
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:768px)", image.GetCropUrl(width: 320, height: 270, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: 768, height: 550, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: 480, height: 320, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}

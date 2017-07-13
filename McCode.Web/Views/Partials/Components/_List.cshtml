@@ -1,39 +1,87 @@
 ﻿@inherits UmbracoViewPage<ListViewModel>
-@using McCode.Web.Models.ComponentModels
+@using Danva.Web.Models.ComponentModels
+
+@{ 
+    Html.RequiresJs("~/scripts/app/filter-result.js", 1, 2, new { @defer = ""});
+
+    var page = Model.CurrentPage;
+
+    var filterContentPicker = page.GetPropertyValue<IEnumerable<IPublishedContent>>("filterContentPicker", Enumerable.Empty<IPublishedContent>());
+}
 
 <div class="list">
     @if(!string.IsNullOrEmpty(Model.Headline)){
         <h2>@Html.Raw(Model.Headline)</h2>
     }
-
-    @foreach(var item in Model.List)
+    @if (filterContentPicker.Any())
     {
-        @RenderList(item)
+        <div class="list__filter">
+            <h3>Filtrer efter</h3>
+            @foreach (var filter in filterContentPicker)
+            {
+                <div class="btn btn-primary m-bottom10" data-group="@filter.Id">@filter.Name</div>
+            }
+            <div class="spacer25"></div>
+            <div class="loader"></div>
+        </div>
     }
+    <div class="search-results">
+        @foreach(var item in Model.List)
+        {
+            @RenderList(item)
+        }
+    </div>
 </div>
 
 @helper RenderList(IPublishedContent listItem)
 {
-    <div class="list-item">
-        <a href="@listItem.Url">
-            @if(listItem.HasValue("date") || listItem.HasValue("startDate"))
-            {
-                <time class="trumpet">@(listItem.GetPropertyValue<DateTime>("startDate", listItem.GetPropertyValue<DateTime>("date")).ToString("d. MMMM yyyy"))</time>
-            }
-            <h3>@Html.Raw(listItem.GetPropertyValue<string>("headline", listItem.Name))</h3>
-            @if(listItem.HasValue("lead") && Model.ShowLead != false)
-            {
-                <p>@(listItem.GetPropertyValue<string>("lead"))</p>
-            }
-        </a>
-        @if(Model.ShowBreadcrumb != false)
-        {
-            @Html.Partial("Modules/_Breadcrumb", new BreadcrumbViewModel
-            {
-                CurrentPage = listItem,
-                ShowCurrentPage = false
-            })
-        }
-        <div class="spacer45"></div>
+
+    var image = listItem
+        .GetPropertyValue("teaserImage",
+            listItem.GetPropertyValue("heroImage",
+                Enumerable.Empty<IPublishedContent>()))
+        .FirstOrDefault();
+
+    <div class="list__item-container">
+        <div class="list__item" data-group="@listItem.Path">
+                @if (image != null)
+                {
+                    <div class="list__image">
+                        @Html.Partial(
+                        "Components/_Media",
+                        new MediaViewModel
+                        {
+                            Image = image,
+                            TypedWidth = 200,
+                            ImageHeight = 200
+
+                        })
+                    </div>
+                }
+                <div class="list__content">
+                        <a class="list__link" href="@listItem.Url">
+                        @if(listItem.HasValue("date") || listItem.HasValue("startDate"))
+                        {
+                            <time class="trumpet">@(listItem.GetPropertyValue<DateTime>("startDate", listItem.GetPropertyValue<DateTime>("date")).ToString("d. MMMM yyyy"))</time>
+                        }
+                        <h4>@Html.Raw(listItem.GetPropertyValue<string>("teaserHeadline", listItem.GetPropertyValue<string>("headline", listItem.Name)))</h4>
+                        @if(listItem.HasValue("lead") && Model.ShowLead)
+                        {
+                            <p>@(listItem.GetPropertyValue<string>("teaserLead", listItem.GetPropertyValue<string>("lead", "")))</p>
+                        }
+                    </a>
+                    @if(Model.ShowBreadcrumb != false)
+                    {
+                        @Html.Partial("Components/_Breadcrumb", new BreadcrumbViewModel
+                        {
+                            CurrentPage = listItem,
+                            ShowWebRoot = false,
+                            ShowCurrentPage = false
+                        })
+                    }
+                </div>
+            <div class="list__spacer"></div>
+        </div>
+        <div class="line-border-thin-skew-right"></div>
     </div>
 }

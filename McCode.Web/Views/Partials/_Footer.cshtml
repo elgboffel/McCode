@@ -1,20 +1,44 @@
 ﻿@inherits UmbracoViewPage
-@using contentModels = McCode.Web.Models.ModelsBuilder
+@using Danva.Web.Models.ComponentModels
 @using Our.Umbraco.LinksPicker.Models
 
 @{
-    var footer = Model
-        .AncestorOrSelf<contentModels.Website>()
-        .Layout;
+
+    var website = Model.AncestorOrSelf<Website>();
+    var footer = website.Layout;
+
 }
 
 <footer class="page-footer">
     <div class="container">
         <div class="container">
             <div class="row">
+                <div class="col-xs-12">
+                        <div class="line-border-thin-skew"></div>
+                    <div class="footer-head">
+                        @if (!string.IsNullOrEmpty(website.Logo))
+                        {
+                            <div class="footer-logo">
+                                @Html.Raw(website.Logo)
+                            </div>
+                        }
+                        @Html.CachedPartial(
+                            "Components/_SoMe",
+                            new SoMeViewModel
+                            {
+                                TwitterUrl = website.TwitterLink,
+                                FacebookUrl = website.FacebookLink,
+                                YouTubeUrl = website.YoutubeLink
+                            },
+                            3600
+                       )
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 @foreach(var item in footer)
                 {
-                    <div class="col-xs-12 col-sm-6 col-md-4 flex">
+                    <div class="col-xs-12 col-sm-6 col-md-3 flex">
                         @switch (item.DocumentTypeAlias)
                         {
                             case "multipleLinks":
@@ -26,6 +50,14 @@
                     </div>
                 }
             </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="sub-footer">
+                        <div class="line-border-thin-skew"></div>
+                        @Html.Raw(website.SubFooter)
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </footer>
@@ -36,6 +68,10 @@
         .GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>()) ;
 
     <div class="footer-links">
+        @if (multipleLinks.HasValue("headline"))
+        {
+            <h5>@Html.Raw(multipleLinks.GetPropertyValue<string>("headline"))</h5>
+        }
         @if(links.Any())
         {
             <ul class="list-unstyled">

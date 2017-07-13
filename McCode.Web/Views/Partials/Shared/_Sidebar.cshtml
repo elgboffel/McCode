@@ -1,7 +1,17 @@
 ﻿@inherits UmbracoViewPage<SidebarViewModel>
-@using McCode.Web.Models.PartialModels
-@using McCode.Web.Models.ComponentModels
+@using Danva.Web.Models.PartialModels
+@using Danva.Web.Models.ComponentModels
+
+
 @using Our.Umbraco.LinksPicker.Models
+
+@{
+    var page = Model.CurrentPage;
+    var searchPage = page.AncestorOrSelf<Website>().Children<SearchPage>().FirstOrDefault();
+    var primaryTags = page.GetPropertyValue("primaryTags", Enumerable.Empty<IPublishedContent>());
+    var secondaryTags = page.GetPropertyValue("secondaryTags", Enumerable.Empty<IPublishedContent>());
+
+}
 
 @if (Model.Layout != null)
 {
@@ -15,62 +25,92 @@
         {
             switch (item.DocumentTypeAlias)
             {
-                case "carousel":
-                    @renderCarouselWithText(item) break;
+                case "themeBox":
+                    @renderThemebox(item) break;
 
-                case "multipleLinks":
-                    @renderLinks(item) break;
-
-                default:
-                    @renderRichText(item) break;
+                case "sidebarEmployee":
+                    @renderContact(item) break;
             }
         }
-    </div>
-}
 
-@helper renderCarouselWithText(IPublishedContent carousel)
-{
-    <div class="sidebar-carousel">
-        @Html.Partial(
-        "Components/_CarouselWithText",
-        new CarouselViewModel
-        {
-            Carousel = carousel.GetPropertyValue("carouselNested", Enumerable.Empty<IPublishedContent>()),
-            GridSize = 4,
-            ImageHeight = 300,
-            ImageHeightMobile = 450
-        })
-    </div>
-}
-
-
-@helper renderRichText(IPublishedContent rte)
-{
-    if(rte.HasValue("content"))
-    {
-        <div class="sidebar-rte">
-            @if(rte.HasValue("headline"))
+        <div class="tags">
+            @if (primaryTags.Any())
             {
-                <h3>@Html.Raw(rte.GetPropertyValue<string>("headline"))</h3>
+                    foreach (var tag in primaryTags)
+                    {
+                        <a class="primary-tag" href="@(searchPage.UrlAbsolute() + "?q=" + @tag.Id)">@tag.Name</a>
+                    }
+                    <div class="spacer25"></div>
             }
-            @Html.Raw(rte.GetPropertyValue<IHtmlString>("content", null))
+            @if (secondaryTags.Any())
+            {
+                    foreach (var tag in secondaryTags)
+                    {
+                        <a class="secondary-tag" href="@(searchPage.UrlAbsolute() + "?q=" + @tag.Id)">@tag.Name</a>
+                    }
+                    <div class="spacer25"></div>
+            }
         </div>
-    }
+    </div>
 }
 
-@helper renderLinks(IPublishedContent multipleLinks)
+@helper renderThemebox(IPublishedContent themebox)
 {
-    var links = multipleLinks.GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>());
-
-    if(links.Any())
-    {
-        <div class="sidebar-link-list">
-            <ul>
-                @foreach(var link in links)
-                {
-                    <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
-                }
-            </ul>
+    var contentPicker = themebox.GetPropertyValue("contentPicker", Enumerable.Empty<IPublishedContent>());
+    <div class="factbox">
+        <div class="line-border-thick-skew-right"></div>
+        <div class="factbox-inner">
+            @if (themebox.HasValue("headline"))
+            {
+                <small class="trompet">@Html.Raw(themebox.GetPropertyValue("trompet", ""))</small>
+            }
+            @if (themebox.HasValue("headline"))
+            {
+                <h4 class="factbox-headline">@Html.Raw(themebox.GetPropertyValue("headline"))</h4>
+            }
+            @if (themebox.HasValue("content"))
+            {
+                @Html.Raw(themebox.GetPropertyValue<string>("content"))
+            }
+            @if (contentPicker.Any())
+            {
+                <ul class="link-list">
+                    @foreach (var content in contentPicker)
+                    {
+                        <li><a href="@content.Url">@Html.Raw(content.GetPropertyValue("headline", content.GetPropertyValue<string>("teaserHeadline", content.Name)))</a></li>
+                    }
+                </ul>
+            }
+            <div class="factbox-spacer"></div>
         </div>
+    </div>
+}
+
+@helper renderContact(IPublishedContent contact)
+{
+    var pickedContact = contact.GetPropertyValue("pickEmployee", Enumerable.Empty<IPublishedContent>()).FirstOrDefault();
+
+    if (contact.HasValue("headline"))
+    {
+            <h4 class="contact-headline">@Html.Raw(contact.GetPropertyValue<string>("headline", ""))</h4>
+    }
+    if (pickedContact != null)
+    {
+
+        @Html.Partial(
+            "Components/_ContactCard",
+            new ContactCardViewModel
+            {
+                Image = pickedContact.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
+                TypedWidth = 200,
+                ImageHeight = 200,
+                ImageHeightMobile = 400,
+                Name = pickedContact.Name,
+                Title = pickedContact.GetPropertyValue<string>("title", ""),
+                Phone = pickedContact.GetPropertyValue<string>("phone", ""),
+                Mobile = pickedContact.GetPropertyValue<string>("mobilePhone", ""),
+                Mail = pickedContact.GetPropertyValue<string>("mail", "")
+            }
+        )
     }
 }
