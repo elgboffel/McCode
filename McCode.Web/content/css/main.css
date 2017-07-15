@@ -765,6 +765,7 @@ ul {
 }
 .navbar-preview__menu {
   margin-bottom: 0;
+  margin-right: 10vw;
 }
 .navbar-preview__menu a {
   position: relative;
@@ -789,7 +790,7 @@ ul {
 }
 .navbar-preview__menu > li {
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 55px;
 }
 .navbar-preview__menu > li:last-child {
   margin-right: 0;
