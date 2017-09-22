@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Danva.Web.Models.ComponentModels
+namespace McCode.Web.Models.ComponentModels
 {
     public class SoMeViewModel
     {
@@ -13,6 +13,8 @@ namespace Danva.Web.Models.ComponentModels
         public string TwitterUrl { get; set; }
 
         public string LinkedInUrl { get; set; }
+
+        public string InstagramUrl { get; set; }
 
         public string YouTubeUrl { get; set; }
 

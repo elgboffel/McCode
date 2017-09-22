@@ -1,0 +1,87 @@
+﻿@inherits UmbracoViewPage<List<MediaListItem>>
+@using Niras.Web.Models.PartialModels;
+
+<div class="media-list isotope" id="@ViewData["id"]">
+    @foreach (var media in Model)
+    {
+        <div class="media media-link @media.Content.GetTagsAsClassNames() @media.Content.DocumentTypeAlias.ToLower()" onclick="window.location.href='@Umbraco.UrlAbsolute(media.Content.Url)';">
+            <div class="media-left">
+                <a class="media-object" href="@Umbraco.UrlAbsolute(media.Content.Url)" target="_self">
+                    @if (media.Image != null)
+                    {
+                        switch (media.Content.DocumentTypeAlias.ToLower())
+                        {
+                            case "employee":
+                                if (media.Content.GetPropertyValue<bool>("showPhoto"))
+                                {
+                                    @Html.RenderPicture(Umbraco.Picture((IPublishedContent)media.Image)
+                                    .Source("(min-width: 1200px)", 144, 144)
+                                    .Source("(min-width: 992px)", 144, 144)
+                                    .Source("(min-width: 768px)", 144, 144)
+                                    .Source("(min-width: 480px)", 96, 96)
+                                    .Srcset(60, 60)
+                                    .Attr("class", "img-circle"));
+                                } else
+                                {
+                                    <svg id="Person" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 221 221"><defs><style>.cls-1{fill:none;stroke:#4c463d;stroke-miterlimit:22.93;stroke-width:0.5px;}</style></defs><title>Artboard 1</title><path id="dominobrikken" class="cls-1" d="M78.95,45.8c1.44-15.33,15.16-23,30.47-23s29,7.67,30.47,23c.75,8-1,26.93-5,34.1-3.48,6.27-11.58,12.29-20.56,14.35a25.1,25.1,0,0,1-9.77,0c-9-2.06-17.08-8.08-20.56-14.35C80,72.73,78.2,53.8,78.95,45.8ZM51.17,199.59h119V151.42c0-21.79-15.34-39.61-34.07-39.61H85.25c-18.74,0-34.07,17.83-34.07,39.61Z"/></svg>
+                                }
+                                break;
+                            case "file":
+                                @Html.RenderPicture(Umbraco.Picture((string)media.Image)
+                                .Source("(min-width: 1200px)", 144, 144)
+                                .Source("(min-width: 992px)", 144, 144)
+                                .Source("(min-width: 768px)", 144, 144)
+                                .Source("(min-width: 480px)", 96, 96)
+                                .Srcset(60, 60));
+                                break;
+                            default:
+                                @Html.RenderPicture(Umbraco.Picture((IPublishedContent)media.Image)
+                                .Source("(min-width: 1200px)", 144, 144)
+                                .Source("(min-width: 992px)", 144, 144)
+                                .Source("(min-width: 768px)", 144, 144)
+                                .Source("(min-width: 480px)", 96, 96)
+                                .Srcset(60, 60));
+                                break;
+                        }
+
+                    }
+                    else if (media.Content.DocumentTypeAlias.ToLower() == "employee")
+                    {
+                        <svg id="Person" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 221 221"><defs><style>.cls-1{fill:none;stroke:#4c463d;stroke-miterlimit:22.93;stroke-width:0.5px;}</style></defs><title>Artboard 1</title><path id="dominobrikken" class="cls-1" d="M78.95,45.8c1.44-15.33,15.16-23,30.47-23s29,7.67,30.47,23c.75,8-1,26.93-5,34.1-3.48,6.27-11.58,12.29-20.56,14.35a25.1,25.1,0,0,1-9.77,0c-9-2.06-17.08-8.08-20.56-14.35C80,72.73,78.2,53.8,78.95,45.8ZM51.17,199.59h119V151.42c0-21.79-15.34-39.61-34.07-39.61H85.25c-18.74,0-34.07,17.83-34.07,39.61Z"/></svg>
+                    }
+                </a>
+            </div>
+            <div class="media-body media-middle">
+                @if (!string.IsNullOrEmpty(media.Type))
+                {
+                    <strong class="media-trompet trompet">@Umbraco.GetDictionaryValue(@media.Type, @media.Type)</strong>
+                }
+                <h3 class="media-heading">@media.Heading</h3>
+                @if (media.Date.HasValue)
+                {
+                    <time class="media-date" datetime="@media.Date.Value.ToString("yyyy-MM-dd")">@media.Date.Value.ToString("dd. MMMM yyyy")</time>
+                }
+                @if (!string.IsNullOrEmpty(media.Description))
+                {
+                    <p>@Html.Raw(Umbraco.ReplaceLineBreaksForHtml(media.Description))</p>
+                }
+                @RenderBreadcrumb(media.Content)
+            </div>
+        </div>
+    }
+</div>
+
+@helper RenderBreadcrumb(IPublishedContent page) {
+    var ancestors = page.Ancestors().Where(x=>x.Level > 1).OrderBy(x=>x.Level);
+    if (ancestors.Any())
+    {
+        <ul class="media-breadcrumb breadcrumb">
+            @foreach(var ancestor in ancestors)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@ancestor.Url">@ancestor.Name</a>
+                </li>
+            }
+        </ul>
+    }
+}

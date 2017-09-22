@@ -26,7 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -337,6 +338,10 @@
     </Reference>
     <Reference Include="umbraco.providers, Version=1.0.6396.36630, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.6.4\lib\net45\umbraco.providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Web.PublishedContentModels, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Umbraco.Web.PublishedContentModels.dll</HintPath>
     </Reference>
     <Reference Include="Umbraco.Web.UI, Version=1.0.6396.36637, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.6.4\lib\net45\Umbraco.Web.UI.dll</HintPath>
@@ -693,7 +698,6 @@
     <Compile Include="Models\ComponentModels\MediaListItem.cs" />
     <Compile Include="Models\ComponentModels\MediaViewModel.cs" />
     <Compile Include="Models\ComponentModels\NewsletterViewModel.cs" />
-    <Compile Include="Models\ComponentModels\PageHeaderViewModel.cs" />
     <Compile Include="Models\ComponentModels\SoMeShareViewModel.cs" />
     <Compile Include="Models\ComponentModels\SoMeViewModel.cs" />
     <Compile Include="Models\InfiniteListModel.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 
-namespace McCode.Web.Models.ComponentModels
+namespace Datagraf.Web.Models.ComponentModels
 {
     public class LightboxImageViewModel
     {

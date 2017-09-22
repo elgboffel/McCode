@@ -6,36 +6,15 @@ namespace McCode.Web.Models.ComponentModels
     public class MediaViewModel
     {
         public IPublishedContent Image { get; set; }
-
+        /// <summary>
+        /// Non dynamic width, overwrites grid sizes
+        /// </summary>
         public int TypedWidth { get; set; }
-
-        /// <summary>
-        /// Typed Width for Medium Desktop
-        /// </summary>
-        public int TypedWidthMD { get; set; }
-
-        /// <summary>
-        /// Typed Width for Small Desktop
-        /// </summary>
-        public int TypedWidthSM { get; set; }
-        /// <summary>
-        /// Typed Width tablet
-        /// </summary>
-        public int TypedWidthXS { get; set; }
-        /// <summary>
-        /// Typed Width for Mobile
-        /// </summary>
-        public int TypedWidthXXS { get; set; }
 
         public int GridSize { get; set; }
 
         /// <summary>
-        /// Grid size for Medium Desktop
-        /// </summary>
-        public int GridSizeMD { get; set; }
-
-        /// <summary>
-        /// Grid size for Small Desktop
+        /// For Small Desktop
         /// </summary>
         public int GridSizeSM { get; set; }
         /// <summary>
@@ -43,31 +22,11 @@ namespace McCode.Web.Models.ComponentModels
         /// </summary>
         public int GridSizeXS { get; set; }
         /// <summary>
-        /// Grid size for Mobile
+        /// For Mobile
         /// </summary>
         public int GridSizeXXS { get; set; }
 
         public int ImageHeight { get; set; }
-
-        /// <summary>
-        /// Image height for Medium Desktop
-        /// </summary>
-        public int ImageHeightMD { get; set; }
-
-        /// <summary>
-        /// Image height for Small Desktop
-        /// </summary>
-        public int ImageHeightSM { get; set; }
-
-        /// <summary>
-        /// Image height for Tablet
-        /// </summary>
-        public int ImageHeightXS { get; set; }
-
-        /// <summary>
-        /// Image height for Mobile
-        /// </summary>
-        public int ImageHeightXXS { get; set; }
 
         public int ImageHeightMobile { get; set; }
 

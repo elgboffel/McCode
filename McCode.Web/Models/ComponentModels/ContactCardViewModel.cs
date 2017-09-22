@@ -3,18 +3,8 @@ using Umbraco.Core.Models;
 
 namespace McCode.Web.Models.ComponentModels
 {
-    public class ContactCardViewModel
+    public class ContactCardViewModel : MediaViewModel
     {
-        public IPublishedContent Image { get; set; }
-
-        public int TypedWidth { get; set; }
-
-        public int GridSize { get; set; }
-
-        public int ImageHeight { get; set; }
-
-        public int ImageHeightMobile { get; set; }
-
         public string Name { get; set; }
 
         public string Title { get; set; }

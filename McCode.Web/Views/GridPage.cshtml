@@ -1,7 +1,4 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<GridPage>
-@using McCode.Web.Models.ModelsBuilder
-@using McCode.Web.Models.PartialModels
-@using McCode.Web.Models.ComponentModels
 
 
 
@@ -21,7 +18,6 @@
                     GridSize = 12,
                     ImageHeight = 500,
                     ImageHeightMobile = 350,
-                    Headline = page.ImageText
                 }, 3600, cacheByPage: true)
             </div>
         </div>
@@ -40,15 +36,9 @@
             <div class="col-xs-12">
                 @Html.CachedPartial(
                 "Components/_PageHeader",
-                new PageHeaderViewModel
-                {
-                    ArticleType = page.ArticleType,
-                    Trompet = page.Trompet,
-                    Date = page.Date,
-                    Headline = page.Headline,
-                    Lead = page.Lead,
-                    Author = page.Author,
-                }, 3600, cacheByPage: true)
+                new PageHeaderViewModel(Model.Content),
+                3600,
+                cacheByPage: true)
             </div>
         </div>
         <div class="row">
@@ -56,13 +46,7 @@
                 @Html.GetGridHtml(Model.Content, "layout")
             </div>
             <div class="col-xs-12 col-sm-4">
-                @Html.Partial(
-               "Shared/_Sidebar",
-               new SidebarViewModel
-               {
-                   Headline = page.SidebarHeadline,
-                   Layout = page.SidebarLayout
-               })
+
             </div>
         </div>
     </div>

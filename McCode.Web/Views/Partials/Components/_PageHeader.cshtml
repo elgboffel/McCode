@@ -1,19 +1,15 @@
 ﻿@inherits UmbracoViewPage<PageHeaderViewModel>
-@using Danva.Web.Models.ComponentModels
 @using Umbraco.Web.Mvc
-@{
-    var altHeading = Model.AltHeading ? "page-header__title--thin" : "";
-}
 
-<div class="page-header">
 
+<div class="page-header @(Umbraco.If(Model.DocumentType != "productPage", "page-header--alt"))">
     @if (!string.IsNullOrEmpty(Model.Trompet))
     {
-        <small class="trumpet">@Model.Trompet</small>
+        <small class="trompet">@Model.Trompet</small>
     }
     @if (!string.IsNullOrEmpty(Model.Headline))
     {
-        <h1 class="@altHeading">@Model.Headline</h1>
+        <h1>@Html.Raw(Model.Headline)</h1>
     }
     @if (!string.IsNullOrEmpty(Model.Lead))
     {
@@ -27,5 +23,5 @@
     {
         <small class="byline">@Html.Raw(Model.Author)</small>
     }
-    <div class="page-header-spacer"></div>
+    <div class="page-header__spacer"></div>
 </div>

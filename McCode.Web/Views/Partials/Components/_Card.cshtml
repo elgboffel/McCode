@@ -1,141 +1,62 @@
 ﻿@inherits UmbracoViewPage<CardViewModel>
-@using Danva.Web.Models.ComponentModels
-@{
-    var fullWidth = Model.Image != null ? null : "style=width:100%";
-    var children = Model.Children;
-}
-<div class="card">
-    @if(!string.IsNullOrEmpty(Model.Url) && !children.Any())
+
+<div class="card @Umbraco.If(Model.BlueCardType, "card--blue")">
+    @if(!string.IsNullOrEmpty(Model.Url))
     {
         @:<a href="@Model.Url">
     }
-    @if(!string.IsNullOrEmpty(Model.Url) && children.Any())
+    @if (!string.IsNullOrEmpty(Model.Svg))
     {
-        @:<a href="@Model.Url">
+        <div class="card__svg">
+            @Html.Raw(Model.Svg)
+        </div>
     }
     @if (Model.Image != null)
     {
-        <div class="card-image">
+        <div class="card__image">
             @Html.Partial(
            "Components/_Media",
            new MediaViewModel
            {
                Image = Model.Image,
                TypedWidth = Model.TypedWidth,
-               TypedWidthMD = Model.TypedWidthMD,
-               TypedWidthSM = Model.TypedWidthSM,
-               TypedWidthXS = Model.TypedWidthXS,
-               TypedWidthXXS = Model.TypedWidthXXS,
                GridSize = Model.GridSize,
-               GridSizeMD = Model.GridSizeMD,
                GridSizeSM = Model.GridSizeSM,
                GridSizeXS = Model.GridSizeXS,
                GridSizeXXS = Model.GridSizeXXS,
                ImageHeight = Model.ImageHeight,
-               ImageHeightMD = Model.ImageHeightMD,
-               ImageHeightSM = Model.ImageHeightSM,
-               ImageHeightXS = Model.ImageHeightXS,
-               ImageHeightXXS = Model.ImageHeightXXS,
                ImageHeightMobile = Model.MobileImageHeight
            })
         </div>
     }
-@if (!string.IsNullOrEmpty(Model.Url) && children.Any())
-{
-    @:</a>
-}
 
-@if (!string.IsNullOrEmpty(Model.Headline))
-{
-    <div class="card-content @Umbraco.If(Model.Image == null, "no-image")" @fullWidth>
-        <div class="card-info">
-            @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && !Model.AltDatePosition)
-            {
-                <time>@Model.Date </time>
-            }
-            @if (Model.PrimaryTag != null && !Model.ShowLargePrimaryTag)
-            {
-                <span>| @Model.PrimaryTag.Name</span>
-            }
+    @if(!string.IsNullOrEmpty(Model.Headline))
+    {
+        <div class="card__content">
+            <div class="card__inner">
+                @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1)
+                {
+                    <time>@Model.Date </time>
+                }
+                @if(!string.IsNullOrEmpty(Model.Headline))
+                {
+                    <h4 class="card__title">@Html.Raw(Model.Headline)</h4>
+                }
+                @if (!string.IsNullOrEmpty(Model.Lead))
+                {
+                    <p class="card__lead">@Model.Lead</p>
+                }
+                @if (Model.Tag != null)
+                {
+                    <div class="card__tag">@Model.Tag.Name</div>
+                }
+                <div class="card__spacer"></div>
+            </div>
         </div>
-        @if (!string.IsNullOrEmpty(Model.Trumpet))
-                {
-            <small class="trumpet">@Model.Trumpet</small>
-        }
-        @if (Model.Children.Any())
-                {
-            @renderSqueezeBox(Model.Children)
-        }
-        else
-        {
-            <h2>@Html.Raw(Model.Headline)</h2>
-        }
+    }
 
-        @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && Model.AltDatePosition)
-                {
-            <time><span>Dato: </span>@Model.Date </time>
-        }
-        @if (!string.IsNullOrEmpty(Model.Category))
-        {
-            <small class="category">@Model.Category</small>
-        }
-        @if (!string.IsNullOrEmpty(Model.Url) && children.Any())
-        {
-            @:<a href="@Model.Url">
-        }
-        <div class="card-content-inner">
-            @if (!string.IsNullOrEmpty(Model.Lead))
-                {
-                <p>@Umbraco.Truncate(Model.Lead, Model.Truncate)</p>
-            }
-            @if (Model.RTE != null)
-            {
-                <div class="card-text">
-                    @Model.RTE
-                </div>
-            }
-            @if (!string.IsNullOrEmpty(Model.EventPlace))
-            {
-                <div class="card-event-place">
-                    <div class="line-border-thin-skew-right"></div>
-                    <span>Placering: </span>@Model.EventPlace
-                </div>
-            }
-            @if (Model.PrimaryTag != null && Model.ShowLargePrimaryTag)
-                {
-                <div>
-                    <div class="primary-tag">@Model.PrimaryTag.Name</div>
-                </div>
-            }
-            <div class="card-spacer"></div>
-        </div>
-    @if (!string.IsNullOrEmpty(Model.Url) && children.Any())
+    @if(!string.IsNullOrEmpty(Model.Url))
     {
         @:</a>
     }
-    </div>
-}
-
-@if (!string.IsNullOrEmpty(Model.Url) && !children.Any())
-{
-    @:</a>
-
-}
 </div>
-<div class="card-bottom-spacer"></div>
-
-@helper renderSqueezeBox(IEnumerable<IPublishedContent> children) {
-    <div class="squeeze-box">
-        <h2 class="squeeze-box__expander" data-id="@("squeeze-box" + Model.Id)" data-url="@Model.Url"><span class="arrow"></span>@Html.Raw(Model.Headline)</h2>
-        <div id="@("squeeze-box" + Model.Id)" class="squeeze-box__content">
-            <div class="line-border-xs-skew-right"></div>
-            <ul class="list-unstyled">
-                @foreach (var child in children)
-                {
-                    <li class="squeeze-box__item" data-url="@child.Url"><a href="@child.Url">@child.Name</a></li>
-                }
-            </ul>
-            <div class="line-border-thin-skew-right"></div>
-        </div>
-    </div>
-}

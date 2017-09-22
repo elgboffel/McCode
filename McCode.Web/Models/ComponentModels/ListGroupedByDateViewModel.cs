@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Umbraco.Core.Models;
 
-namespace Danva.Web.Models.ComponentModels
+namespace McCode.Web.Models.ComponentModels
 {
     public class ListGroupedByDateViewModel
     {

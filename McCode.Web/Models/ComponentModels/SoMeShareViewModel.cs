@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
 
-namespace Danva.Web.Models.ComponentModels
+namespace McCode.Web.Models.ComponentModels
 {
     public class SoMeShareViewModel
     {

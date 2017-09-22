@@ -9,9 +9,9 @@ var Application;
             DataAccessService.prototype.getProductRessource = function () {
                 return this.$resource('api/products/:productId');
             };
-            DataAccessService.$inject = ['$http'];
             return DataAccessService;
         }());
+        DataAccessService.$inject = ['$http'];
         Common.DataAccessService = DataAccessService;
         Common.appService.service('dataAccessService', DataAccessService);
     })(Common = Application.Common || (Application.Common = {}));

@@ -5,16 +5,9 @@ using Umbraco.Web;
 
 namespace McCode.Web.Models.ComponentModels
 {
-    public class CarouselViewModel
+    public class CarouselViewModel : MediaViewModel
     {
         public IEnumerable<IPublishedContent> Carousel { get; set; }
 
-        public int GridSize { get; set; }
-
-        public int ImageHeight { get; set; }
-
-        public int ImageHeightMobile { get; set; }
-
-        public int GridTotalPadding { get; set; }
     }
 }

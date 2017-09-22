@@ -18,9 +18,9 @@ var Application;
             ProductListCtrl.prototype.toggleImage = function () {
                 this.showImage = !this.showImage;
             };
-            ProductListCtrl.$inject = ['dataAccessService'];
             return ProductListCtrl;
         }());
+        ProductListCtrl.$inject = ['dataAccessService'];
         Application.app.controller('productListCtrl', ProductListCtrl);
     })(ProductList = Application.ProductList || (Application.ProductList = {}));
 })(Application || (Application = {}));

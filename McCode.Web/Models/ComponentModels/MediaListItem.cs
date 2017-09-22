@@ -2,7 +2,7 @@
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
-namespace Danva.Web.Models.ComponentModels
+namespace McCode.Web.Models.ComponentModels
 {
     public class MediaListItem
     {
