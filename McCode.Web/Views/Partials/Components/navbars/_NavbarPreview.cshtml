@@ -1,6 +1,4 @@
 ﻿@inherits UmbracoViewPage
-@using Umbraco.Web.PublishedContentModels
-@using McCode.Web.Models.ComponentModels
 
 @{
     Html.RequiresJs("~/scripts/app/components/navbar-preview.js", 1, 3, new { @defer = "" });
@@ -37,25 +35,30 @@
     </ul>
 </nav>
 
-@helper RenderChild(IPublishedContent child) {
+@helper RenderChild(IPublishedContent page) {
     
     <li>
-        <a href="@child.Url">@child.Name</a>
+        <a href="@page.Url">@page.Name</a>
         <div class="navbar-preview__preview">
             <div class="navbar-preview__image">
                 @Html.Partial(
                 "Components/_Media",
                 new MediaViewModel()
                 {
-                    Image = child.GetPropertyValue<IPublishedContent>("heroImage", null),
+                    Image = page.GetPropertyValue<IPublishedContent>("heroImage", null),
                     TypedWidth = 225,
+                    MediaHeights = new MediaHeights
+                    {
+                        HeightSm = 175
+                    }
+
                 })
             </div>
             <div class="navbar-preview__content">
-                <div class="navbar-preview__heading">@(child.GetPropertyValue<string>("headline", ""))</div>
-                @if (child.HasValue("lead"))
+                <div class="navbar-preview__heading">@(page.GetPropertyValue<string>("headline", ""))</div>
+                @if (page.HasValue("lead"))
                 {
-                    <div class="navbar-preview__lead">@(child.GetPropertyValue<string>("lead"))</div>
+                    <div class="navbar-preview__lead">@(page.GetPropertyValue<string>("lead"))</div>
                 }
             </div>
         </div>

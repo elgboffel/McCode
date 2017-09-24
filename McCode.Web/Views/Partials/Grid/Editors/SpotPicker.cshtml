@@ -1,0 +1,24 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+
+@foreach (var item in Model.Items)
+{
+        @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+var picker = content.GetValue<IEnumerable<IPublishedContent>>("contentPicker");
+
+if (picker != null)
+{
+    { Html.RenderPartial(
+        "Components/_Card",
+        new CardViewModel(picker.FirstOrDefault(), showInfo: false)
+        {
+            GridMd = 4,
+            HeightMd = 580,
+            ClassModifier = "card--spot"
+        }); }
+}
+}

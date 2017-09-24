@@ -1,6 +1,6 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
-@using Danva.Web.Models.ComponentModels
+@using AnneVibekeRejser.Web.Models.ComponentModels
 
 @foreach (var item in Model.Items)
 {
@@ -10,15 +10,14 @@
 @helper renderCarousel(LeBlenderValue content)
 {
     var carousel = content.GetValue<IEnumerable<IPublishedContent>>("carousel");
-    <div class="grid-factbox">
+
         @Html.Partial(
         "Components/_CarouselWithText",
         new CarouselViewModel
         {
             Carousel = carousel,
-            GridSize = 6,
-            ImageHeight = 400,
-            ImageHeightMobile = 250
+            GridMd = 9,
+            HeightSm = 590,
+            HeightXs = 450
         })
-    </div>
 }

@@ -1,0 +1,67 @@
+﻿@inherits UmbracoViewPage<MapViewModel>
+@using Umbraco.Web.PropertyValueConverters.Leaflet
+@using Newtonsoft.Json;
+
+
+@{
+    //Remember to get a new Google Map API key on isupport account developers.google.com/maps/documentation/javascript/get-api-key
+    // Sample developers.google.com/maps/documentation/javascript/examples/maptype-styled-simple
+    Html.RequiresJs("https://maps.googleapis.com/maps/api/js?key=keyHere", 1, 2, new { @defer = string.Empty });
+    Html.RequiresJs("~/scripts/app/google-map.js", 2, 2, new { @defer = string.Empty });
+
+    var mapList = Model.MapList;
+    var map = Model.Map;
+
+    if (mapList != null && mapList.Any())
+    {
+        @renderMapList(mapList)
+    } else if (map != null)
+    {
+        @renderMap(map)
+    }
+}
+
+@helper renderMap(LeafletMapModel map)
+{
+var latLng = map.LatLng.AsEnumerableOfOne();
+var zoom = map.Zoom;
+    <div class="google-map"
+         data-zoom="@zoom"
+         data-markers="@JsonConvert.SerializeObject(latLng)">
+        @if (!string.IsNullOrEmpty(Model.Heading))
+        {
+            <h3 class="google-map__heading">@Model.Heading</h3>
+        }
+        <div class="google-map__canvas" style="height: @(Model.CanvasHeight + "px")">
+            Google Map...
+        </div>
+    </div>
+}
+
+@helper renderMapList(IEnumerable<IPublishedContent> mapList)
+{
+    var latLng = mapList
+        .Select(x => x.GetPropertyValue<LeafletMapModel>("mapLocation").LatLng);
+
+    var headings = mapList
+        .Select(x =>
+            x.GetPropertyValue<string>("teaserHeading",
+            x.GetPropertyValue<string>("heading",
+            x.Name)));
+
+    var urls = mapList.Select(x => x.Url);
+
+    <div class="google-map"
+         data-zoom=""
+         data-markers="@JsonConvert.SerializeObject(latLng)"
+         data-messages="@JsonConvert.SerializeObject(headings)"
+         data-urls="@JsonConvert.SerializeObject(urls)">
+        @if (!string.IsNullOrEmpty(Model.Heading))
+        {
+            <h3 class="google-map__heading">@Model.Heading</h3>
+        }
+        <div class="google-map__canvas" style="height: @(Model.CanvasHeight + "px")">
+            Google Map...
+        </div>
+    </div>
+}

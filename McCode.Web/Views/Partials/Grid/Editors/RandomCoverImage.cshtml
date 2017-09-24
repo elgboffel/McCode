@@ -1,0 +1,50 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Datagraf.Web.Models.ComponentModels
+@using Our.Umbraco.LinksPicker.Models
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+var image = content.GetValue<IEnumerable<IPublishedContent>>("images");
+if (image != null && image.Any())
+{
+    var text = content.GetValue<string>("text");
+    var link = content.GetValue<IEnumerable<LinksPickerItem>>("link");
+    var randomImage = image.RandomOrder().FirstOrDefault();
+        <div class="hero-cover-image margin-bt65" style="background: url(@(randomImage.GetCropUrl())) no-repeat center center">
+            @Html.Partial("Components/_EasterEgg", randomImage)
+            @if (!string.IsNullOrEmpty(text))
+            {
+                <div class="container hidden-xs">
+                    <div class="badge">
+                        @if(link.Any() && link != null){
+                            var li = link.FirstOrDefault();
+                            @:<a href="@li.Url" target="@li.Target" class="badge__link">
+                        }
+                        <div class="badge__text">
+                            @Html.Raw(Umbraco.ReplaceLineBreaksForHtml(text))
+                        </div>
+                        <svg width="100%" height="100%" viewBox="0 0 20 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-173" y="-1390" width="1200" height="2706" style="fill:transparent;" /><g><clipPath id="_clip1"><rect x="0" y="0" width="20" height="23.48" /></clipPath><g clip-path="url(#_clip1)"><path d="M9.798,23.469l0,0.003c2.805,-0.679 5.277,-2.494 7.077,-4.667c1.95,-2.356 3.125,-5.424 3.125,-8.841c0,-2.792 -1.105,-5.284 -2.894,-7.075c-1.789,-1.793 -4.261,-2.889 -6.99,-2.889c-2.729,0 -5.258,1.125 -7.105,2.935c-1.846,1.806 -3.011,4.299 -3.011,7.031c0,2.905 0.987,5.39 2.718,7.122c1.733,1.732 4.209,2.711 7.192,2.604c0.064,-0.001 0.119,-0.003 0.171,-0.005c0.006,-0.001 0.012,-0.002 0.019,-0.002c0.138,0 0.248,0.113 0.248,0.252c0,0.073 -0.086,0.36 -0.186,0.612l-0.34,0.973l-0.469,1.455l0.002,0c-0.012,0.038 -0.021,0.079 -0.021,0.122c0,0.21 0.169,0.381 0.377,0.381c0.03,0 0.059,-0.005 0.087,-0.011" style="fill-rule:nonzero;" /></g></g></svg>
+                        @if(link.Any()){
+                            @:</a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 class="visible-xs text-center margin-bt70">
+                        @Html.Raw(Umbraco.ReplaceLineBreaksForHtml(text))
+                    </h1>
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -1,6 +1,6 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
-@using Danva.Web.Models.ComponentModels
+@using Umbraco.Web.PropertyValueConverters.Leaflet
 
 @foreach (var item in Model.Items)
 {
@@ -9,21 +9,33 @@
 
 @helper renderContent(LeBlenderValue content)
 {
-    var gridPosition = content.GetValue<string>("factboxPosition");
-    var position = !string.IsNullOrEmpty(gridPosition) ? gridPosition : "139";
+    var factboxPosition = content.GetValue("factboxPosition");
+    var heading = content.GetValue("heading");
+    var position = !string.IsNullOrEmpty(factboxPosition) ? factboxPosition : "69";
+    var map = content.GetValue<LeafletMapModel>("mapLocation");
 
-     <div class="factbox position-@position">
-        <div class="line-border-thick-skew-right"></div>
-         <div class="factbox-inner">
-             @if(content.HasProperty("headline"))
-             {
-                <h4 class="factbox-headline">@Html.Raw(content.GetValue("headline"))</h4>
-             }
-             @if(content.HasProperty("rte"))
-             {
-                  @Html.Raw(content.GetValue<string>("rte"))
-             }
-            <div class="factbox-spacer"></div>
-         </div>
+     <div class="factbox factbox--position-@(position)">
+         @if (map != null)
+         {
+             <div class="factbox__map">
+                @{ Html.RenderPartial(
+                    "Components/_Map", 
+                    new MapViewModel
+                    {
+                        Map = map,
+                        CanvasHeight = 165
+
+                    }); }
+             </div>
+         }
+        @if(!string.IsNullOrEmpty(heading))
+        {
+            <h5 class="factbox__heading">@Html.Raw(heading)</h5>
+        }
+        @if(content.HasProperty("rte"))
+        {
+            @Html.Raw(content.GetValue<string>("rte"))
+        }
+        <div class="factbox__spacer"></div>
      </div>
 }

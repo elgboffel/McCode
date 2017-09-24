@@ -1,0 +1,27 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Datagraf.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+var headline = content.GetValue<string>("headline");
+var lead = content.GetValue<string>("lead");
+    <div class="text-box text-box--blue">
+        <div class="text-box__inner">
+            @if (!string.IsNullOrEmpty(headline))
+            {
+                <h4>@Html.Raw(headline)</h4>
+            }
+            @if (!string.IsNullOrEmpty(lead))
+            {
+                <p>@Html.Raw(lead)</p>
+            }
+            <div class="text-box__spacer"></div>
+        </div>
+    </div>
+}

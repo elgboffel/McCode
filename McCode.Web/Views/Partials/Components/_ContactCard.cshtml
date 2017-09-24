@@ -2,20 +2,21 @@
 
 <div class="contact-card">
     <div class="contact-card__image">
-        @if(Model.Image != null)
-        {
+    @if (Model.Image != null || Model.EnableImageFallback)
+    {
+        <div class="card__image">
             @Html.Partial(
-                "Components/_Media",
-                new MediaViewModel
-                {
-                    Image = Model.Image,
-                    TypedWidth = Model.TypedWidth,
-                    ImageHeight = Model.ImageHeight,
-                    ImageHeightMobile = Model.ImageHeightMobile
-
-                }
-            )
-        }
+           "Components/_Media",
+           new MediaViewModel
+           {
+               Image = Model.Image,
+               TypedWidth = Model.TypedWidth,
+               GridSettings = Model.GridSettings,
+               MediaHeights = Model.MediaHeights,
+               EnableImageFallback = Model.EnableImageFallback
+           })
+        </div>
+    }
     </div>
     <div class="contact-card__content">
         <h5 class="contact-card__name">@Model.Name</h5>

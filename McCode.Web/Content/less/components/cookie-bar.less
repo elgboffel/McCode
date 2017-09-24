@@ -1,0 +1,21 @@
+﻿@import (reference) "../bootstrap/variables.less";
+@import (reference) "../../components/bootstrap/less/mixins.less";
+@import (reference) "../mixins.less";
+
+.cookie-consent-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid @brand-primary;
+    z-index: 999;
+    .cookie-consent {
+        background-color: #fff;
+        padding: 10px;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        color: @gray-base;
+        font-size: 12px;
+    }
+}

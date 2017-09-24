@@ -26,7 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,6 +37,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -412,27 +425,8 @@
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
     <Content Include="Content\components\angularjs\angular.js" />
-    <Content Include="Content\components\handlebars\handlebars.js" />
-    <Content Include="Content\components\owl-carousel2\dist\assets\owl.carousel.css" />
-    <Content Include="Content\components\owl-carousel2\dist\owl.carousel.js" />
-    <Content Include="Content\components\picturefill\dist\picturefill.js" />
-    <Content Include="Content\images\esper.jpg" />
-    <Content Include="Content\images\evil2_1600x1200.jpg" />
-    <Content Include="Content\images\Fentezi_25_119.jpg" />
-    <Content Include="Content\images\logo.png" />
-    <Content Include="Content\images\spectacles-snapchat.jpg" />
-    <Content Include="default.aspx" />
-    <Content Include="Global.asax" />
-    <Content Include="nuget.exe" />
-    <Content Include="packages.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\components\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\components\es6-shim\es6-shim.js" />
+    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\components\font-awesome\less\animated.less" />
     <Content Include="Content\components\font-awesome\less\bordered-pulled.less" />
     <Content Include="Content\components\font-awesome\less\core.less" />
@@ -447,32 +441,28 @@
     <Content Include="Content\components\font-awesome\less\screen-reader.less" />
     <Content Include="Content\components\font-awesome\less\stacked.less" />
     <Content Include="Content\components\font-awesome\less\variables.less" />
-    <Content Include="Content\components\font-awesome\scss\font-awesome.scss" />
-    <Content Include="Content\components\font-awesome\scss\_animated.scss" />
-    <Content Include="Content\components\font-awesome\scss\_bordered-pulled.scss" />
-    <Content Include="Content\components\font-awesome\scss\_core.scss" />
-    <Content Include="Content\components\font-awesome\scss\_fixed-width.scss" />
-    <Content Include="Content\components\font-awesome\scss\_icons.scss" />
-    <Content Include="Content\components\font-awesome\scss\_larger.scss" />
-    <Content Include="Content\components\font-awesome\scss\_list.scss" />
-    <Content Include="Content\components\font-awesome\scss\_mixins.scss" />
-    <Content Include="Content\components\font-awesome\scss\_path.scss" />
-    <Content Include="Content\components\font-awesome\scss\_rotated-flipped.scss" />
-    <Content Include="Content\components\font-awesome\scss\_screen-reader.scss" />
-    <Content Include="Content\components\font-awesome\scss\_stacked.scss" />
-    <Content Include="Content\components\font-awesome\scss\_variables.scss" />
-    <Content Include="Content\css\main.scss.map" />
-    <Content Include="Content\scss\box-btn.scss" />
-    <Content Include="Content\scss\component.scss" />
-    <Content Include="Content\scss\default.scss" />
-    <Content Include="Content\scss\main.scss" />
+    <Content Include="Content\components\handlebars\handlebars.js" />
+    <Content Include="Content\components\picturefill\dist\picturefill.js" />
+    <Content Include="Content\components\react\react-dom.js" />
+    <Content Include="Content\components\react\react.js" />
+    <Content Include="Content\images\esper.jpg" />
+    <Content Include="Content\images\evil2_1600x1200.jpg" />
+    <Content Include="Content\images\Fentezi_25_119.jpg" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\spectacles-snapchat.jpg" />
+    <Content Include="default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="nuget.exe" />
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="package.json" />
     <Content Include="robots.txt" />
+    <Content Include="scripts\training\react\react.basics.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\FrontPage.cshtml" />
-    <Content Include="Views\Styleguide.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
-    <Content Include="Content\scss\main-nav.scss" />
     <Content Include="Views\Partials\Modules\_PageHead.cshtml" />
     <Content Include="App_Data\Models\all.dll.path" />
     <Content Include="App_Data\Models\models.hash" />
@@ -486,37 +476,20 @@
     <Content Include="Config\ClientDependency.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\CourseList.cshtml" />
-    <Content Include="Views\CoursePage.cshtml" />
     <Content Include="Views\GridPage.cshtml" />
     <Content Include="Views\Landingpage.cshtml" />
-    <Content Include="Views\NewsList.cshtml" />
-    <Content Include="Views\NewsPage.cshtml" />
     <Content Include="Views\SearchPage.cshtml" />
     <Content Include="McCode.Web.wpp.targets" />
     <Content Include="Content\less\utility.less" />
     <Content Include="Content\less\main.less" />
-    <Content Include="Views\MacroPartials\Carousel.cshtml" />
-    <Content Include="Views\MacroPartials\Gallery.cshtml" />
     <Content Include="Views\MacroPartials\InsertHtml.cshtml" />
     <Content Include="Views\Partials\Components\_Breadcrumb.cshtml" />
     <Content Include="Views\Partials\Components\_Card.cshtml" />
-    <Content Include="Views\Partials\Components\_CarouselWithText.cshtml" />
     <Content Include="Views\Partials\Components\_ContactCard.cshtml" />
-    <Content Include="Views\Partials\Components\_FluidMedia.cshtml" />
     <Content Include="Views\Partials\Components\_Hero.cshtml" />
-    <Content Include="Views\Partials\Components\_LightboxImage.cshtml" />
     <Content Include="Views\Partials\Components\_List.cshtml" />
-    <Content Include="Views\Partials\Components\_ListGroupedByDate.cshtml" />
     <Content Include="Views\Partials\Components\_Media.cshtml" />
-    <Content Include="Views\Partials\Components\_Newsletter.cshtml" />
     <Content Include="Views\Partials\Components\_PageHeader.cshtml" />
-    <Content Include="Views\Partials\Shared\_Sidebar.cshtml" />
-    <Content Include="Views\Partials\_CookieConsent.cshtml" />
-    <Content Include="Views\Partials\_Favicons.cshtml" />
-    <Content Include="Views\Partials\_Footer.cshtml" />
-    <Content Include="Views\Partials\_OpenGraph.cshtml" />
-    <Content Include="Views\Partials\_SharePage.cshtml" />
     <Content Include="App_Plugins\LinksPicker\package.manifest" />
     <None Include="App_Plugins\LeBlender\Web.config" />
     <Content Include="App_Plugins\LeBlender\views_samples\Tabs.cshtml" />
@@ -529,6 +502,50 @@
     <Content Include="Views\Partials\Grid\Editors\Carousel.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Factbox.cshtml" />
     <Content Include="Views\Angular.cshtml" />
+    <Content Include="Views\ProductManagement.cshtml" />
+    <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
+    <Content Include="App_Plugins\NestedContent\package.manifest" />
+    <Content Include="Content\less\components\spot.less" />
+    <Content Include="Content\less\components\navbar.less" />
+    <Content Include="Content\less\components\breadcrumb.less" />
+    <Content Include="Content\less\components\navigation-preview.less" />
+    <Content Include="Content\less\components\expanding-card.less" />
+    <Content Include="Content\less\mixins.less" />
+    <Content Include="Content\less\components\prime-header.less" />
+    <Content Include="Content\less\components\css-slider.less" />
+    <Content Include="Media\Web.config" />
+    <Content Include="Config\umbracoSettings.config" />
+    <Content Include="Config\tinyMceConfig.config" />
+    <Content Include="Config\scripting.config" />
+    <Content Include="Config\metablogConfig.config" />
+    <Content Include="Config\log4net.config" />
+    <Content Include="Config\FileSystemProviders.config" />
+    <Content Include="Config\feedProxy.config" />
+    <Content Include="Config\ExamineSettings.config" />
+    <Content Include="Config\ExamineIndex.config" />
+    <Content Include="Config\EmbeddedMedia.config" />
+    <Content Include="Config\Dashboard.config" />
+    <Content Include="Config\BaseRestExtensions.config" />
+    <Content Include="Config\applications.config" />
+    <Content Include="Config\404handlers.config" />
+    <Content Include="Content\less\bootstrap\bootstrap.less" />
+    <Content Include="Content\less\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\less\bootstrap\forms.less" />
+    <Content Include="Content\less\bootstrap\grid\grid-framework.less" />
+    <Content Include="Content\less\bootstrap\grid\ms-grid.less" />
+    <Content Include="Content\less\bootstrap\scaffolding.less" />
+    <Content Include="Content\less\bootstrap\type.less" />
+    <Content Include="Content\less\bootstrap\variables.less" />
+    <Content Include="Content\less\bootstrap\grid\xl-grid.less" />
+    <Content Include="Content\less\bootstrap\grid\xxl-grid .less" />
+    <Content Include="Content\less\mixins\fluid-property.less" />
+    <Content Include="Content\less\mixins\hover.less" />
+    <Content Include="Content\less\shell.less" />
+    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\components\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\components\bootstrap\less\.csscomb.json" />
     <Content Include="Content\components\bootstrap\less\.csslintrc" />
     <Content Include="Content\components\bootstrap\less\alerts.less" />
@@ -602,41 +619,14 @@
     <Content Include="Content\components\bootstrap\less\utilities.less" />
     <Content Include="Content\components\bootstrap\less\variables.less" />
     <Content Include="Content\components\bootstrap\less\wells.less" />
-    <Content Include="Views\ProductManagement.cshtml" />
-    <Content Include="scripts\typings.json" />
-    <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
-    <Content Include="App_Plugins\NestedContent\package.manifest" />
-    <Content Include="Content\less\components\spot.less" />
-    <Content Include="Content\less\components\navbar.less" />
-    <Content Include="Content\less\type.less" />
-    <Content Include="Content\less\mixins\_fluid-font.less" />
-    <Content Include="Content\less\components\breadcrumb.less" />
-    <Content Include="Content\less\components\navigation-preview.less" />
-    <Content Include="Content\less\components\expanding-card.less" />
-    <Content Include="Content\less\mixins\_text-styles.less" />
-    <Content Include="Content\less\mixins\_text-bullet.less" />
-    <Content Include="Content\less\mixins.less" />
-    <Content Include="Content\less\components\prime-header.less" />
-    <Content Include="Content\less\components\css-slider.less" />
-    <Content Include="Media\Web.config" />
-    <Content Include="Config\umbracoSettings.config" />
-    <Content Include="Config\tinyMceConfig.config" />
-    <Content Include="Config\scripting.config" />
-    <Content Include="Config\metablogConfig.config" />
-    <Content Include="Config\log4net.config" />
-    <Content Include="Config\FileSystemProviders.config" />
-    <Content Include="Config\feedProxy.config" />
-    <Content Include="Config\ExamineSettings.config" />
-    <Content Include="Config\ExamineIndex.config" />
-    <Content Include="Config\EmbeddedMedia.config" />
-    <Content Include="Config\Dashboard.config" />
-    <Content Include="Config\BaseRestExtensions.config" />
-    <Content Include="Config\applications.config" />
-    <Content Include="Config\404handlers.config" />
+    <Content Include="Content\less\font-awesome.less" />
+    <Content Include="Content\less\bootstrap\bootstrap-shell.less" />
+    <Content Include="Content\less\mixins\text-bullet.less" />
+    <Content Include="Content\less\mixins\text-styles.less" />
+    <Content Include="Content\less\components\buttons.less" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
     <None Include="Properties\PublishProfiles\Staging.pubxml" />
     <Content Include="Views\Partials\Grid\Editors\Spot.cshtml" />
-    <Content Include="Views\Partials\Grid\FrontPage.cshtml" />
     <Content Include="Views\Playground.cshtml" />
     <Content Include="Views\PlaygroundPage.cshtml" />
     <Content Include="Views\Partials\Playground\_NavigationPreview.cshtml" />
@@ -652,8 +642,10 @@
     <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
-    <Content Include="Views\Partials\Components\_SoMe.cshtml" />
-    <Content Include="Views\Partials\Components\_SoMeShare.cshtml" />
+    <Content Include="Views\Partials\Components\_MediaList.cshtml" />
+    <Content Include="Views\Partials\Grid\_FrontPage.cshtml" />
+    <Content Include="Views\Partials\Grid\_GridPage.cshtml" />
+    <Content Include="Views\Partials\Training\React\ReactBasics.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -662,49 +654,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\components\font-awesome\css\font-awesome.css" />
-    <Content Include="Content\components\font-awesome\css\font-awesome.min.css" />
-    <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\components\font-awesome\HELP-US-OUT.txt" />
-    <Content Include="Content\css\bootstrap.css" />
-    <Content Include="Content\css\font-awesome.css" />
-    <Content Include="Content\css\main.css" />
     <Content Include="Gulpfile.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\InfiniteListController.cs" />
-    <Compile Include="EventHandlers\ExternalIndexerEventHandler.cs" />
-    <Compile Include="EventHandlers\ImageProcessorInterceptorEventHandler.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\ExamineExtensions.cs" />
-    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
-    <Compile Include="Extensions\ImageSizeCalcExtension.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TemplateUtillitiesExtensions.cs" />
-    <Compile Include="Extensions\UmbracoHelperExtensions.cs" />
-    <Compile Include="Models\ComponentModels\BreadcrumbViewModel.cs" />
-    <Compile Include="Models\ComponentModels\CardViewModel.cs" />
-    <Compile Include="Models\ComponentModels\CarouselViewModel.cs" />
-    <Compile Include="Models\ComponentModels\ContactCardViewModel.cs" />
-    <Compile Include="Models\ComponentModels\FluidMediaViewModel.cs" />
-    <Compile Include="Models\ComponentModels\HeroViewModel.cs" />
-    <Compile Include="Models\ComponentModels\LightboxImageViewModel.cs" />
-    <Compile Include="Models\ComponentModels\ListGroupedByDateViewModel.cs" />
-    <Compile Include="Models\ComponentModels\ListViewModel.cs" />
-    <Compile Include="Models\ComponentModels\MediaListItem.cs" />
-    <Compile Include="Models\ComponentModels\MediaViewModel.cs" />
-    <Compile Include="Models\ComponentModels\NewsletterViewModel.cs" />
-    <Compile Include="Models\ComponentModels\SoMeShareViewModel.cs" />
-    <Compile Include="Models\ComponentModels\SoMeViewModel.cs" />
-    <Compile Include="Models\InfiniteListModel.cs" />
-    <Compile Include="Models\PartialModels\SidebarViewModel.cs" />
-    <Compile Include="Models\PartialViewModels\ListViewModel.cs" />
-    <Compile Include="Models\PartialViewModels\PageHeadViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyValueConverters\LeafletMapPropertyValueConverter.cs" />
+    <Compile Include="ViewModels\Components\BreadcrumbViewModel.cs" />
+    <Compile Include="ViewModels\Components\BreakingViewModel.cs" />
+    <Compile Include="ViewModels\Components\CardViewModel.cs" />
+    <Compile Include="ViewModels\Components\CarouselCardsViewModel.cs" />
+    <Compile Include="ViewModels\Components\CarouselViewModel.cs" />
+    <Compile Include="ViewModels\Components\ContactCardViewModel.cs" />
+    <Compile Include="ViewModels\Components\HeroViewModel.cs" />
+    <Compile Include="ViewModels\Components\ListGroupedByDateViewModel.cs" />
+    <Compile Include="ViewModels\Components\MapViewModel.cs" />
+    <Compile Include="ViewModels\Components\MediaListViewModel.cs" />
+    <Compile Include="ViewModels\Components\MediaViewModel.cs" />
+    <Compile Include="ViewModels\Components\PageHeaderViewModel.cs" />
+    <Compile Include="ViewModels\Components\SoMeShareViewModel.cs" />
+    <Compile Include="ViewModels\Components\SoMeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -726,6 +697,7 @@
     <TypeScriptCompile Include="scripts\app\angular\w3.ctrl.ts" />
     <TypeScriptCompile Include="scripts\app\angular\app.ts" />
     <TypeScriptCompile Include="scripts\app\carousel.jquery.ts" />
+    <TypeScriptCompile Include="scripts\training\react\react.basics.tsx" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -738,9 +710,14 @@
     <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="scripts\typings\owlcarousel\index.d.ts" />
     <TypeScriptCompile Include="scripts\typings\handlebars\handlebars-1.0.0.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\react\react-dom.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\react\react.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\ModelsBuilder\" />
+    <Folder Include="Content\css\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\PartialModels\" />
+    <Folder Include="Views\Partials\Shared\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

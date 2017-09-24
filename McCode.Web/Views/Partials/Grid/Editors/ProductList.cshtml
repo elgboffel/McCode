@@ -1,0 +1,36 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Datagraf.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var products = content.GetValue<IEnumerable<IPublishedContent>>("contentPicker");
+    if (products.Any())
+    {
+
+         <div class="product-list">
+            @foreach (var product in products)
+            {
+                @renderProduct(product)
+            }
+        </div>
+    }
+}
+
+@helper renderProduct(IPublishedContent product)
+{
+    <a class="product-list__item" href="@product.Url">
+        @if (product.HasValue("heroSvg"))
+        {
+            <div class="product-list__icon">
+                @Html.Raw(product.GetPropertyValue<string>("heroSvg", ""))
+            </div>
+        }
+        <h5 class="product-list__title">@Html.Raw(product.GetPropertyValue<string>("headline", product.Name))</h5>
+    </a>
+}

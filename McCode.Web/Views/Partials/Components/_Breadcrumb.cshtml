@@ -1,12 +1,13 @@
 ﻿@inherits UmbracoViewPage<BreadcrumbViewModel>
-@using McCode.Web.Models.ComponentModels
 
 @{
     var startNode = Model.CurrentPage;
     var siteRoot = startNode.AncestorOrSelf(1);
 
     var crumbs = new List<IPublishedContent>();
-    crumbs.AddRange(startNode.AncestorsOrSelf().Where(p => p.Level > 1).OrderBy(p => p.Level));
+    crumbs.AddRange(startNode.AncestorsOrSelf()
+        .Where(x => x.Level > 1)
+        .OrderBy(x => x.Level));
 
     if (crumbs.Any())
     {
@@ -16,7 +17,7 @@
 
 @helper RenderBreadcrumbs(List<IPublishedContent> breadcrumbs, IPublishedContent startNode, IPublishedContent siteRoot)
 {
-    <ul class="breadcrumb">
+    <ul class="breadcrumb @(Model.ClassModifier)">
         <li>
             <a href="@siteRoot.Url">Hjem</a>
         </li>
@@ -26,7 +27,7 @@
             <li class="@(active ? "breadcrumb__active" : string.Empty)">
                 @if (active && Model.ShowCurrentPage != false)
                 {
-                    <span class="breadcrumb__truncate">@Html.Raw(crumb.Name)</span>
+                    @renderCurrentPage(crumb)
                 }
                 else
                 {
@@ -35,4 +36,29 @@
             </li>
         }
     </ul>
+}
+
+@helper renderCurrentPage(IPublishedContent crumb)
+{
+    var siblingPages = crumb
+        .Parent.Children()
+        .Where(x => x.Id != crumb.Id && x.IsVisible());
+
+    if (siblingPages.Any())
+    {
+        <div class="dropdown @(Model.DropdownClassModifier)">
+            <div type="button" class="dropdown__expander breadcrumb__truncate">@Html.Raw(crumb.Name)</div>
+            <ul class="dropdown__menu">
+                @foreach (var page in siblingPages)
+                {
+                    <li><a href="@page.Url">@page.Name</a></li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+            <span class="breadcrumb__truncate">@Html.Raw(crumb.Name)</span>
+
+    }
 }

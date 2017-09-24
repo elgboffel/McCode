@@ -1,7 +1,7 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
 @using Danva.Web.Models.ComponentModels
-
+@using Danva.Web.Models.ModelsBuilder
 @using Umbraco.Web
 
 @foreach (var item in Model.Items)
@@ -20,7 +20,7 @@ var rte = content.GetValue<IHtmlString>("content");
 var link = content.GetValue<IEnumerable<Our.Umbraco.LinksPicker.Models.LinksPickerItem>>("link");
 var renderedUrl = link.Any() ? link.FirstOrDefault().Url : "";
     <div class="spot flex">
-        @Html.Partial(
+        @Html.CachedPartial(
             "Components/_Card",
             new CardViewModel
             {
@@ -32,7 +32,9 @@ var renderedUrl = link.Any() ? link.FirstOrDefault().Url : "";
                 Headline = headline,
                 RTE = rte,
                 Url = renderedUrl
-            }
+            },
+            3600,
+            cacheByPage: true
         )
         <div class="line-border-thin-skew-right push-bottom"></div>
     </div>

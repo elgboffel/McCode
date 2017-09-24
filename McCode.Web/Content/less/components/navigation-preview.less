@@ -1,4 +1,5 @@
-﻿@import (reference) "../../components/bootstrap/less/variables.less";
+﻿@import (reference) "../bootstrap/variables.less";
+@import (reference) "../../components/bootstrap/less/mixins.less";
 @import (reference) "../mixins.less";
 
 @primary-col: @brand-primary;
@@ -6,10 +7,10 @@
 @accent-col: #999;
 
 .navbar-preview {
-    position:relative;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    .fluid-font(17, 480, 19, 1200);
+    .fluid-property(font-size, 17, 19);
     font-family: @font-family-sans-serif;
     font-weight: 400;
     padding: 35px 35px 0 35px;
@@ -17,14 +18,17 @@
     background-color: #fff;
     height: 63px;
     transition: height 200ms linear;
+    .fluid-property(margin-bottom, 25, 45);
+
     ul {
         list-style: none;
         padding: 0;
     }
 
     &__menu {
-        margin-bottom:0;
+        margin-bottom: 0;
         margin-right: 10vw;
+
         a {
             .text-content();
 
@@ -44,7 +48,8 @@
     }
 
     &__breadcrumb {
-        margin:0;
+        margin: 0;
+
         > li {
             display: inline-block;
 
@@ -54,7 +59,7 @@
                 color: @accent-col;
             }
 
-           > a {
+            > a {
                 .text-content();
 
                 &:hover, &:focus {
@@ -66,11 +71,12 @@
 
     &__dropdown {
         position: relative;
-        /*color: @accent-col;*/
+        color: @accent-col;
+
         ul {
             position: absolute;
             top: 35px;
-            left:-10px;
+            left: -10px;
             padding: 17px 10px;
             width: 100%;
             transition: left 300ms ease, top 300ms ease, opacity 400ms ease;
@@ -133,6 +139,7 @@
         min-width: 225px;
         .text-underline();
         color: #b1b1b1;
+
         &:hover, &:focus {
             .text-underline--hover();
 
@@ -143,7 +150,7 @@
             }
         }
 
-         li {
+        li {
             color: @font-color;
         }
 
@@ -156,7 +163,7 @@
 
         &--expanded {
             > ul {
-                left:0;
+                left: 0;
                 top: 20px;
                 opacity: 1;
                 visibility: visible;
@@ -190,7 +197,7 @@
     }
 
     &__heading {
-        .fluid-font(17, 480, 20, 1200);
+        .fluid-property(font-size, 17, 19);
     }
 
     &__lead {

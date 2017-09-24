@@ -1,4 +1,3 @@
-@import (reference) "variables.less";
 //
 // Typography
 // --------------------------------------------------
@@ -23,76 +22,51 @@ h1, h2, h3, h4, h5, h6,
 }
 
 h1, .h1,
-h2, .h2 {
-  margin-bottom: 22px;
+h2, .h2,
+h3, .h3 {
+  margin-top: @line-height-computed;
+  margin-bottom: (@line-height-computed / 2);
 
   small,
   .small {
     font-size: 65%;
   }
 }
-
-h3, .h3,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-    margin-bottom: 0;
+  margin-top: (@line-height-computed / 2);
+  margin-bottom: (@line-height-computed / 2);
 
-    small,
-    .small {
-        font-size: 75%;
-    }
+  small,
+  .small {
+    font-size: 75%;
+  }
 }
 
-h1, .h1 {
-    font-size: 32px;
-    font-weight: 300;
-}
-h2, .h2 {
-    font-size: 22px;
-
-    @media(min-width: @grid-float-breakpoint) {
-        font-size: 26px;
-    }
-}
-h3, .h3 {
-    font-size: 20px;
-
-}
-h4, .h4 { 
-    font-size: 18px; 
-
-}
-h5, .h5 { 
-    font-size: 16px; 
-
-}
-h6, .h6 { 
-    font-size: 14px; 
-
-}
-
-@media(min-width: @grid-float-breakpoint){
-
-}
+h1, .h1 { font-size: @font-size-h1; }
+h2, .h2 { font-size: @font-size-h2; }
+h3, .h3 { font-size: @font-size-h3; }
+h4, .h4 { font-size: @font-size-h4; }
+h5, .h5 { font-size: @font-size-h5; }
+h6, .h6 { font-size: @font-size-h6; }
 
 
 // Body text
 // -------------------------
 
-p, ol, ul {
-letter-spacing: 0.02em;
-  margin: 0 0 22px;
+p {
+  margin: 0 0 (@line-height-computed / 2);
 }
 
 .lead {
-  margin-bottom: 32px;
-  font-size: 22px;
+  margin-bottom: @line-height-computed;
+  font-size: floor((@font-size-base * 1.15));
   font-weight: 300;
-  line-height: 1.3;
-  letter-spacing: 0.02em;
+  line-height: 1.4;
+
   @media (min-width: @screen-sm-min) {
-    font-size: 24px;
+    font-size: (@font-size-base * 1.5);
   }
 }
 

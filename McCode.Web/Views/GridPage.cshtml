@@ -1,53 +1,75 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<GridPage>
-
-
+﻿@inherits UmbracoViewPage<IGenericPage>
 
 @{
-	Layout = "_Layout.cshtml";
-    var page = Model.Content;
+    Layout = "_Layout.cshtml";
+    var Model = Model;
 }
-<div class="grid-page">
+
+<div class="container container--no-padding">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.CachedPartial(
+                     "Components/_Hero",
+                     new HeroViewModel
+                     {
+                         Image = Model.HeroImage,
+                         Trumpet = Model.Trumpet,
+                         Heading = Model.Heading,
+                         GridSettings = new GridSettings
+                         {
+                             GridMd = 12,
+                         },
+                         MediaHeights = new MediaHeights
+                         {
+                             HeightSm = 715,
+                             HeightXs = 400
+                         }
+                     }, 3600, cacheByPage: true)
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 @Html.CachedPartial(
-                "Components/_Hero",
-                new HeroViewModel
-                {
-                    Image = page.HeroImage,
-                    GridSize = 12,
-                    ImageHeight = 500,
-                    ImageHeightMobile = 350,
-                }, 3600, cacheByPage: true)
+                  "Components/_Breadcrumb",
+                  new BreadcrumbViewModel
+                  {
+                      CurrentPage = Model,
+                      ShowCurrentPage = true,
+                      ClassModifier = "",
+                      DropdownClassModifier = ""
+                  }, 3600, cacheByPage: true)
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                @Html.CachedPartial(
-                "Components/_Breadcrumb",
-                new BreadcrumbViewModel
-                {
-                    CurrentPage = Model.Content,
-                    ShowCurrentPage = true
-                }, 3600, cacheByPage: true)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                @Html.CachedPartial(
-                "Components/_PageHeader",
-                new PageHeaderViewModel(Model.Content),
-                3600,
-                cacheByPage: true)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-8">
-                @Html.GetGridHtml(Model.Content, "layout")
-            </div>
-            <div class="col-xs-12 col-sm-4">
 
+    <div class="grid-layout">
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                @Html.CachedPartial(
+                  "Components/_PageHeader",
+                  new PageHeaderViewModel
+                  {
+                      Date = Model.Date,
+                      Lead = Model.Lead,
+                      Author = Model.Author,
+                  }, 3600, cacheByPage: true)
+                </div>
             </div>
-        </div>
+        @{Html.RenderPartial(
+            "Components/_SoMeShare",
+            new SoMeShareViewModel
+            {
+                CurrentPage = Model,
+                EnableFacebook = true,
+                EnableEmail = true,
+                EnableCopyUrl = true
+            }); }
+
+        @Html.GetGridHtml(Model, "layout", "_GridPage")
     </div>
 </div>
+
+@{ Html.RenderPartial("Shared/_RelatedPages", Model); }
+
+

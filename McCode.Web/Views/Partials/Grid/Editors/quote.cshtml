@@ -1,6 +1,6 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
-@using Danva.Web.Models.ComponentModels
+@using AnneVibekeRejser.Web.Models.ComponentModels
 
 @foreach (var item in Model.Items)
 {
@@ -9,18 +9,27 @@
 
 @helper renderContent(LeBlenderValue content)
 {
-    var gridPosition = content.GetValue<string>("gridPosition");
-    var position = !string.IsNullOrEmpty(gridPosition) ? gridPosition : "141";
+    var quotePosition = content.GetValue<string>("quotePosition");
+    var position = !string.IsNullOrEmpty(quotePosition) ? quotePosition : "67";
+    var byline = content.GetValue("byline");
 
-     <div class="quote position-@position">
-        <svg width="100%" height="100%" viewBox="0 0 32 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-192" y="-1507" width="1440" height="5704" style="fill:none;"/><path d="M13.356,0l-13.356,0l0,20l8.904,0l4.452,-20Zm18.632,0l-13.358,0l0,20l8.904,0l4.454,-20Z" style="fill:#9b9c83;fill-rule:nonzero;"/></svg>
+     <div class="quote quote--position-@(position)">
+         <div class="quote__icon">
+             <svg width="100%" height="100%" viewBox="0 0 23 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Export" x="-385" y="-211.5" width="1440" height="1609.5" style="fill:none;"/><clipPath id="_clip1"><rect id="Export1" x="-385" y="-211.5" width="1440" height="1609.5"/></clipPath><g clip-path="url(#_clip1)"><path id="quote" d="M10.2,12.56c0,1.48 -0.48,2.7 -1.44,3.66c-0.96,0.96 -2.18,1.44 -3.66,1.44c-1.44,0 -2.65,-0.45 -3.63,-1.35c-0.98,-0.9 -1.47,-2.15 -1.47,-3.75c0,-1.2 0.46,-2.56 1.38,-4.08l4.8,-7.98l5.1,0l-3.12,7.98c1.36,0.96 2.04,2.32 2.04,4.08Zm11.28,0c0,1.48 -0.48,2.7 -1.44,3.66c-0.96,0.96 -2.18,1.44 -3.66,1.44c-1.44,0 -2.65,-0.45 -3.63,-1.35c-0.98,-0.9 -1.47,-2.15 -1.47,-3.75c0,-1.2 0.46,-2.56 1.38,-4.08l4.8,-7.98l5.1,0l-3.12,7.98c1.36,0.96 2.04,2.32 2.04,4.08Z" style="fill:#cd5c00;fill-rule:nonzero;"/></g></svg>
+         </div>
         @if(content.HasProperty("quote"))
         {
-            <p class="quote-text">@Html.Raw(content.GetValue("quote"))</p>
+            <p class="quote__text">
+                @Html.Raw(content.GetValue("quote"))
+                 <span class="quote__icon-paragraph">
+                     <svg width="100%" height="100%" viewBox="0 0 23 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Export" x="-385" y="-211.5" width="1440" height="1609.5" style="fill:none;"/><clipPath id="_clip1"><rect id="Export1" x="-385" y="-211.5" width="1440" height="1609.5"/></clipPath><g clip-path="url(#_clip1)"><path id="quote" d="M10.2,12.56c0,1.48 -0.48,2.7 -1.44,3.66c-0.96,0.96 -2.18,1.44 -3.66,1.44c-1.44,0 -2.65,-0.45 -3.63,-1.35c-0.98,-0.9 -1.47,-2.15 -1.47,-3.75c0,-1.2 0.46,-2.56 1.38,-4.08l4.8,-7.98l5.1,0l-3.12,7.98c1.36,0.96 2.04,2.32 2.04,4.08Zm11.28,0c0,1.48 -0.48,2.7 -1.44,3.66c-0.96,0.96 -2.18,1.44 -3.66,1.44c-1.44,0 -2.65,-0.45 -3.63,-1.35c-0.98,-0.9 -1.47,-2.15 -1.47,-3.75c0,-1.2 0.46,-2.56 1.38,-4.08l4.8,-7.98l5.1,0l-3.12,7.98c1.36,0.96 2.04,2.32 2.04,4.08Z" style="fill:#cd5c00;fill-rule:nonzero;"/></g></svg>
+                 </span>
+            </p>
         }
-        @if (content.HasProperty("byline"))
+        @if (!string.IsNullOrEmpty(byline))
         {
-            <small class="quote-byline">@Html.Raw(content.GetValue<string>("byline"))</small>
+            <small class="quote__byline">@Html.Raw(content.GetValue<string>("byline"))</small>
         }
+         <div class="quote__spacer"></div>
      </div>
 }

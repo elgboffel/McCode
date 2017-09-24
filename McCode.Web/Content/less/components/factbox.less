@@ -1,0 +1,114 @@
+﻿@import (reference) "../bootstrap/variables.less";
+@import (reference) "../../components/bootstrap/less/mixins.less";
+@import (reference) "../mixins.less";
+@import (reference) "../utility.less";
+@import (reference) "../bootstrap/type.less";
+
+.factbox {
+    position: relative;
+    padding-top: 1px;
+    width: 100%;
+    font-size: 15px;
+    font-family: @font-family-sans-serif;
+    border-top: solid 10px @light-brown;
+    border-bottom: solid 1px @light-brown;
+    padding: 20px 25px 0 25px;
+    .line-base();
+
+
+
+    a {
+        transition: color 300ms ease;
+        .line-bottom-hover(@text-color, @alt-text-color);
+
+        &:hover {
+            color: @alt-text-color;
+        }
+
+        &:after {
+            margin-bottom: 3px;
+        }
+    }
+
+    p, ol, ul {
+        margin-bottom: 10px;
+    }
+
+    &__map {
+        margin-bottom: 20px;
+    }
+
+    &__heading {
+        margin-bottom: 15px;
+    }
+
+    &__spacer {
+        margin-top: 20px;
+    }
+
+    &--position-67 {
+        margin-left: 0;
+        float: left;
+        margin-right: 40px;
+
+        @media(min-width: @screen-md-min) {
+            width: 320px;
+            margin-left: -200px;
+        }
+    }
+
+    &--position-68 {
+        margin-left: 0;
+        float: left;
+        margin-right: 30px;
+        width: 100%;
+        margin-bottom: 20px;
+
+        @media(min-width: @screen-sm-min) {
+            width: 320px;
+            margin-bottom: 40px;
+        }
+
+        @media(min-width: @screen-md-min) {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        @media(min-width: @screen-lg-min) {
+            width: 320px;
+            margin-bottom: 40px;
+        }
+    }
+
+    &--position-69 {
+        margin-left: 30px;
+        float: right;
+        margin-right: 0px;
+
+        @media(min-width: @screen-md-min) {
+            width: 330px;
+            margin-right: -200px;
+        }
+    }
+
+    &--position-70 {
+        margin-left: 30px;
+        float: right;
+        margin-right: 0;
+
+        @media(min-width: @screen-sm-min) {
+            width: 320px;
+            margin-bottom: 40px;
+        }
+
+        @media(min-width: @screen-md-min) {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        @media(min-width: @screen-lg-min) {
+            width: 320px;
+            margin-bottom: 40px;
+        }
+    }
+}

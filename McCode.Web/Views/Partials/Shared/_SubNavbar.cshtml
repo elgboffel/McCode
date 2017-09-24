@@ -1,0 +1,41 @@
+﻿@inherits UmbracoViewPage
+
+@{
+    var children = Model.Children()
+        .Where(c => c.IsVisible());
+
+    var siblings = Model.Siblings()
+        .Where(c => c.IsVisible());
+
+    var LevelIsHigher = Model.Level > 2;
+}
+@if (children.Any())
+{
+    <div class="sub-navbar">
+        <ul>
+            @foreach (var child in children)
+            {
+                @renderChildren(child)
+            }
+        </ul>
+    </div>
+}
+else if (siblings.Any() && LevelIsHigher)
+{
+    <div class="sub-navbar">
+        <ul>
+            @foreach (var sibling in siblings)
+            {
+                @renderChildren(sibling)
+            }
+        </ul>
+    </div>
+
+}
+
+@helper renderChildren(IPublishedContent page)
+{
+
+var active = page.Equals(Model) ? "sub-navbar__link--active" : null;
+    <li class="sub-navbar__link @(active)"><a href="@page.Url">@page.Name</a></li>
+}

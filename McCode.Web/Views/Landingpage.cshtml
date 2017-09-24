@@ -1,5 +1,116 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<Landingpage>
-
+﻿@inherits UmbracoViewPage<IGenericLandingPage>
 @{
-	Layout = "_Layout.cshtml";
+    Layout = "_Layout.cshtml";
+
+    var latestPages = Model.Descendants<GridPage>()
+        .Where(x => x.IsVisible())
+        .OrderByDescending(x => x.GetPropertyValue("date", x.CreateDate))
+        .Take(8);
+
+    var isLandingPage = Model.DocumentTypeAlias == "landingpage";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.CachedPartial(
+             "Components/_Hero",
+             new HeroViewModel
+             {
+                 Image = Model.HeroImage,
+                 Trumpet = Model.Trumpet,
+                 Heading = Model.Heading,
+                 Lead = Model.Lead,
+                 ModifierClass = "",
+                 MediaHeights = new MediaHeights
+                 {
+                     HeightSm = 450,
+                     HeightXs = 350
+                 }
+             }, 3600, cacheByPage: true)
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.CachedPartial(
+         "Components/_Breadcrumb",
+         new BreadcrumbViewModel
+         {
+             CurrentPage = Model,
+             ShowCurrentPage = true,
+             ClassModifier = "",
+             DropdownClassModifier = ""
+         }, 3600, cacheByPage: true)
+        </div>
+    </div>
+
+
+    @* DIVERSE CONTENT *@
+    @switch (Model.DocumentTypeAlias)
+    {
+        case "landingpageTagFilter":
+            @renderLandingPageSearchByTag(); break;
+        default:
+            @renderLandingPage(); break;
+    }
+</div>
+
+@helper renderLandingPage()
+{
+    var children = Model.Children()
+        .Where(x => x.IsVisible());
+
+    if (children.Any())
+    {
+            {
+                Html.RenderPartial(
+                  "Components/_MediaList",
+                  new MediaListViewModel()
+                  {
+                      MediaList = children,
+                      ViewRenderMode = ViewRenderMode.EnableBootstrap,
+                      CardClassModifier = "",
+                      ShowLead = false,
+                      ShowImage = false,
+                      GridSettings = new GridSettings
+                      {
+                          GridXl = 2,
+                          GridLg = 3,
+                          GridMd = 4,
+                          GridSm = 4,
+                          GridMs = 6
+                      },
+                      MediaHeights = new MediaHeights
+                      {
+                          HeightSm = 420,
+                          HeightXs = 300,
+                      }
+                  });
+            }
+            <div class="spacer25"></div>
+    }
+}
+
+@helper renderLandingPageSearchByTag()
+{
+    @Html.Action(
+        "GetPage",
+        "MediaList",
+        new MediaListViewModel()
+        {
+            SearchType = SearchType.RelatedPagesByTags,
+            ViewRenderMode = ViewRenderMode.EnableBootstrap,
+            ItemsPerPage = 50,
+            GridSettings = new GridSettings
+            {
+                GridLg = 3,
+                GridMd = 4,
+                GridMs = 6
+            },
+            MediaHeights = new MediaHeights
+            {
+                HeightMd = 520
+            }
+        })
 }

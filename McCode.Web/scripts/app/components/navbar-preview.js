@@ -1,53 +1,43 @@
 var App;
 (function (App) {
     var NavbarPreview = (function () {
-        function NavbarPreview() {
-            this.openDropdown();
-            //this.replacePlaceholder();
+        function NavbarPreview(element) {
+            this.element = element;
+            this.openDropdown(element);
         }
-        NavbarPreview.prototype.openDropdown = function () {
+        NavbarPreview.prototype.openDropdown = function (element) {
             var _this = this;
-            var $element = $('.navbar-preview__expander');
-            $element.on('click', function () {
-                var $this = $(this);
-                $this.toggleClass('navbar-preview__expander--expanded');
-                _this.toggleNavbarHeight($('.navbar-preview'));
+            element.addEventListener('click', function () {
+                var navbarPreview = this.closest('.navbar-preview');
+                this.classList.toggle('navbar-preview__expander--expanded');
+                _this.toggleNavbarHeight(navbarPreview);
             });
         };
-        NavbarPreview.prototype.toggleNavbarHeight = function ($element) {
-            var $elementHeight = $element.outerHeight();
-            var $dropdownHeight = $element.find('ul').outerHeight();
-            var $preview = $element.find('.navbar-preview__preview').outerHeight();
-            if ($element.hasClass('js|open')) {
-                $element.css({ 'height': 63 });
-                $element.toggleClass('js|open');
+        NavbarPreview.prototype.toggleNavbarHeight = function (element) {
+            var preview = element.querySelector('.navbar-preview__preview');
+            var elementHeight = element.offsetHeight;
+            var dropdownHeight = element.querySelector('ul').offsetHeight;
+            if (element.classList.contains('js|open')) {
+                element.style.height = '63px';
+                element.classList.toggle('js|open');
                 setTimeout(function () {
-                    $('body').removeClass('overflow-hidden');
+                    document.body.classList.remove('overflow-hidden');
                 }, 225);
             }
             else {
-                $element.css({ 'height': $elementHeight + $dropdownHeight + $preview + 65 });
-                $element.toggleClass('js|open');
-                $('body').addClass('overflow-hidden');
+                element.style.height = (elementHeight + dropdownHeight + preview.offsetHeight + 65) + 'px';
+                element.classList.toggle('js|open');
+                document.body.classList.remove('overflow-hidden');
             }
-        };
-        NavbarPreview.prototype.replacePlaceholder = function () {
-            var $text = "";
-            $('.navbar-preview__expander').on('mouseover', function () {
-                var $this = $(this);
-                var $placeholder = $this.data().placeholder;
-                $text = $this.text();
-                $this.text($placeholder);
-            });
-            $('.navbar-preview__expander').on('mouseleave', function () {
-                $(this).text(this.$text);
-            });
         };
         return NavbarPreview;
     }());
     App.NavbarPreview = NavbarPreview;
 })(App || (App = {}));
-$(function () {
-    var init = new App.NavbarPreview();
-});
+(function () {
+    var elements = document.querySelectorAll('.navbar-preview__expander');
+    for (var i = 0; i < elements.length; i++) {
+        var init = new App.NavbarPreview(elements[i]);
+    }
+})();
 //# sourceMappingURL=navbar-preview.js.map

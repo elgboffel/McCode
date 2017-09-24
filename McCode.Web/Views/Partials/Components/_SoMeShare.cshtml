@@ -1,33 +1,32 @@
 ﻿@inherits UmbracoViewPage<SoMeShareViewModel>
 @using System.Collections.Specialized
-@using Datagraf.Web.Models.ComponentModels
 @using Umbraco.Web.Mvc
 
 @{
-    Html.RequiresJs("~/content/components/clipboard/dist/clipboard.min.js", 1, 2, new { @defer = "" })
+    Html.RequiresJs("~/content/components/clipboard/dist/clipboard.js", 1, 2, new { @defer = "" })
         .RequiresJs("~/scripts/app/clipboard.js", 1, 2, new { @defer = "" })
         .RequiresJs("~/scripts/app/so-me-share.js", 1, 2, new { @defer = "" });
 
 }
 
-<ul id="share-list" class="list-unstyled so-me so-me--share">
+<ul class="so-me-share">
     @if (Model.EnableFacebook)
     {
         var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
-        <li class="share-item facebook">
-            <a class="share-link"
+        <li class="so-me-share__item so-me-share__item--facebook">
+            <a class="so-me-share__link"
                href="https://www.facebook.com/sharer/sharer.php?u=@encodedUrl"
                title="@Umbraco.GetDictionaryValue("Share on Facebook", "Del på Facebook")"
                onclick="PopupCenter(this.href, this.title, 400, 300)">
-                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-213" y="-1390" width="1200" height="2706" style="fill:#fff;"/><g id="facebook"><path d="M15,30c-10.581,0 -14.672,-4.036 -15,-15c0.328,-10.964 4.419,-15 15,-15c10.582,0 14.673,4.036 15,15c-0.381,10.964 -4.418,15 -15,15Z" style="fill:#202d35;"/><path id="fa.-facebook.-f" d="M18.572,8.203l0,2.183l-1.298,0c-0.474,0 -0.794,0.099 -0.959,0.298c-0.165,0.198 -0.248,0.496 -0.248,0.892l0,1.563l2.422,0l-0.322,2.447l-2.1,0l0,6.275l-2.53,0l0,-6.275l-2.108,0l0,-2.447l2.108,0l0,-1.802c0,-1.025 0.287,-1.82 0.86,-2.385c0.573,-0.565 1.336,-0.848 2.29,-0.848c0.81,0 1.438,0.033 1.885,0.099Z" style="fill:#fff;"/></g></svg>
+                <div class="fa fa-facebook fa--border-circle"></div>
             </a>
         </li>
     }
     @if (Model.EnableTwitter)
     {
         var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
-        <li class="share-item twitter">
-            <a class="share-link"
+        <li class="so-me-share__item so-me-share__item--twitter">
+            <a class="so-me-share__link"
                href="https://twitter.com/home?status=@encodedUrl"
                title="@Umbraco.GetDictionaryValue("Share on Twitter", "Del på Twitter")"
                onclick="PopupCenter(this.href, this.title, 400, 300)">
@@ -38,8 +37,8 @@
     @if (Model.EnableGooglePlus)
     {
         var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
-        <li class="share-item google-plus">
-            <a class="share-link"
+        <li class="so-me-share__item so-me-share__item--google-plus">
+            <a class="so-me-share__link"
                href="https://plus.google.com/share?url=@encodedUrl"
                title="@Umbraco.GetDictionaryValue("Share on Google+", "Share on Google+")"
                onclick="PopupCenter(this.href, this.title, 400, 300)">
@@ -58,8 +57,8 @@
         //nvc.Add("summary", Model.CurrentPage.GetPropertyValue<string>("ogDescription", false, ""));
         nvc.Add("source", Model.CurrentPage.UrlAbsolute());
         var encodedUrl = HttpUtility.UrlEncode(nvc.ToString());
-        <li class="share-item linkedin">
-            <a class="share-link"
+        <li class="so-me-share__item so-me-share__item--linkedin">
+            <a class="so-me-share__link"
                href="https://www.linkedin.com/shareArticle?@nvc.ToString()"
                title="@Umbraco.GetDictionaryValue("Share on LinkedIn", "Share on LinkedIn")"
                onclick="PopupCenter(this.href, this.title, 400, 300)">
@@ -75,18 +74,18 @@
         //nvc.Add("bcc", Model.Content.UrlAbsolute());
         nvc.Add("subject", Model.CurrentPage.GetPropertyValue<string>("headline", Model.CurrentPage.Name));
         nvc.Add("body", Model.CurrentPage.UrlAbsolute().ToString());
-        <li class="share-item email">
-            <a class="share-link"
+        <li class="share-item so-me-share__item--email">
+            <a class="so-me-share__link"
                href="mailto:?@nvc.ToString()"
                title="@Umbraco.GetDictionaryValue("Share by Email", "Del via Email")">
-                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-313" y="-1390" width="1200" height="2706" style="fill:#fff;"/><g id="Mail"><path d="M15,30c-10.581,0 -14.672,-4.036 -15,-15c0.328,-10.964 4.419,-15 15,-15c10.582,0 14.673,4.036 15,15c-0.381,10.964 -4.418,15 -15,15Z" style="fill:#202d35;"/><path id="fa.-envelope" d="M22.143,12.99l0,6.329c0,0.351 -0.125,0.651 -0.374,0.901c-0.25,0.25 -0.551,0.375 -0.901,0.375l-11.735,0c-0.351,0 -0.651,-0.125 -0.901,-0.375c-0.25,-0.25 -0.374,-0.55 -0.374,-0.901l0,-6.329c0.233,0.26 0.502,0.491 0.805,0.693c1.924,1.308 3.244,2.224 3.962,2.75c0.303,0.224 0.548,0.398 0.737,0.523c0.189,0.125 0.44,0.252 0.753,0.382c0.314,0.13 0.606,0.196 0.877,0.196l0.016,0c0.271,0 0.564,-0.066 0.877,-0.196c0.314,-0.13 0.565,-0.257 0.754,-0.382c0.188,-0.125 0.434,-0.299 0.737,-0.523c0.903,-0.653 2.227,-1.57 3.97,-2.75c0.303,-0.207 0.569,-0.438 0.797,-0.693Zm0,-2.344c0,0.42 -0.13,0.821 -0.39,1.204c-0.261,0.382 -0.585,0.709 -0.973,0.98c-1.998,1.387 -3.242,2.251 -3.731,2.591c-0.053,0.037 -0.166,0.118 -0.339,0.243c-0.172,0.125 -0.316,0.226 -0.43,0.303c-0.114,0.077 -0.253,0.164 -0.415,0.259c-0.162,0.096 -0.315,0.168 -0.458,0.215c-0.144,0.048 -0.276,0.072 -0.399,0.072l-0.016,0c-0.122,0 -0.255,-0.024 -0.398,-0.072c-0.144,-0.047 -0.296,-0.119 -0.459,-0.215c-0.162,-0.095 -0.3,-0.182 -0.414,-0.259c-0.114,-0.077 -0.258,-0.178 -0.431,-0.303c-0.172,-0.125 -0.285,-0.206 -0.338,-0.243c-0.484,-0.34 -1.18,-0.825 -2.089,-1.455c-0.909,-0.63 -1.454,-1.008 -1.634,-1.136c-0.33,-0.223 -0.641,-0.53 -0.933,-0.921c-0.292,-0.39 -0.438,-0.753 -0.438,-1.088c0,-0.414 0.11,-0.76 0.33,-1.036c0.221,-0.277 0.536,-0.415 0.945,-0.415l11.735,0c0.345,0 0.644,0.125 0.897,0.375c0.252,0.25 0.378,0.55 0.378,0.901Z" style="fill:#fff;"/></g></svg>
+                <div class="fa fa-envelope-o fa--border-circle"></div>
             </a>
         </li>
     }
     @if (Model.EnablePrint)
     {
-        <li class="share-item print">
-            <a class="share-link"
+        <li class="so-me-share__item so-me-share__item--print">
+            <a class="so-me-share__link"
                href="#!"
                onclick="print()"
                title="@Umbraco.GetDictionaryValue("Share by Print", "Print and share")">
@@ -98,12 +97,12 @@
 
     @if (Model.EnableCopyUrl)
     {
-        <li class="share-item clipboard">
-            <a id="copy-link" class="share-link copy"
+        <li class="so-me-share__item so-me-share__item--clipboard clipboard">
+            <a class="so-me-share__link"
                data-clipboard-text="@Model.CurrentPage.UrlAbsolute()"
                onclick="alert('Du har nu kopieret linket: ' + window.location.href)"
                title="@Umbraco.GetDictionaryValue("Copy url", "Kopier url")">
-                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-363" y="-1390" width="1200" height="2706" style="fill:#fff;"/><g id="link"><path d="M15,30c-10.581,0 -14.672,-4.036 -15,-15c0.328,-10.964 4.419,-15 15,-15c10.582,0 14.673,4.036 15,15c-0.381,10.964 -4.418,15 -15,15Z" style="fill:#202d35;"/><path id="fa.-link" d="M21.011,18.344c0,-0.234 -0.081,-0.432 -0.245,-0.595l-1.82,-1.821c-0.164,-0.163 -0.362,-0.245 -0.596,-0.245c-0.245,0 -0.455,0.093 -0.63,0.28c0.018,0.017 0.073,0.071 0.166,0.162c0.094,0.09 0.157,0.153 0.189,0.188c0.032,0.035 0.075,0.091 0.131,0.166c0.055,0.076 0.093,0.151 0.114,0.224c0.02,0.073 0.03,0.153 0.03,0.24c0,0.234 -0.081,0.432 -0.245,0.596c-0.163,0.163 -0.362,0.245 -0.595,0.245c-0.088,0 -0.168,-0.011 -0.241,-0.031c-0.073,-0.02 -0.147,-0.058 -0.223,-0.114c-0.076,-0.055 -0.131,-0.099 -0.166,-0.131c-0.035,-0.032 -0.098,-0.095 -0.188,-0.188c-0.091,-0.094 -0.145,-0.149 -0.162,-0.167c-0.193,0.181 -0.289,0.394 -0.289,0.639c0,0.234 0.081,0.432 0.245,0.596l1.803,1.812c0.158,0.157 0.356,0.236 0.595,0.236c0.234,0 0.432,-0.076 0.596,-0.228l1.286,-1.278c0.164,-0.163 0.245,-0.359 0.245,-0.586Zm-6.153,-6.171c0,-0.234 -0.082,-0.432 -0.245,-0.596l-1.804,-1.812c-0.163,-0.163 -0.361,-0.245 -0.595,-0.245c-0.227,0 -0.426,0.079 -0.595,0.237l-1.287,1.278c-0.163,0.163 -0.245,0.359 -0.245,0.586c0,0.234 0.082,0.432 0.245,0.595l1.821,1.821c0.157,0.158 0.356,0.237 0.595,0.237c0.245,0 0.455,-0.091 0.63,-0.272c-0.017,-0.017 -0.073,-0.071 -0.166,-0.162c-0.093,-0.09 -0.156,-0.153 -0.188,-0.188c-0.032,-0.035 -0.076,-0.09 -0.131,-0.166c-0.056,-0.076 -0.094,-0.151 -0.114,-0.224c-0.021,-0.072 -0.031,-0.153 -0.031,-0.24c0,-0.234 0.082,-0.432 0.245,-0.595c0.164,-0.164 0.362,-0.246 0.595,-0.246c0.088,0 0.168,0.011 0.241,0.031c0.073,0.021 0.148,0.058 0.223,0.114c0.076,0.055 0.132,0.099 0.167,0.131c0.035,0.032 0.097,0.095 0.188,0.188c0.09,0.094 0.144,0.149 0.162,0.167c0.192,-0.181 0.289,-0.394 0.289,-0.639Zm7.834,6.171c0,0.7 -0.248,1.293 -0.744,1.777l-1.287,1.278c-0.484,0.484 -1.076,0.726 -1.777,0.726c-0.706,0 -1.301,-0.248 -1.785,-0.744l-1.804,-1.812c-0.484,-0.484 -0.726,-1.076 -0.726,-1.777c0,-0.717 0.257,-1.327 0.77,-1.829l-0.77,-0.77c-0.502,0.513 -1.109,0.77 -1.821,0.77c-0.7,0 -1.295,-0.245 -1.786,-0.735l-1.82,-1.821c-0.491,-0.49 -0.736,-1.086 -0.736,-1.786c0,-0.7 0.248,-1.292 0.744,-1.777l1.287,-1.278c0.485,-0.484 1.077,-0.726 1.777,-0.726c0.706,0 1.301,0.248 1.786,0.744l1.803,1.812c0.484,0.484 0.727,1.076 0.727,1.777c0,0.717 -0.257,1.327 -0.771,1.829l0.771,0.77c0.501,-0.513 1.108,-0.77 1.82,-0.77c0.701,0 1.296,0.245 1.786,0.735l1.821,1.821c0.49,0.49 0.735,1.086 0.735,1.786Z" style="fill:#fff;"/></g></svg>
+                <div class="fa fa-link fa--border-circle"></div>
             </a>
         </li>
     }

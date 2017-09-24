@@ -1,7 +1,7 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
 @using Danva.Web.Models.ComponentModels
-
+@using Danva.Web.Models.ModelsBuilder
 @using Umbraco.Web
 
 @foreach (var item in Model.Items)
@@ -29,10 +29,7 @@
             {
                 Image = hasImage,
                 GridSize = 12,
-                ImageHeight = 150,
-                ImageHeightSM = 250,
-                ImageHeightXS = 225,
-                ImageHeightXXS = 250
+                ImageHeight = 150
             },
             3600,
             cacheByPage: true

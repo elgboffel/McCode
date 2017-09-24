@@ -1,17 +1,14 @@
 {
-    "name": "default-package",
-    "version": "1.0.0",
-    "description": "standard setup for projects",
-    "main": "Gulpfile.js",
-    "author": "johnny kristensen",
-    "license": "ISC",
-    "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-autoprefixer": "^3.1.1",
-        "gulp-postcss": "^6.2.0",
-        "gulp-sourcemaps": "^1.6.0",
-        "gulp-watch": "^4.3.5",
-        "gulp-less": "^3.0.5",
-        "less-plugin-autoprefix": "^1.5.1"
-    }
+  "name": "package",
+  "version": "1.0.0",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-bower": "^0.0.10",
+    "gulp-clean-css": "^3.0.2",
+    "gulp-config": "^0.3.0",
+    "gulp-less": "^3.0.3",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.5",
+    "less-plugin-autoprefix": "^1.5.1"
+  }
 }

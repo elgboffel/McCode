@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<BreakingViewModel>
+@using Datagraf.Web.Models.ComponentModels
+@{
+    var currentTime = DateTime.Now;
+    var dateRange = currentTime > Model.StartDate && currentTime < Model.EndDate;
+    var cookieValue = Model.CookieValue;
+    var expireDate = Model.ExpireDate;
+    var requestCookie = Request.Cookies["breaking"];
+    var requestedCookieValue = requestCookie != null ? requestCookie.Value : "";
+}
+
+@if (Model.Content != null && dateRange && requestedCookieValue != cookieValue ){
+    <div class="breaking"
+         ng-controller="breakingCtrl"
+         ng-init="cookieValue = @cookieValue; expireDate = @expireDate">
+        <div class="breaking__content">
+            @Html.Raw(Model.Content)
+            <div class="breaking__spacer"></div>
+        </div>
+        <div class="breaking__utility">
+            @if (Model.Link != null)
+            {
+                var link = Model.Link.FirstOrDefault();
+
+                <a ng-click="setCookie()" id="breaking__link--track" class="btn btn--gray btn--align-bottom-left margin-bt30" href="@link.Url" target="@link.Target">@link.Name</a>
+            }
+        </div>
+        <div ng-click="setCookie()" class="breaking__close">
+            <svg width="100%" height="100%" viewBox="0 0 13 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-554" y="-1399" width="1200" height="2706" style="fill:none;"/><g><path d="M11.556,0.343l-10.606,10.607l0.707,0.707l10.606,-10.607l-0.707,-0.707Z" style="fill:#fff;"/><path d="M12.263,10.95l-10.606,-10.607l-0.707,0.707l10.606,10.607l0.707,-0.707Z" style="fill:#fff;"/></g></svg>
+        </div>
+    </div>
+}
+

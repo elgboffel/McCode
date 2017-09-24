@@ -1,6 +1,6 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
-@using Danva.Web.Models.ComponentModels
+@using Datagraf.Web.Models.ComponentModels
 
 @foreach (var item in Model.Items)
 {
@@ -11,14 +11,27 @@
 {
     var employeePicker = content.GetValue<IEnumerable<IPublishedContent>>("employeePicker");
     var employees = employeePicker != null ? employeePicker : Enumerable.Empty<IPublishedContent>();
-
+    var headline = content.GetValue<string>("headline");
     if (employees.Any())
     {
-        <div class="contact-list contact-list--grid">
-            @foreach (var employee in employees)
+        <div>
+
+            @if (!string.IsNullOrEmpty(headline))
             {
-                @renderContact(employee)
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4 class="margin-bt30">@headline</h4>
+                    </div>
+                </div>
             }
+            <div class="row contact-list contact-list--grid flex">
+                 @foreach (var employee in employees)
+                {
+                     <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 flex margin-bt20">
+                        @renderContact(employee)
+                     </div>
+                }
+            </div>
         </div>
     }
 }
@@ -32,7 +45,6 @@
             Image = employee.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
             TypedWidth = 250,
             ImageHeight = 250,
-            ImageHeightMobile = 400,
             Name = employee.Name,
             Title = employee.GetPropertyValue<string>("title", ""),
             WorkArea = employee.GetPropertyValue<string>("workArea", ""),

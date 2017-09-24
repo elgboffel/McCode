@@ -1,0 +1,42 @@
+﻿@import (reference) "variables.less";
+@import (reference) "../../components/bootstrap/less/mixins.less";
+@import (reference) "../mixins.less";
+
+.breadcrumb {
+    background-color: transparent;
+    padding:0;
+    margin: 0;
+    font-size: 13px;
+    color: @alt-text-color;
+    font-family: @font-family-sans-serif;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    a {
+        line-height: 1.5;
+        .line-bottom-hover--hidden(@alt-text-color);
+    }
+
+    > li {
+
+        + li:before {
+            content: "·";
+            padding: 0 2px 0 0px;
+            color: inherit;
+            font-weight: 700;
+        }
+    }
+
+    &__active {
+        font-weight: 700;
+    }
+}
+
+.breadcrumb--green {
+    color: @brand-alt;
+    line-height: 1.5;
+
+    a {
+        line-height: 1.5;
+        .line-bottom-hover--hidden(@brand-alt);
+    }
+}

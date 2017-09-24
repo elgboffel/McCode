@@ -1,15 +1,15 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+﻿@inherits UmbracoViewPage
 
 @{
     Layout = null;
-    Html.RequiresCss("https://fonts.googleapis.com/css?family=PT+Sans:400,700|PT+Serif:400,400i,700")
-        .RequiresCss("~/content/css/bootstrap.css")
-        .RequiresCss("~/content/css/main.css")
-        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = "" })
-        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js", 1, 1, new { @defer = "" })
-        .RequiresJs("~/Content/components/picturefill/dist/picturefill.min.js", 1, 2, new { @defer = "" });
+    Html
+        //.RequiresJs("~/Content/components/es6-shim/es6-shim.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/Content/components/picturefill/dist/picturefill.js", 1, 2, new { @defer = string.Empty })
+        .RequiresCss("https://fonts.googleapis.com/css?family=Montserrat:400,700|Rokkitt:400,700,900", 1, 2, new { @defer = string.Empty })
+        .RequiresCss("~/content/css/shell.css", 1, 1)
+        .RequiresCss("~/content/css/main.css", 1, 2, new { @defer = string.Empty });
 
-    var website = Model.Content.AncestorOrSelf<Website>();
+    var website = Model.AncestorOrSelf<Website>();
 }
 <!DOCTYPE html>
 <!--
@@ -19,24 +19,30 @@
   www.McCode.dk
   Tlf. +45 24 86 40 33
 -->
-<html lang="@Model.CurrentCulture.TwoLetterISOLanguageName" prefix="og: http://ogp.me/ns#">
+<html lang="@Model.GetCulture().TwoLetterISOLanguageName" prefix="og: http://ogp.me/ns#">
 <head>
+    <!-- TODO: Husk at fjern til live-->
+    <meta NAME="robots" content="noindex, nofollow">
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @*@Html.Raw(SEOChecker.Library.MetaData.Current.RenderTags())*@
-    @Html.CachedPartial("_Favicons", Model, 3600, false)
-    @Html.CachedPartial("_OpenGraph", Model, 300, true)
-    <link rel="alternate" type="application/rss+xml" title="@CurrentPage._siteName" href="rss.xml" />
+    @*@Html.CachedPartial("_Favicons", Model, 3600, false)*@
+    @*@Html.CachedPartial("_OpenGraph", Model, 300, true)*@
     @Html.RenderCssHere()
 </head>
-<body>
-    @Html.Partial("Components/Navbars/_NavbarPreview", Model)
-    @RenderBody()
+<body ng-app="app">
+    @{Html.RenderPartial("Components/Navbars/_NavbarPreview", Model); }
+    
+    @*@Html.CachedPartial("_NavbarMobile", Model, 3600, cacheByPage: true)*@
+    <main class="@Model.DocumentTypeAlias.ToLower()">
+        @RenderBody()
+    </main>
     @*@Html.CachedPartial("_Footer", Model, 3600)*@
     @*@Html.Partial("_CookieConsent")*@
     <!-- ANALYTICS -->
-    @Html.Raw(website.Analytics)
+    @*@Html.Raw(website.Analytics)*@
+
     @Html.RenderJsHere()
 </body>
 </html>

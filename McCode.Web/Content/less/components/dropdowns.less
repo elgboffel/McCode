@@ -1,0 +1,99 @@
+﻿@import (reference) "../bootstrap/variables.less";
+@import (reference) "../../components/bootstrap/less/mixins.less";
+@import (reference) "../mixins.less";
+
+.dropdown {
+    position: relative;
+    line-height: 1;
+    &:hover, &:focus {
+        .dropdown__menu {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    &__expander {
+        position: relative;
+        display: inline-block;
+
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(calc(~"-50% + 1px"));
+            width: 0;
+            height: 0;
+            margin-left: 7px;
+            border-left: 3.5px solid transparent;
+            border-right: 3.5px solid transparent;
+            border-top: 5px solid @text-color;
+        }
+    }
+
+    &__menu {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        padding: 10px 15px 10px 15px;
+        list-style: none;
+        background-color: #fff;
+        font-weight: 400;
+        padding-top: 5px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 300ms ease;
+        z-index: 1;
+        width: calc(~"100% + 30px");
+
+        > li {
+            margin: 0 0 5px;
+            > a {
+                display: block;
+                padding: 3px 0;
+                margin: 0;
+                line-height: 1;
+                .line-bottom-hover--hidden(@text-color);
+            }
+        }
+    }
+}
+
+.dropdown--brown {
+    display: inline-block;
+
+    .dropdown__expander {
+        &:after {
+            border-top-color: @alt-text-color;
+        }
+    }
+
+    .dropdown__menu {
+
+        > li {
+            > a {
+                .line-bottom-hover--hidden(@alt-text-color);
+            }
+        }
+    }
+}
+
+.dropdown--green {
+    display: inline-block;
+
+    .dropdown__expander {
+        &:after {
+            border-top-color: @brand-alt;
+        }
+    }
+
+    .dropdown__menu {
+
+        > li {
+            > a {
+                .line-bottom-hover--hidden(@brand-alt);
+            }
+        }
+    }
+}

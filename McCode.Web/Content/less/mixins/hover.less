@@ -1,0 +1,129 @@
+﻿.line-bottom-hover(@color: inherit, @hover-color) {
+    position: relative;
+
+    &:hover, &:focus {
+        &:after {
+            background-color: @hover-color;
+        }
+    }
+
+    &:after {
+        transition: opacity 200ms ease, background-color 200ms ease;
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        background-color: @color;
+    }
+}
+
+.line-bottom-hover--hidden(@color: inherit) {
+    position: relative;
+
+    &:hover, &:focus {
+        &:after {
+            opacity: 1;
+        }
+    }
+
+    &:after {
+        transition: opacity 200ms ease, background-color 200ms ease;
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        height: 1px;
+        width: 100%;
+        background-color: @color;
+        opacity: 0;
+    }
+}
+
+.link-effect(@color, @transitions-time) {
+    position: relative;
+    margin: 0 5px;
+
+    &:before, &:after {
+        content: "";
+        position: absolute;
+        background-color: @color;
+    }
+
+    &:before {
+        left: 0;
+        height: 100%;
+        width: 1px;
+        transform: scaleY(0);
+        transform-origin: bottom;
+    }
+
+    &:after {
+        left: 0;
+        top: 0;
+        height: 1px;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    > span, a {
+        &:before, &:after {
+            content: "";
+            position: absolute;
+            background-color: @color;
+        }
+
+        &:before {
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 1px;
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+
+        &:after {
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+    }
+
+    &:hover, &:focus {
+        &:before, &:after {
+        }
+
+        &:before {
+            transition: transform @transitions-time / 2 linear;
+            transform: scaleY(1);
+        }
+
+        &:after {
+            transition: transform @transitions-time linear;
+            transition-delay: @transitions-time * 0.5;
+            transform: scaleX(1);
+        }
+
+        > span, a {
+            &:before, &:after {
+            }
+
+            &:before {
+                transition: transform @transitions-time / 2 linear;
+                transition-delay: @transitions-time * 1.5;
+                transform: scaleY(1);
+            }
+
+            &:after {
+                transition: transform @transitions-time linear;
+                transition-delay: @transitions-time * 2;
+                transform: scaleX(1);
+            }
+        }
+    }
+}

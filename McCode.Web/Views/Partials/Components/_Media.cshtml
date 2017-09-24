@@ -1,50 +1,87 @@
 ﻿@inherits UmbracoViewPage<MediaViewModel>
-@using Datagraf.Web.Models.ComponentModels
 @using Our.Umbraco.Picture
-
-@if(Model.Image != null)
-{
+@{ 
     var image = Model.Image;
+    var mediaHeigts = Model.MediaHeights;
+    var gridSettings = Model.GridSettings;
+}
 
-    var mobileHeight = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
+@if(image != null && Model.TypedWidth > 0)
+{
+    @renderTypedMedia(image, gridSettings, mediaHeigts)
 
-    if (Model.TypedWidth != 0)
+} else if (image != null)
+{
+    @renderMedia(image, gridSettings, mediaHeigts)
+}
+
+@if(image == null && Model.EnableImageFallback)
+{
+    var fallbackFolder = Umbraco.TypedMedia(1210);
+    var fallbackMedia = fallbackFolder != null ? fallbackFolder.Children() : null;
+    if (fallbackMedia.Any())
     {
-        @renderTypedMedia(image, mobileHeight)
-    } else
-    {
-        @renderMedia(image, mobileHeight)
+        var fallbackImage = fallbackMedia.RandomOrder().FirstOrDefault();
+        @renderMedia(fallbackImage, gridSettings, mediaHeigts)
     }
 }
 
-@helper renderTypedMedia(IPublishedContent image, int mobileHeight)
+@helper renderTypedMedia(IPublishedContent image, GridSettings gridSettings, MediaHeights mediaHeights)
 {
-    var picture = Umbraco.Picture(image)
-    .Source("(min-width:992px)", ResizeImage(Model.TypedWidth, 12, 0), Model.ImageHeight)
-    .Source("(min-width:768px)", ResizeImage(Model.TypedWidth, 12, 0), Model.ImageHeight)
-    .Source("(min-width:480px)", ResizeImage(Model.TypedWidth, 12, 0), Model.ImageHeight)
-    .Srcset(ResizeImage(Model.TypedWidth, 12, 0), mobileHeight)
-    .Alt(image.Name);
+var typedWidth = Model.TypedWidth;
+
+var heightXs = mediaHeights.HeightXs;
+var heightMs = mediaHeights.HeightMs > 0 ? mediaHeights.HeightMs : heightXs;
+var heightSm = mediaHeights.HeightSm > 0 ? mediaHeights.HeightSm : heightMs;
+var heightMd = mediaHeights.HeightMd > 0 ? mediaHeights.HeightMd : heightSm;
+var heightLg = mediaHeights.HeightLg > 0 ? mediaHeights.HeightLg : heightMd;
+var heightXl = mediaHeights.HeightXl > 0 ? mediaHeights.HeightXl : heightLg;
+
+var picture = Umbraco.Picture(image)
+.Source("(min-width:1440px)", ResizeImage(typedWidth, 12, 0), heightXl)
+.Source("(min-width:1200px)", ResizeImage(typedWidth, 12, 0), heightLg)
+.Source("(min-width:992px)", ResizeImage(typedWidth, 12, 0), heightMd)
+.Source("(min-width:768px)", ResizeImage(typedWidth, 12, 0), heightSm)
+.Source("(min-width:480px)", ResizeImage(typedWidth, 12, 0), heightXs)
+.Srcset(ResizeImage(typedWidth, 12, 0), heightXs)
+.Alt(image.Name);
 
     @Html.RenderPicture(picture);
 }
 
-@helper renderMedia(IPublishedContent image, int mobileHeight)
+@helper renderMedia(IPublishedContent image, GridSettings gridSettings, MediaHeights mediaHeights)
 {
-    var picture = Umbraco.Picture(image)
-    .Source("(min-width:992px)", ResizeImage(1380, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
-    .Source("(min-width:768px)", ResizeImage(992, Model.GridSizeSM > 0 ? Model.GridSizeSM : 12, Model.GridTotalPadding), Model.ImageHeight)
-    .Source("(min-width:480px)", ResizeImage(768, Model.GridSizeXS > 0 ? Model.GridSizeXS : 12, Model.GridTotalPadding), mobileHeight)
-    .Srcset(ResizeImage(480, Model.GridSizeXXS > 0 ? Model.GridSizeXXS : 12, Model.GridTotalPadding), mobileHeight)
-    .Alt(image.Name);
+var gridXs = gridSettings.GridXs;
+var gridMs = gridSettings.GridMs > 0 ? gridSettings.GridMs : gridXs;
+var gridSm = gridSettings.GridSm > 0 ? gridSettings.GridSm : gridMs;
+var gridMd = gridSettings.GridMd > 0 ? gridSettings.GridMd : gridSm;
+var gridLg = gridSettings.GridLg > 0 ? gridSettings.GridLg : gridMd;
+var gridXl = gridSettings.GridXl > 0 ? gridSettings.GridXl : gridLg;
+var gridXxl = gridSettings.GridXxl > 0 ? gridSettings.GridXxl : gridXl;
+
+var heightXs = mediaHeights.HeightXs;
+var heightMs = mediaHeights.HeightMs > 0 ? mediaHeights.HeightMs : heightXs;
+var heightSm = mediaHeights.HeightSm > 0 ? mediaHeights.HeightSm : heightMs;
+var heightMd = mediaHeights.HeightMd > 0 ? mediaHeights.HeightMd : heightSm;
+var heightLg = mediaHeights.HeightLg > 0 ? mediaHeights.HeightLg : heightMd;
+var heightXl = mediaHeights.HeightXl > 0 ? mediaHeights.HeightXl : heightLg;
+
+var picture = Umbraco.Picture(image)
+.Source("(min-width:1440px)", ResizeImage(1600, gridXl, gridSettings.GridTotalPadding), heightXl)
+.Source("(min-width:1200px)", ResizeImage(1440, gridLg, gridSettings.GridTotalPadding), heightLg)
+.Source("(min-width:992px)", ResizeImage(1200, gridMd, gridSettings.GridTotalPadding), heightMd)
+.Source("(min-width:768px)", ResizeImage(992, gridSm, gridSettings.GridTotalPadding), heightSm)
+.Source("(min-width:480px)", ResizeImage(768, gridMs, gridSettings.GridTotalPadding), heightMs)
+.Srcset(ResizeImage(480, gridXs, gridSettings.GridTotalPadding), heightXs)
+.Alt(image.Name);
 
     @Html.RenderPicture(picture);
 }
 
 @functions {
-    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    private int ResizeImage(int maxContainerSize, int gridSize, int gridGridTotalPadding)
     {
-        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        int size = (((maxContainerSize / 12) + 2) * gridSize) - gridGridTotalPadding;
         return size;
     }
 }

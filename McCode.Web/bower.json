@@ -1,18 +1,14 @@
 {
   "name": "McCode.Web",
   "dependencies": {
-    "jquery": "^2.1.4",
-    "jquery-validate": "^1.14.0",
-    "jquery-validation-unobtrusive": "^3.2.5",
-    "jquery-validate-bootstrap": "*",
+    "bootstrap": "^3.3.5",
+    "font-awesome": "^4.7.0",
     "picturefill": "^3.0.1",
-    "owl-carousel2": "^2.1.6",
-    "handlebars": "^4.0.5",
-    "angularjs": "^1.6.2",
-    "bootstrap": "^3.3.7"
+    "owl-carousel2": "^2.2.0",
+    "es6-shim": "^0.35.3",
+    "react": "^15.6.1"
   },
   "resolutions": {
-    "jquery-validate": "^1.14.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.5"
   }
 }

@@ -1,17 +1,12 @@
 ﻿@inherits UmbracoViewPage<CardViewModel>
 
-<div class="card @Umbraco.If(Model.BlueCardType, "card--blue")">
+<div class="card @(Model.ClassModifier)">
     @if(!string.IsNullOrEmpty(Model.Url))
     {
         @:<a href="@Model.Url">
     }
-    @if (!string.IsNullOrEmpty(Model.Svg))
-    {
-        <div class="card__svg">
-            @Html.Raw(Model.Svg)
-        </div>
-    }
-    @if (Model.Image != null)
+
+    @if (Model.Image != null || Model.EnableImageFallback)
     {
         <div class="card__image">
             @Html.Partial(
@@ -20,38 +15,37 @@
            {
                Image = Model.Image,
                TypedWidth = Model.TypedWidth,
-               GridSize = Model.GridSize,
-               GridSizeSM = Model.GridSizeSM,
-               GridSizeXS = Model.GridSizeXS,
-               GridSizeXXS = Model.GridSizeXXS,
-               ImageHeight = Model.ImageHeight,
-               ImageHeightMobile = Model.MobileImageHeight
+               GridSettings = Model.GridSettings,
+               MediaHeights = Model.MediaHeights,
+               EnableImageFallback = Model.EnableImageFallback
            })
         </div>
     }
 
-    @if(!string.IsNullOrEmpty(Model.Headline))
+    @if(!string.IsNullOrEmpty(Model.Heading))
     {
         <div class="card__content">
-            <div class="card__inner">
-                @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1)
-                {
-                    <time>@Model.Date </time>
-                }
-                @if(!string.IsNullOrEmpty(Model.Headline))
-                {
-                    <h4 class="card__title">@Html.Raw(Model.Headline)</h4>
-                }
-                @if (!string.IsNullOrEmpty(Model.Lead))
-                {
-                    <p class="card__lead">@Model.Lead</p>
-                }
-                @if (Model.Tag != null)
-                {
-                    <div class="card__tag">@Model.Tag.Name</div>
-                }
-                <div class="card__spacer"></div>
-            </div>
+            @if (!string.IsNullOrEmpty(Model.Title))
+            {
+                <div class="card__title">@Html.Raw(Model.Title)</div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1)
+            {
+                <time class="card__date">@Model.Date</time>
+            }
+            @if(!string.IsNullOrEmpty(Model.Heading))
+            {
+                <h4 class="card__heading">@Html.Raw(Model.Heading)</h4>
+            }
+            @if (!string.IsNullOrEmpty(Model.Lead))
+            {
+                <p class="card__lead">@Model.Lead</p>
+            }
+            @if (Model.Tags != null)
+            {
+                <div class="card__tag">@Model.Tags</div>
+            }
+            <div class="card__spacer"></div>
         </div>
     }
 

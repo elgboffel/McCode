@@ -1,0 +1,11 @@
+﻿@inherits UmbracoViewPage
+
+@{ 
+    Html
+        .RequiresJs("~/Content/components/react/react.js", 1, 3, new { @defer = string.Empty })
+        .RequiresJs("~/Content/components/react/react-dom.js", 1, 3, new { @defer = string.Empty })
+        .RequiresJs("~/scripts/training/react/react.basics.js", 1, 3, new { @defer = string.Empty });
+}
+
+<h1>React Basics</h1>
+<div class="react-view"></div>

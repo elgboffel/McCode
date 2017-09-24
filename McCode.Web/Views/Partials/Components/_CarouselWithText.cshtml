@@ -1,8 +1,8 @@
 ﻿@inherits UmbracoViewPage<CarouselViewModel>
 
 @{
-    Html.RequiresCss("~/Content/components/owl-carousel2/dist/assets/owl.carousel.css", 1, 2, new { @defer = string.Empty })
-            .RequiresCss("~/Content/components/owl-carousel2/dist/assets/owl.theme.default.css")
+    Html.RequiresCss("~/Content/components/owl-carousel2/dist/assets/owl.carousel.css")
+            .RequiresCss("~/Content/components/animate-css/animate.css")
             .RequiresJs("~/Content/components/owl-carousel2/dist/owl.carousel.js", 1, 2, new { @defer = string.Empty })
             .RequiresJs("~/scripts/app/carousel.jquery.js", 1, 2, new { @defer = string.Empty });
 
@@ -16,9 +16,9 @@
         "items": 1,
          "nav": true,
          "navText": ["", ""],
-         "autoplay": true,
+         "autoplay": false,
          "autoplayHoverPause": true,
-         "navContainer": ".item",
+         "animateOut": "fadeOut",
          "autoHeight": true }'>
         @foreach (var slide in carousel)
         {
@@ -28,30 +28,27 @@
 }
 @helper renderSlide(IPublishedContent slide)
 {
-var image = slide
-    .GetPropertyValue("image", Enumerable.Empty<IPublishedContent>())
-    .FirstOrDefault();
+    var image = slide.GetPropertyValue<IPublishedContent>("image");
 
-if (image != null)
-{
-        <div class="owl-carousel__item">
-            @Html.Partial(
-           "Components/_Media",
-           new MediaViewModel
-           {
-               Image = image,
-               GridSize = Model.GridSize,
-               ImageHeight = Model.ImageHeight,
-               ImageHeightMobile = Model.ImageHeightMobile,
-               GridTotalPadding = Model.GridTotalPadding
+    if (image != null)
+    {
+            <div class="owl-carousel__item">
+                @Html.Partial(
+               "Components/_Media",
+               new MediaViewModel
+               {
+                   Image = image,
+                   GridSettings = Model.GridSettings,
+                   MediaHeights = Model.MediaHeights,
 
-           })
-            @if (slide.HasValue("text"))
-            {
-                <div class="owl-carousel__caption">
-                    <span>@(slide.GetPropertyValue<string>("text"))</span>
-                </div>
-            }
-        </div>
-}
+               })
+                @if (slide.HasValue("text"))
+                {
+                    <div class="owl-carousel__caption">
+                        @(slide.GetPropertyValue<string>("text"))
+                    </div>
+                }
+                <div class="owl-carousel__spacer"></div>
+            </div>
+    }
 }

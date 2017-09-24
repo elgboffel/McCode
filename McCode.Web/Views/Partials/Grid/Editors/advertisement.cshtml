@@ -1,0 +1,28 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Our.Umbraco.LinksPicker.Models
+
+@using Lecoati.LeBlender.Extension.Models
+
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue item)
+{
+var name = item.GetValue<string>("name");
+var linkPicker = item.GetValue<IEnumerable<LinksPickerItem>>("link");
+
+if (linkPicker.Any())
+{
+    var link = linkPicker.FirstOrDefault();
+     <div class="advertisement">
+         @if (!string.IsNullOrEmpty(name))
+         {
+            <div class="advertisement__name">@name</div>
+         }
+         <a href="@link.Url" target="@link.Target" class="advertisement__link">@link.Name</a>
+     </div>
+}
+}

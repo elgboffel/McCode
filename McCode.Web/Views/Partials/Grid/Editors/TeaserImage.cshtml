@@ -1,0 +1,39 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Datagraf.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var image = content.GetValue<IEnumerable<IPublishedContent>>("image");
+    if (image != null)
+    {
+        <div class="teaser-image">
+            @renderMedia(image.FirstOrDefault())
+        </div>
+    }
+}
+
+@helper renderMedia(IPublishedContent image)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:992px)", ResizeImage(1380, 4, 4), 350)
+    .Source("(min-width:768px)", ResizeImage(992, 4, 0), 350)
+    .Source("(min-width:480px)", ResizeImage(768, 12, 4), 350)
+    .Srcset(ResizeImage(480, 12, 4), 300)
+    .Alt(image.Name);
+
+    @Html.RenderPicture(picture);
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

@@ -1,6 +1,10 @@
 ﻿@inherits UmbracoViewPage<HeroViewModel>
 
-<div class="hero">
+<div class="hero @(Model.ModifierClass)">
+    @if (Model.Link != null)
+    {
+        @:<a href="@Model.Link.Url" target="@Model.Link.Target">
+    }
     <div class="hero__image">
         @if (Model.Image != null)
         {
@@ -9,44 +13,35 @@
         }
     </div>
     <div class="hero__content">
-    @if (!string.IsNullOrEmpty(Model.Trompet))
+    @if (!string.IsNullOrEmpty(Model.Trumpet))
     {
-        <small>@Model.Trompet</small>
+        <small>@Model.Trumpet</small>
     }
     @if(!string.IsNullOrEmpty(Model.Heading))
     {
         <h1>@Html.Raw(Model.Heading)</h1>
     }
+    @if(!string.IsNullOrEmpty(Model.Lead))
+    {
+        <p class="hero__lead">@Html.Raw(Model.Lead)</p>
+    }
     </div>
+    @if (Model.Link != null)
+    {
+        @:</a>
+    }
 </div>
 
 @helper RenderImage(IPublishedContent image)
 {
-    if(Model.FluidHero)
-    {
-         @Html.Partial(
-            "Components/_FluidMedia",
-            new FluidMediaViewModel
-            {
-                Image = image,
-                GridSize = Model.GridSize,
-                ImageHeight = Model.ImageHeight,
-                ImageHeightMobile = Model.ImageHeightMobile,
-                GridTotalPadding = Model.GridTotalPadding
-            })
-    }
-    else
-    {
 
-        @Html.Partial(
-            "Components/_Media",
-            new MediaViewModel
-            {
-                Image = image,
-                GridSize = Model.GridSize,
-                ImageHeight = Model.ImageHeight,
-                ImageHeightMobile = Model.ImageHeightMobile,
-                GridTotalPadding = Model.GridTotalPadding
-            })
+    { Html.RenderPartial(
+        "Components/_Media",
+        new MediaViewModel
+        {
+            Image = image,
+            GridSettings = Model.GridSettings,
+            MediaHeights = Model.MediaHeights
+        });
     }
 }

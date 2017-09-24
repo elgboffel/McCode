@@ -1,80 +1,84 @@
 ﻿@inherits UmbracoViewPage
-@using Danva.Web.Models.ComponentModels
 @using Our.Umbraco.LinksPicker.Models
 
 @{
-
     var website = Model.AncestorOrSelf<Website>();
-    var footer = website.Layout;
 
+    var footer = website.Layout;
 }
 
-<footer class="page-footer">
-    <div class="container">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                        <div class="line-border-thin-skew"></div>
-                    <div class="footer-head">
-                        @if (!string.IsNullOrEmpty(website.Logo))
+<footer class="footer">
+    <div class="container bg-brown">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-6 col-md-offset-1">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="footer__logo">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row flex-box">
+                    @for(var i = 0; i < footer.Count(); i++)
+                    {
+                        var element = footer.ElementAt(i);
+                        switch (element.DocumentTypeAlias)
                         {
-                            <div class="footer-logo">
-                                @Html.Raw(website.Logo)
-                            </div>
+                            case "multipleLinks":
+                                @renderLinks(element, i) break;
+
+                            default:
+                                @renderRte(element, i) break;
                         }
+
+                    }
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="row">
+                    <div class="col-xs-12">
                         @Html.CachedPartial(
                             "Components/_SoMe",
                             new SoMeViewModel
                             {
-                                TwitterUrl = website.TwitterLink,
-                                FacebookUrl = website.FacebookLink,
-                                YouTubeUrl = website.YoutubeLink
+                                FacebookUrl = website.FacebookUrl,
+                                InstagramUrl = website.InstagramUrl,
+                                VimeoUrl = website.VimeoUrl,
+                                YouTubeUrl = website.YouTubeUrl,
+                                FlickrUrl = website.FlickrUrl
                             },
                             3600
-                       )
+                        )
                     </div>
+                    @if (!string.IsNullOrEmpty(website.Newsletter))
+                    {
+                        <div class="col-xs-12">
+                            @Html.Raw(website.Newsletter)
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="row">
-                @foreach(var item in footer)
-                {
-                    <div class="col-xs-12 col-sm-6 col-md-3 flex">
-                        @switch (item.DocumentTypeAlias)
-                        {
-                            case "multipleLinks":
-                                @renderLinks(item) break;
-
-                            default:
-                                @renderRte(item) break;
-                        }
-                    </div>
-                }
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="sub-footer">
-                        <div class="line-border-thin-skew"></div>
-                        @Html.Raw(website.SubFooter)
-                    </div>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="footer__caption">&copy; Anne Vibeke Rejser @DateTime.Now.Year</div>
             </div>
         </div>
     </div>
 </footer>
 
-@helper renderLinks(IPublishedContent multipleLinks)
+@helper renderLinks(IPublishedContent multipleLinks, int index)
 {
-    var links = multipleLinks
-        .GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>()) ;
+    var links = multipleLinks.GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>());
 
-    <div class="footer-links">
-        @if (multipleLinks.HasValue("headline"))
+    <div class="col-xs-10 col-ms-4 col-sm-4 col-md-4">
+        @if (multipleLinks.HasValue("heading"))
         {
-            <h5>@Html.Raw(multipleLinks.GetPropertyValue<string>("headline"))</h5>
+            <h3 class="color-brand margin-bt10">@Html.Raw(multipleLinks.GetPropertyValue<string>("heading"))</h3>
         }
         @if(links.Any())
         {
-            <ul class="list-unstyled">
+            <ul class="list-unstyled link-list">
                 @foreach(var link in links)
                 {
                     <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
@@ -84,12 +88,20 @@
     </div>
 }
 
-@helper renderRte(IPublishedContent rte)
+@helper renderRte(IPublishedContent rte, int index)
 {
-    if(rte.HasValue("rte"))
-    {
-        <div class="footer-rte">
-            @Html.Raw(rte.GetPropertyValue<IHtmlString>("rte", null))
-        </div>
-    }
+    <div class="col-xs-10 col-ms-4 col-sm-4 col-md-4">
+        @if (rte.HasValue("heading"))
+        {
+            <h3 class="color-brand margin-bt10">@Html.Raw(rte.GetPropertyValue<string>("heading"))</h3>
+        }
+        @if (rte.HasValue("rte"))
+        {
+            <div class="footer__rte">
+                @Html.Raw(rte.GetPropertyValue<IHtmlString>("rte", null))
+            </div>
+        }
+    </div>
 }
+
+

@@ -1,11 +1,11 @@
 ﻿@inherits UmbracoViewPage<LeBlenderModel>
 @using Lecoati.LeBlender.Extension.Models
-@using Danva.Web.Models.ComponentModels
-
+@using Datagraf.Web.Models.ComponentModels
+@using Datagraf.Web.Models.ModelsBuilder
 @using Umbraco.Web
 
 @{
-    Html.RequiresJs("~/Content/components/waypoints/lib/jquery.waypoints.min.js", new { @defer = "" } )
+    Html.RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.0/jquery.waypoints.min.js", new { @defer = "" } )
         .RequiresJs("~/Content/components/counter-up/jquery.counterup.min.js", new { @defer = "" })
         .RequiresJs("~/scripts/app/counter.js", new { @defer = "" });
 
@@ -22,45 +22,42 @@
     if (counterList.Any())
     {
         <div class="counter-list">
-            <div class="counter-list-inner">
                 @foreach (var counter in counterList)
                 {
                     @renderCounter(counter)
                 }
-            </div>
         </div>
     }
 }
 
 @helper renderCounter(IPublishedContent counter)
 {
-    var number = counter.GetPropertyValue<string>("counter");
+    var number = counter.GetPropertyValue<string>("number");
+    var numberValue = counter.GetPropertyValue<string>("numberValue");
     var text = counter.GetPropertyValue<string>("text");
 
-    <div class="counter-item">
+    <div class="counter-list__item">
         @if (!string.IsNullOrEmpty(number))
         {
-            @renderNumber(number)
+            @renderNumber(number, numberValue)
         }
         @if (!string.IsNullOrEmpty(text))
         {
-            <div class="text">@Html.Raw(text)</div>
+            <div class="counter-list__text">@text</div>
         }
     </div>
 }
 
-@helper renderNumber(string number)
+@helper renderNumber(string number, string numberValue)
 {
 
     var numberArray = number.Split(',', '.');
 
-    <div class="number">
-        @for (var i = 0; i < numberArray.Count(); i++)
+    <div class="counter-list__number">
+        @*@for (var i = 0; i < numberArray.Count(); i++)
         {
             var item = numberArray.ElementAt(i);
-            <span class="counter">
-                @item
-            </span>
+            <span class="counter">@item</span>
             if (i < numberArray.Count() - 1)
             {
                 if (number.Contains(","))
@@ -71,6 +68,8 @@
                     <span>.</span>
                 }
             }
-        }
+        }*@
+        <span class="counter">@number</span>
+        @Html.Raw(numberValue)
     </div>
 }

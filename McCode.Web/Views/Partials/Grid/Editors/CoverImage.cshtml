@@ -1,0 +1,17 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Datagraf.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var image = content.GetValue<IEnumerable<IPublishedContent>>("image");
+    if (image != null)
+    {
+        <div class="cover-image" style="background: url(@(image.FirstOrDefault().GetCropUrl(width: 768, height: 768))) no-repeat center center"></div>
+    }
+}

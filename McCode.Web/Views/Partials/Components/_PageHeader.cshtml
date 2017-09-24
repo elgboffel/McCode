@@ -2,10 +2,10 @@
 @using Umbraco.Web.Mvc
 
 
-<div class="page-header @(Umbraco.If(Model.DocumentType != "productPage", "page-header--alt"))">
-    @if (!string.IsNullOrEmpty(Model.Trompet))
+<div class="page-header">
+    @if (!string.IsNullOrEmpty(Model.Trumpet))
     {
-        <small class="trompet">@Model.Trompet</small>
+        <small class="trompet">@Model.Trumpet</small>
     }
     @if (!string.IsNullOrEmpty(Model.Headline))
     {
@@ -21,7 +21,7 @@
     }
     @if (!string.IsNullOrEmpty(Model.Author))
     {
-        <small class="byline">@Html.Raw(Model.Author)</small>
+        <small class="byline">Af: @Html.Raw(Model.Author)</small>
     }
     <div class="page-header__spacer"></div>
 </div>

@@ -1,378 +1,110 @@
-﻿@using System.Globalization
-@using System.Text
-@using System.Text.RegularExpressions
-@using Examine
-@using Umbraco.Core.Logging
-@using McCode.Web.Models;
-@using McCode.Web.Models.ModelsBuilder
-
-@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<SearchPage>
+﻿@inherits UmbracoViewPage<Danva.Web.Controllers.SearchModel>
+@using AnneVibekeRejser.Web.Helpers;
 @{
     Layout = "_Layout.cshtml";
-
-    var model = new SearchViewModel
+    var site = Model.Content.Site();
+    var page = Model.Content;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            @Html.CachedPartial(
+                "Components/_Breadcrumb",
+                new BreadcrumbViewModel
+                {
+                    CurrentPage = Model.Content
+                },
+                3600,
+                cacheByPage: true
+            )
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            @Html.CachedPartial(
+                "Components/_PageHeader",
+                new PageHeaderViewModel
+                {
+                    Headline = page.GetPropertyValue<string>("headline", page.Name),
+                    Lead = page.GetPropertyValue<string>("lead", ""),
+                },
+                3600,
+                cacheByPage: true
+            )
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <form class="search-form" role="search" action="/soegeside">
+                <input type="text" name="q" value="@Umbraco.GetQueryString("q", "")" class="form-control" placeholder="Søg..." autocomplete="off">
+                <div class="submit" data-action="/soegeside">
+                    <svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-333" y="-1457" width="1440" height="3797" style="fill:none;" /><g id="fa-search"><path id="fa-search1" d="M13.846,8.462c0,-1.483 -0.527,-2.751 -1.58,-3.805c-1.054,-1.053 -2.322,-1.58 -3.804,-1.58c-1.483,0 -2.751,0.527 -3.805,1.58c-1.053,1.054 -1.58,2.322 -1.58,3.805c0,1.482 0.527,2.75 1.58,3.804c1.054,1.053 2.322,1.58 3.805,1.58c1.482,0 2.75,-0.527 3.804,-1.58c1.053,-1.054 1.58,-2.322 1.58,-3.804Zm6.154,10c0,0.416 -0.152,0.777 -0.457,1.081c-0.304,0.305 -0.665,0.457 -1.081,0.457c-0.433,0 -0.794,-0.152 -1.082,-0.457l-4.123,-4.11c-1.434,0.993 -3.033,1.49 -4.795,1.49c-1.146,0 -2.242,-0.222 -3.288,-0.667c-1.045,-0.445 -1.947,-1.046 -2.704,-1.803c-0.757,-0.757 -1.358,-1.659 -1.803,-2.704c-0.445,-1.046 -0.667,-2.142 -0.667,-3.287c0,-1.146 0.222,-2.242 0.667,-3.288c0.445,-1.045 1.046,-1.947 1.803,-2.704c0.757,-0.757 1.659,-1.358 2.704,-1.803c1.046,-0.445 2.142,-0.667 3.288,-0.667c1.145,0 2.241,0.222 3.287,0.667c1.045,0.445 1.947,1.046 2.704,1.803c0.757,0.757 1.358,1.659 1.803,2.704c0.445,1.046 0.667,2.142 0.667,3.288c0,1.762 -0.497,3.361 -1.49,4.795l4.122,4.123c0.297,0.296 0.445,0.657 0.445,1.082Z" style="fill:#b4b5a2;fill-rule:nonzero;" /></g></svg>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.TotalResults > 0)
     {
-        SearchTerm = CleanseSearchTerm(("" + Request["q"]).ToLower(CultureInfo.InvariantCulture)),
-        CurrentPage = Umbraco.GetQueryString<int>("p", 0),
-        PageSize = Model.Content.PageSize <= 0 ? 10 : Model.Content.PageSize,
-        StartContentNode = Model.Content.StartContentNode,
-        StartMediaNode = Model.Content.StartMediaNode,
-        IndexType = "", //UmbracoExamine.IndexTypes.Content,
-        SearchFields = new List<string> { "shortDescription", "longDescription", "seoTitle", "seoDescription", "nodeName", "bodyText" },
-        PreviewFields = new List<string> { "shortDescription", "longDescription", "seoDescription" },
-        PreviewLength = 250,
-        HideFromSearchField = "umbracoNaviHide"
-    };
-
-    // Validate values
-    if (model.IndexType != UmbracoExamine.IndexTypes.Content &&
-        model.IndexType != UmbracoExamine.IndexTypes.Media)
-    {
-        model.IndexType = "";
-    }
-
-    // ====================================================
-    // Comment the next if statement out if you want a root
-    // node id of -1 to search content across all sites
-    // and not just the current site.
-    // ====================================================
-    if (model.StartContentNode != null)
-    {
-        model.StartContentNode = Model.Content.AncestorOrSelf(1);
-    }
-
-    // If searching on umbracoFile, also search on umbracoFileName
-    if (model.SearchFields.Contains("umbracoFile") && !model.SearchFields.Contains("umbracoFileName"))
-    {
-        model.SearchFields.Add("umbracoFileName");
-    }
-
-    // Check the search term isn't empty
-    if (!string.IsNullOrWhiteSpace(model.SearchTerm))
-    {
-        // Tokenize the search term
-        model.SearchTerms = Tokenize(model.SearchTerm);
-
-        // Perform the search
-        var searcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
-        var criteria = searcher.CreateSearchCriteria();
-        var query = new StringBuilder();
-        query.AppendFormat("-{0}:1 ", model.HideFromSearchField);
-
-        // Set search path
-        var contentPathFilter = model.StartContentNode != null
-            ? string.Format("__IndexType:{0} +searchPath:{1} -template:0", UmbracoExamine.IndexTypes.Content, model.StartContentNode.Id)
-            : string.Format("__IndexType:{0} -template:0", UmbracoExamine.IndexTypes.Content);
-
-        var mediaPathFilter = model.StartMediaNode != null
-            ? string.Format("__IndexType:{0} +searchPath:{1}", UmbracoExamine.IndexTypes.Media, model.StartMediaNode.Id)
-            : string.Format("__IndexType:{0}", UmbracoExamine.IndexTypes.Media);
-
-        switch (model.IndexType)
-        {
-            case UmbracoExamine.IndexTypes.Content:
-                query.AppendFormat("+({0}) ", contentPathFilter);
-                break;
-            case UmbracoExamine.IndexTypes.Media:
-                query.AppendFormat("+({0}) ", mediaPathFilter);
-                break;
-            default:
-                query.AppendFormat("+(({0}) ({1})) ", contentPathFilter, mediaPathFilter);
-                break;
-        }
-
-        // Ensure page contains all search terms in some way
-        foreach (var term in model.SearchTerms)
-        {
-            var groupedOr = new StringBuilder();
-            foreach (var searchField in model.SearchFields)
-            {
-                groupedOr.AppendFormat("{0}:{1}* ", searchField, term);
-            }
-            query.Append("+(" + groupedOr.ToString() + ") ");
-        }
-
-        // Rank content based on positon of search terms in fields
-        for (var i = 0; i < model.SearchFields.Count; i++)
-        {
-            foreach (var term in model.SearchTerms)
-            {
-                query.AppendFormat("{0}:{1}*^{2} ", model.SearchFields[i], term, model.SearchFields.Count - i);
-            }
-        }
-
-        var criteria2 = criteria.RawQuery(query.ToString());
-        var cleanResults = searcher.Search(criteria2);
-        var results = searcher.Search(criteria2)
-           .Where(x => (
-                !Umbraco.IsProtected(x.Fields["__Path"]) ||
-                (
-                    Umbraco.IsProtected(x.Fields["__Path"]) &&
-                    Umbraco.MemberHasAccess(x.Fields["__Path"])
-                )) && (
-                    (x.Fields["__IndexType"] == UmbracoExamine.IndexTypes.Content && Umbraco.TypedContent(int.Parse(x.Fields["id"])) != null) ||
-                    (x.Fields["__IndexType"] == UmbracoExamine.IndexTypes.Media && Umbraco.TypedMedia(int.Parse(x.Fields["id"])) != null)
-                ))
-            .ToList();
-
-        model.AllResults = cleanResults;
-
-        model.TotalResults = results.Count;
-        model.TotalPages = (int)Math.Ceiling((decimal)model.TotalResults / model.PageSize);
-        model.CurrentPage = Math.Max(1, Math.Min(model.TotalPages, model.CurrentPage));
-
-        // Page the results
-        model.PagedResults = model.AllResults.Skip(model.PageSize * (model.CurrentPage - 1)).Take(model.PageSize);
-
-        LogHelper.Debug<string>("[Search] Searching Lucene with the following query: " + query.ToString());
-
-        if (!model.PagedResults.Any())
-        {
-            // No results found, so render no results view
-            @RenderNoResults(model)
-            <pre class="hidden">@(query.ToString())</pre>
-        }
-        else
-        {
-            // Render out the results
-            @RenderSummary(model)
-            @RenderResultsRange(model)
-            @RenderResults(model)
-            if (model.TotalPages > 1)
-            {
-                @RenderPagination(model)
-            }
-            <hr class="hr-backslash" />
-        }
+        var searchHelper = new SearchHelper(Umbraco.UmbracoContext);
+        var mediaList = Model.AllResults.Select(x => Convert(x, searchHelper)).WhereNotNull().ToList();
+        @RenderResult(mediaList, site)
     }
     else
     {
-        // Empty search term
-       <p>Skriv et søgeord for at finde resultater.</p>
+        @RenderNoResult()
     }
-}
 
-@*
-    ==================================================
-     Render Functions
-    ==================================================
-*@
+</div>
 
-@helper RenderSummary(SearchViewModel model)
+@helper RenderResult(List<MediaListItem> list, IPublishedContent site)
 {
-    <div class="page-header">
-        <p>@FormatHtml(Umbraco.GetDictionaryValue("[Search] Summary", "Fandt {0} resultat(er) for \"{1}\""), model.TotalResults, model.SearchTerm)</p>
+    <div class="search-page-result">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-muted result-caption">@string.Format(Model.Content.GetPropertyValue<string>("resultTextFormat", "{0} resultat(er)"), Model.TotalResults)</div>
+                 @Html.Partial("_MediaList", list)
+            </div>
+        </div>
     </div>
 }
-
-@helper RenderResultsRange(SearchViewModel model)
-{
-    var startRecord = ((model.CurrentPage - 1) * model.PageSize) + 1;
-    var endRecord = Math.Min(model.TotalResults, (startRecord - 1) + model.PageSize);
-
-    <div class="text-muted">
-        <p>@FormatHtml(Umbraco.GetDictionaryValue("[Search] Results Range", "Viser resultater <strong>{0}</strong> til <strong>{1}</strong>."), startRecord, endRecord)</p>
-    </div>
-}
-
-@helper RenderResults(SearchViewModel model)
+@helper RenderNoResult()
 {
     <div class="row">
-        <div class="col-md-12">
-            <div class="media-list">
-                @foreach (var result in model.PagedResults)
-                {
-                    switch (result.Fields["__IndexType"])
-                    {
-                        case UmbracoExamine.IndexTypes.Content:
-                            var contentItem = Umbraco.TypedContent(result.Fields["id"]);
-                            @RenderContentResult(model, contentItem)
-                            break;
-                        case UmbracoExamine.IndexTypes.Media:
-                            var mediaItem = Umbraco.TypedMedia(result.Fields["id"]);
-                            @RenderMediaResult(model, mediaItem)
-                            break;
-                    }
-                }
-            </div>
+        <div class="col-xs-12">
+            <h2 class="h2 text-center">Der blev desværre ikke fundet noget resultat</h2>
+            <p class="text-center"></p>
         </div>
     </div>
 }
 
-@helper RenderContentResult(SearchViewModel model, IPublishedContent result)
-{
-    <div class="media">
-        <div class="media-body">
-            <h4 class="media-heading"><a href="@result.Url">@result.Name</a></h4>
-            @foreach (var field in model.PreviewFields.Where(field => result.HasValue(field)))
-            {
-                <p>@Highlight(Umbraco.TruncateWordBreak(Umbraco.StripHtml(result.GetPropertyValue(field).ToString()).ToString(), model.PreviewLength), model.SearchTerms)</p>
+@functions {
+    public MediaListItem Convert(SearchResult result, SearchHelper searchHelper)
+    {
+        IPublishedContent content = null;
+        switch (result.Fields["__IndexType"])
+        {
+            case "content":
+                content = Umbraco.TypedContent(result.Id);
                 break;
-            }
-        </div>
 
-        @if (result.HasValue("image"))
-        {
-            var image = result.GetPropertyValue<IPublishedContent>("image"");
-            if (image != null ) {
-                <div class="media-right">
-                    <a href="@result.Url">
-                        <img class="media-object" src="@image.Url" alt="@result.GetPropertyValue("alt", result.Name)">
-                    </a>
-                </div>
-            }
-        }
-    </div>
-}
-
-@helper RenderMediaResult(SearchViewModel model, IPublishedContent result)
-{
-    <div class="media">
-        @if (result.DocumentTypeAlias == "Image")
-        {
-            <div class="media-left">
-                <a href="@result.Url">
-                    <img class="media-object" src="@result.GetCropUrl( width: 160, height: 120 )" alt="@result.GetPropertyValue("alt", result.Name)">
-                </a>
-            </div>
-        }
-        else if (result.DocumentTypeAlias == "File")
-        {
-            <div class="media-left">
-                <a href="@result.Url" data-extension="@result.GetPropertyValue("umbracoExtension")">
-                    @switch (result.GetPropertyValue<string>("umbracoExtension"))
-                    {
-                        case "pdf": <span class="fa fa-3x fa-file-pdf-o"></span> break;
-                        case "doc":
-                        case "docx": <span class="fa fa-3x fa-file-word-o"></span> break;
-                        default: <span class="fa fa-3x fa-file"></span> break;
-                    }
-                </a>
-            </div>
-        }
-        <div class="media-body">
-            <h4><a href="@(result.GetPropertyValue<string>("umbracoFile"))" class="@(result.GetPropertyValue<string>("umbracoExtension"))">@result.Name</a></h4>
-            @foreach (var field in model.PreviewFields.Where(field => result.HasValue(field)))
-            {
-                <p>@Highlight(Umbraco.TruncateWordBreak(Umbraco.StripHtml(result.GetPropertyValue(field).ToString()).ToString(), model.PreviewLength), model.SearchTerms)</p>
+            case "media":
+                content = Umbraco.TypedMedia(result.Id);
                 break;
-            }
-        </div>
-    </div>
-}
-
-@helper RenderPagination(SearchViewModel model)
-{
-    <nav class="text-center">
-        @Html.Partial("Shared/_Pagination", new PaginationModel(model.TotalResults, model.CurrentPage, model.PageSize))
-    </nav>
-}
-
-@helper RenderNoResults(SearchViewModel model)
-{
-    <div class="search-no-results">
-        <p>@FormatHtml(Umbraco.GetDictionaryValue("[Search] No Results", "No results found for search term <strong>{0}</strong>."), model.SearchTerm)</p>
-    </div>
-}
-
-@functions
-{
-    // ==================================================
-    //  Helper Functions
-    //==================================================
-
-    // Cleanse the search term
-    public string CleanseSearchTerm(string input)
-    {
-        return Umbraco.StripHtml(input).ToString();
-    }
-
-    // Splits a string on space, except where enclosed in quotes
-    public IEnumerable<string> Tokenize(string input)
-    {
-        Regex regex = new Regex("(?<=\")\\w[\\w\\s]*(?=\")|\\w+|\"[\\w\\s]*\"");
-        var matches = regex.Matches(input)
-            .Cast<Match>()
-            .Select(p => p.Value)
-            .ToList();
-
-        return matches;
-    }
-
-    // Highlights all occurances of the search terms in a body of text
-    public IHtmlString Highlight(IHtmlString input, IEnumerable<string> searchTerms)
-    {
-        return Highlight(input.ToString(), searchTerms);
-    }
-
-    // Highlights all occurances of the search terms in a body of text
-    public IHtmlString Highlight(string input, IEnumerable<string> searchTerms)
-    {
-        input = HttpUtility.HtmlDecode(input);
-
-        foreach (var searchTerm in searchTerms)
-        {
-            input = Regex.Replace(input, Regex.Escape(searchTerm), @"<strong>$0</strong>", RegexOptions.IgnoreCase);
         }
 
-        return new HtmlString(input);
-    }
+        if (content == null)
+            return null;
 
-    // Formats a string and returns as HTML
-    public IHtmlString FormatHtml(IHtmlString input, params object[] args)
-    {
-        return Html.Raw(string.Format(input.ToString(), args));
-    }
+        var item = new MediaListItem(content);
 
-    //// Truncates a string on word breaks
-    //public string Truncate(IHtmlString input, int maxLength)
-    //{
-    //    return Truncate(input.ToString(), maxLength);
-    //}
+        if (item.Type == "File")
+        {
+            item.Image = "/content/images/file.png";
+            item.Description = result.Fields["FileTextContent"];
+        }
 
-    //// Truncates a string on word breaks
-    //public string Truncate(string input, int maxLength)
-    //{
-    //    var truncated = Umbraco.Truncate(input, maxLength, true).ToString();
-    //    if (truncated.EndsWith("&hellip;"))
-    //    {
-    //        var lastSpaceIndex = truncated.LastIndexOf(' ');
-    //        if (lastSpaceIndex > 0)
-    //        {
-    //            truncated = truncated.Substring(0, lastSpaceIndex) + "&hellip;";
-    //        }
-    //    }
+        item.Description = searchHelper.FirstParagraphContain(item.Description, 200, Model.SearchTerms).ToString();
 
-    //    return truncated;
-    //}
-
-    // ==================================================
-    //  Helper Classes
-    //==================================================
-
-    public class SearchViewModel
-    {
-        // Query Parameters
-        public string SearchTerm { get; set; }
-        public IEnumerable<string> SearchTerms { get; set; }
-        public int CurrentPage { get; set; }
-
-        // Options
-        public IPublishedContent StartContentNode { get; set; }
-        public IPublishedContent StartMediaNode { get; set; }
-        public string IndexType { get; set; }
-        public IList<string> SearchFields { get; set; }
-        public IList<string> PreviewFields { get; set; }
-        public int PreviewLength { get; set; }
-        public int PageSize { get; set; }
-        public string HideFromSearchField { get; set; }
-        public string SearchFormLocation { get; set; }
-
-        // Results
-        public int TotalResults { get; set; }
-        public int TotalPages { get; set; }
-
-        public IEnumerable<SearchResult> AllResults { get; set; }
-        public IEnumerable<SearchResult> PagedResults { get; set; }
+        return item;
     }
 }

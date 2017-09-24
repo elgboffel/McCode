@@ -1,0 +1,173 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Our.Umbraco.LinksPicker.Models
+@using Datagraf.Web.Models.ModelsBuilder
+@{
+    Html.RequiresJs("~/scripts/app/tree-menu.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/content/components/handlebars/handlebars.min.js", 1, 2, new { @defer = string.Empty });
+
+    var webroot = Model.Content.AncestorOrSelf<Website>();
+
+    var logo = webroot.GetPropertyValue<string>("logo");
+
+
+    IEnumerable<IPublishedContent> children = Model.Content
+        .AncestorOrSelf(1)
+        .Children()
+        .Where(c => c.IsVisible() && !c.IsDocumentType("frontPage"));
+
+    var setLevelRoot = 2;
+    var maxLevelsRandered = 1;
+}
+
+<div class="mobile-navbar visible-xs">
+    @if(webroot.HasValue("logo"))
+    {
+        <a href="@webroot.Url" class="mobile-header-logo">
+            @Html.Raw(logo)
+        </a>
+    }
+    <div class="mobile-trigger-container visible-xs">
+        <a class="mobile-trigger" href="#">
+            <span class="mobile-icon"></span>
+        </a>
+    </div>
+    <nav id="tree-menu" class="tree-menu tree-accordion mobile-expander">
+        <a href="@webroot.Url" class="mobile-header-logo-alt">
+            @Html.Raw(logo)
+        </a>
+        <div id="menu-wrapper" class="menu-wrapper depth-@(Model.Content.Level - setLevelRoot)">
+            @RenderTreeMenu(children, setLevelRoot, maxLevelsRandered)
+        </div>
+    </nav>
+</div>
+
+
+
+
+@helper RenderTreeMenu(IEnumerable<IPublishedContent> treeMenu, int setLevelRoot, int maxLevel)
+{
+    <ol data-level="0">
+        @foreach (IPublishedContent child in treeMenu)
+        {
+            IEnumerable<IPublishedContent> children = child.Children()
+                .Where(c => c.IsVisible());
+
+            bool hasChildren = children.Any();
+
+            bool path = child.IsAncestorOrSelf(Model.Content);
+
+            string hasIcon = child.HasValue("icon") ? "svg-nav-link" : null;
+
+
+            <li class="accordion l-@(child.Level - setLevelRoot) @Umbraco.If(hasChildren, "hc") @Umbraco.If(path, "ancestor nav-open")">
+                @if (hasChildren)
+                {
+
+                    <span class="e-p">
+                        <a class="@(hasIcon)" href="@child.Url">
+                            @Html.Raw(child.Name)
+                        @if(child.HasValue("icon"))
+                        {
+                            @RenderSvg(child)
+                        }
+                        </a>
+                        <a class="exp" href="#">
+                            <span></span>
+                        </a>
+                    </span>
+                    @RenderChildren(children, child, setLevelRoot, maxLevel)
+                }
+                else
+                {
+                    <a class="@(hasIcon)" href="@child.Url">
+                        @if (child.HasValue("icon"))
+                        {
+                            @RenderSvg(child)
+                        }
+                        @Html.Raw(child.Name)
+                    </a>
+
+                }
+            </li>
+        }
+    </ol>
+}
+
+@helper RenderChildren(IEnumerable<IPublishedContent> children, IPublishedContent parent, int setLevelRoot, int maxLevel)
+{
+    var firstChildLevel = children.FirstOrDefault().Level;
+    if (parent.IsAncestor(Model.Content) || (firstChildLevel - setLevelRoot) <= maxLevel)
+    {
+        int level = firstChildLevel - setLevelRoot;
+        <ol data-level="@level">
+            @if (parent.IsAncestor(Model.Content) || ((firstChildLevel - setLevelRoot) > 1 && (firstChildLevel - setLevelRoot) < maxLevel))
+            {
+                <li class="up u-w">
+                    <a href="#" class="bck">
+                        <span></span>
+                    </a>
+                    <a href="@parent.Url">@Html.Raw(parent.Name)</a>
+                </li>
+            }
+            @foreach (IPublishedContent child in children)
+            {
+
+                IEnumerable<IPublishedContent> subChildren = child.Children()
+                    .Where(c => c.IsVisible());
+
+                bool hasChildren = subChildren.Any();
+                bool path = child.IsAncestorOrSelf(Model.Content) && child.Id != Model.Content.Id;
+
+                <li class="l-@(level) @Umbraco.If(hasChildren, "hc") @Umbraco.If(child.Id == Model.Content.Id, "current") @Umbraco.If(path, "ancestor nav-open")">
+                    @if (hasChildren)
+                    {
+                        <span class="e-w">
+                            <a href="@child.Url">@Html.Raw(child.Name)</a>
+                            <a data-id="@child.Id" href="#" class="exp">
+                                <span></span>
+                            </a>
+                        </span>
+                        @RenderChildren(subChildren, child, setLevelRoot, maxLevel)
+                    }
+                    else
+                    {
+                        <a href="@child.Url">@Html.Raw(child.Name)</a>
+                    }
+                </li>
+            }
+        </ol>
+    }
+}
+
+@helper RenderSvg(IPublishedContent node) {
+    <div class="svg-nav-icon">
+        @Html.Raw(node.GetPropertyValue<string>("icon"))
+    </div>
+}
+
+<script id="tree-menu-list" type="text/template">
+    <ol data-level="{{level}}">
+        <li class="up u-w">
+            <a href="#" class="bck">
+                <span></span>
+            </a>
+            <a href="{{parent.url}}">{{parent.name}}</a>
+        </li>
+        {{#each children}}
+            {{#if this.hasChildren}}
+            <li class="l-{{this.level}} hc">
+                <span class="e-w">
+                    <a href="{{this.url}}">{{this.name}}</a>
+                    <a data-id="{{id}}" href="#" class="exp">
+                        <span></span>
+                    </a>
+                </span>
+            </li>
+            {{else}}
+            <li>
+                <a href="{{this.url}}">{{this.name}}</a>
+            </li>
+            {{/if}}
+        {{/each}}
+    </ol>
+</script>

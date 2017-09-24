@@ -1,20 +1,30 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<FrontPage>
+﻿@inherits UmbracoViewPage<FrontPage>
 @{
-	Layout = "_Layout.cshtml";
+    Layout = "_Layout.cshtml";
+
 }
-<header class="side-header">
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            @{ Html.RenderPartial("Training/React/ReactBasics"); }
+        </div>
+    </div>
+</div>
+
+@*<header class="side-header">
     <div class="prime-header">
         <div class="prime-header__panel">
             <div class="prime-header__title">Mc <span class="prime-bg-col">Code</span></div>
         </div>
         <div class="prime-header__content">
             <h1>
-                Ohøj de. Indsæt nu noget <span class="prime-col">"karl-smart-i-en-fart"</span>, der bekræfter, at dette site er noget for dig.
+                Ohøj der. Indsæt nu noget <span class="prime-col">"karl-smart-i-en-fart"</span>, der bekræfter, at dette site er noget for dig.
             </h1>
         </div>
     </div>
 </header>
-<main class="side-main side-main--fixed-height">
+<div class="side-main side-main--fixed-height">
     <div class="css-slider">
         <div class="css-slider__item1" style="background: url(../Content/images/spectacles-snapchat.jpg)">
         </div>
@@ -25,4 +35,5 @@
         <div class="css-slider__item4" style="background: url(../Content/images/esper.jpg)">
         </div>
     </div>
-</main>
+</div>*@
+

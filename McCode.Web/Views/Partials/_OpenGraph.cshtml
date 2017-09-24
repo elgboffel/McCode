@@ -10,13 +10,15 @@
     *@
     <!-- og -->
     @RenderProperties()
+    var media = new List<IPublishedContent>();
+    media.AddRange(Model.Content.GetPropertyValue("ogImages", Model.Content.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())));
+    @RenderMedia(media)
     <!-- ./og (updated: @DateTime.Now.ToString())-->
 }
 
 @helper RenderProperties()
 {
-    var image = Model.Content.GetPropertyValue("ogImages", Model.Content.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())).FirstOrDefault();
-
+    <!-- Open Graph -->
     <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="@Model.Content.GetPropertyValue("siteName", true, "")" />
     @*<meta property="og:type" content="article" />*@
     <meta property="og:locale" content="@Model.CurrentCulture.ToString().Replace("-", "_")" />
@@ -34,17 +36,39 @@
     <meta name="twitter:text:description" content="@Model.Content.GetPropertyValue( "ogDescription", "" )" />
 
     <!-- Facebook -->
-    <meta prefix="og: http://ogp.me/ns#" property="fb:app_id" content="@Model.Content.GetPropertyValue("facebookAppId", true, "")" />
+    @*<meta prefix="og: http://ogp.me/ns#" property="fb:app_id" content="@Model.Content.GetPropertyValue("facebookAppId", true, "")" />*@
+}
 
-    <!-- Image -->
-    if(image != null)
+@helper RenderMedia(IEnumerable<IPublishedContent> selectedMedia)
+{
+    <!-- media -->
+if (selectedMedia.Any())
+{
+    foreach (IPublishedContent media in selectedMedia)
     {
-            <meta name="twitter:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
-            <meta prefix="og: http://ogp.me/ns#" property="og:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
-            <meta prefix="og: http://ogp.me/ns#" property="og:image:type" content="@GetMimeType(image)" />
-            <meta prefix="og: http://ogp.me/ns#" property="og:image:width" content="@image.GetPropertyValue("umbracoWidth", "")" />
-            <meta prefix="og: http://ogp.me/ns#" property="og:image:height" content="@image.GetPropertyValue("umbracoHeight", "")" />
+        if (media.DocumentTypeAlias == "Image")
+        {
+                @RenderImage(media);
+            }
+        }
     }
+    else
+    {
+        <!-- empty -->
+}
+    <!-- ./media -->
+}
+
+@helper RenderImage(IPublishedContent image)
+{
+if (image != null)
+{
+        <meta name="twitter:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image" content="@(Model.Content.AncestorOrSelf(1).UrlAbsolute() + image.Url.Substring(1))" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:type" content="@GetMimeType(image)" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:width" content="@image.GetPropertyValue("umbracoWidth", "")" />
+        <meta prefix="og: http://ogp.me/ns#" property="og:image:height" content="@image.GetPropertyValue("umbracoHeight", "")" />
+}
 }
 
 @helper RenderVideo(IPublishedContent video)
@@ -77,4 +101,3 @@
         return null;
     }
 }
-

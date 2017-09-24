@@ -1,116 +1,79 @@
 ﻿@inherits UmbracoViewPage<SidebarViewModel>
-@using Danva.Web.Models.PartialModels
-@using Danva.Web.Models.ComponentModels
-
-
+@using Datagraf.Web.Models.PartialModels
+@using Datagraf.Web.Models.ComponentModels
 @using Our.Umbraco.LinksPicker.Models
-
-@{
-    var page = Model.CurrentPage;
-    var searchPage = page.AncestorOrSelf<Website>().Children<SearchPage>().FirstOrDefault();
-    var primaryTags = page.GetPropertyValue("primaryTags", Enumerable.Empty<IPublishedContent>());
-    var secondaryTags = page.GetPropertyValue("secondaryTags", Enumerable.Empty<IPublishedContent>());
-
-}
 
 @if (Model.Layout != null)
 {
-    <div class="sidebar">
+    <aside class="sidebar">
         @if(!string.IsNullOrEmpty(Model.Headline))
         {
             <h3>@Model.Headline</h3>
         }
-
         @foreach (var item in Model.Layout)
         {
             switch (item.DocumentTypeAlias)
             {
-                case "themeBox":
-                    @renderThemebox(item) break;
+                case "nestedEmployee":
+                    @renderEmployee(item) break;
 
-                case "sidebarEmployee":
-                    @renderContact(item) break;
+                case "multipleLinks":
+                    @renderLinks(item) break;
+
+                default:
+                    @renderRichText(item) break;
             }
         }
-
-        <div class="tags">
-            @if (primaryTags.Any())
-            {
-                    foreach (var tag in primaryTags)
-                    {
-                        <a class="primary-tag" href="@(searchPage.UrlAbsolute() + "?q=" + @tag.Id)">@tag.Name</a>
-                    }
-                    <div class="spacer25"></div>
-            }
-            @if (secondaryTags.Any())
-            {
-                    foreach (var tag in secondaryTags)
-                    {
-                        <a class="secondary-tag" href="@(searchPage.UrlAbsolute() + "?q=" + @tag.Id)">@tag.Name</a>
-                    }
-                    <div class="spacer25"></div>
-            }
-        </div>
-    </div>
+    </aside>
 }
 
-@helper renderThemebox(IPublishedContent themebox)
+@helper renderEmployee(IPublishedContent emp)
 {
-    var contentPicker = themebox.GetPropertyValue("contentPicker", Enumerable.Empty<IPublishedContent>());
-    <div class="factbox">
-        <div class="line-border-thick-skew-right"></div>
-        <div class="factbox-inner">
-            @if (themebox.HasValue("headline"))
-            {
-                <small class="trompet">@Html.Raw(themebox.GetPropertyValue("trompet", ""))</small>
-            }
-            @if (themebox.HasValue("headline"))
-            {
-                <h4 class="factbox-headline">@Html.Raw(themebox.GetPropertyValue("headline"))</h4>
-            }
-            @if (themebox.HasValue("content"))
-            {
-                @Html.Raw(themebox.GetPropertyValue<string>("content"))
-            }
-            @if (contentPicker.Any())
-            {
-                <ul class="link-list">
-                    @foreach (var content in contentPicker)
-                    {
-                        <li><a href="@content.Url">@Html.Raw(content.GetPropertyValue("headline", content.GetPropertyValue<string>("teaserHeadline", content.Name)))</a></li>
-                    }
-                </ul>
-            }
-            <div class="factbox-spacer"></div>
-        </div>
-    </div>
-}
-
-@helper renderContact(IPublishedContent contact)
-{
-    var pickedContact = contact.GetPropertyValue("pickEmployee", Enumerable.Empty<IPublishedContent>()).FirstOrDefault();
-
-    if (contact.HasValue("headline"))
+    var employee = emp.GetPropertyValue("contentPicker", Enumerable.Empty<IPublishedContent>()).FirstOrDefault();
+    <h4 class="text-center">@Html.Raw(emp.GetPropertyValue<string>("headline", ""))</h4>
+    @Html.CachedPartial(
+    "Components/_ContactCard",
+    new ContactCardViewModel
     {
-            <h4 class="contact-headline">@Html.Raw(contact.GetPropertyValue<string>("headline", ""))</h4>
+        Image = employee.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
+            TypedWidth = 250,
+            ImageHeight = 250,
+            Name = employee.Name,
+            Title = employee.GetPropertyValue<string>("title", ""),
+            Phone = employee.GetPropertyValue<string>("phone", ""),
+            Mobile = employee.GetPropertyValue<string>("mobile", ""),
+            Mail = employee.GetPropertyValue<string>("mail", ""),
+        }, 3600, cacheByPage: true)
+}
+
+
+@helper renderRichText(IPublishedContent rte)
+{
+    if(rte.HasValue("content"))
+    {
+        <div class="sidebar-rte">
+            @if(rte.HasValue("headline"))
+            {
+                <h3>@Html.Raw(rte.GetPropertyValue<string>("headline"))</h3>
+            }
+            @Html.Raw(rte.GetPropertyValue<IHtmlString>("content", null))
+        </div>
     }
-    if (pickedContact != null)
-    {
+}
 
-        @Html.Partial(
-            "Components/_ContactCard",
-            new ContactCardViewModel
-            {
-                Image = pickedContact.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
-                TypedWidth = 200,
-                ImageHeight = 200,
-                ImageHeightMobile = 400,
-                Name = pickedContact.Name,
-                Title = pickedContact.GetPropertyValue<string>("title", ""),
-                Phone = pickedContact.GetPropertyValue<string>("phone", ""),
-                Mobile = pickedContact.GetPropertyValue<string>("mobilePhone", ""),
-                Mail = pickedContact.GetPropertyValue<string>("mail", "")
-            }
-        )
+@helper renderLinks(IPublishedContent multipleLinks)
+{
+    var links = multipleLinks.GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>());
+
+    if(links.Any())
+    {
+        <div class="sidebar-link-list">
+            <ul>
+                @foreach(var link in links)
+                {
+                    <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
+                }
+            </ul>
+        </div>
     }
 }

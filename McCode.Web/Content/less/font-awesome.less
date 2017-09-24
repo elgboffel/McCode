@@ -1,0 +1,69 @@
+﻿@import (reference) "bootstrap/variables.less";
+@import (reference) "../components/bootstrap/less/mixins.less";
+@import (reference) "mixins.less";
+
+@import "../components/font-awesome/less/font-awesome.less";
+
+@fa-font-path: "../components/font-awesome/fonts";
+
+.fa {
+
+    &--border-circle {
+        position: relative;
+        margin-bottom: 30px;
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: solid 2px @light-brown;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            z-index: 0;
+
+        }
+
+        &:before {
+            position: relative;
+            z-index:1;
+        }
+
+        &:hover {
+            &:before {
+                color: #fff;
+                transition: color 200ms ease;
+
+            }
+
+            &:after {
+                background-color: @light-brown;
+                transition: background-color 300ms ease;
+            }
+
+        }
+    }
+
+    &--color-brand {
+
+        &:hover, &:focus {
+            &:after {
+                background-color: @brand-primary;
+            }
+
+            &:before {
+                color: #fff;
+            }
+        }
+
+        &:after {
+            border-color: @brand-primary;
+        }
+
+        &:before {
+            color: @brand-primary
+        }
+    }
+}
