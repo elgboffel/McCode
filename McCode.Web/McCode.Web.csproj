@@ -369,6 +369,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".bowerrc" />
     <Content Include="App_Data\Logs\UmbracoTraceLog.Johnny-pc.txt" />
     <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.html" />
     <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.js" />
@@ -406,6 +407,7 @@
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
     <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
+    <Content Include="bower.json" />
     <Content Include="Config\grid.editors.config.js" />
     <Content Include="Config\Lang\cs-CZ.user.xml" />
     <Content Include="Config\Lang\da-DK.user.xml" />
@@ -444,8 +446,8 @@
     <Content Include="Content\components\font-awesome\less\variables.less" />
     <Content Include="Content\components\handlebars\handlebars.js" />
     <Content Include="Content\components\picturefill\dist\picturefill.js" />
-    <Content Include="Content\components\react\react-dom.js" />
-    <Content Include="Content\components\react\react.js" />
+    <Content Include="Content\components\react\react-dom.min.js" />
+    <Content Include="Content\components\react\react.min.js" />
     <Content Include="Content\components\rx\Rx.min.js" />
     <Content Include="Content\images\esper.jpg" />
     <Content Include="Content\images\evil2_1600x1200.jpg" />
@@ -454,13 +456,16 @@
     <Content Include="Content\images\spectacles-snapchat.jpg" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Gulpfile.js" />
     <Content Include="nuget.exe" />
+    <Content Include="package.json" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="robots.txt" />
     <Content Include="scripts\training\react\react.basics.js" />
+    <Content Include="tsconfig.json" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\FrontPage.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
@@ -686,6 +691,7 @@
     <TypeScriptCompile Include="scripts\app\components\navbar-preview.ts" />
     <TypeScriptCompile Include="scripts\app\navbar.ts" />
     <TypeScriptCompile Include="scripts\app\carousel.jquery.ts" />
+    <TypeScriptCompile Include="scripts\training\Interfaces\IGithubUser.ts" />
     <TypeScriptCompile Include="scripts\training\react\react.basics.tsx" />
   </ItemGroup>
   <ItemGroup>

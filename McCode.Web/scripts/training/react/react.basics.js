@@ -5,13 +5,13 @@ var App;
         const htmlView = document.querySelector('.react-view');
         const Card = (props) => {
             return (React.createElement("div", { className: "card" },
-                React.createElement("img", { className: "card__avatar", src: props.avatar_url }),
+                React.createElement("img", { className: "card__avatar", src: props.avatarUrl }),
                 React.createElement("div", { className: "card__info" },
                     React.createElement("div", null, props.name),
                     React.createElement("div", null, props.company))));
         };
         const CardList = (props) => {
-            return (React.createElement("div", null, props.cards.map((card) => React.createElement(Card, Object.assign({}, card)))));
+            return (React.createElement("div", null, props.cards.map(card => React.createElement(Card, Object.assign({}, card)))));
         };
         class Form extends React.Component {
             constructor() {
@@ -36,16 +36,21 @@ var App;
                     cards: [
                         {
                             name: 'Johnny Kristensen',
-                            avatar_url: 'https://avatars2.githubusercontent.com/u/6636764?v=4',
+                            avatarUrl: 'https://avatars2.githubusercontent.com/u/6636764?v=4',
                             company: 'Datagraf Communications A/S'
                         },
                         {
                             name: 'Anders Frey Birkmose',
-                            avatar_url: 'https://avatars0.githubusercontent.com/u/4482689?v=4',
+                            avatarUrl: 'https://avatars0.githubusercontent.com/u/4482689?v=4',
                             company: 'Datagraf Communications A/S'
                         }
                     ]
                 };
+            }
+            request() {
+                const posts$ = Rx.Observable
+                    .ajax('https://jsonplaceholder.typicode.com/posts')
+                    .map(e => e.response);
             }
             render() {
                 return (React.createElement("div", null,
