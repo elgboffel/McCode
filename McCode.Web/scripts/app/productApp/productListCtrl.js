@@ -3,23 +3,21 @@ var Application;
     var ProductList;
     (function (ProductList) {
         'use strict';
-        var ProductListCtrl = (function () {
-            function ProductListCtrl(dataAccessService) {
-                var _this = this;
+        class ProductListCtrl {
+            constructor(dataAccessService) {
                 this.dataAccessService = dataAccessService;
                 this.title = 'Product List',
                     this.showImage = false;
                 this.products = [];
                 var productRessource = dataAccessService.getProductRessource();
-                productRessource.query(function (data) {
-                    _this.products;
+                productRessource.query((data) => {
+                    this.products;
                 });
             }
-            ProductListCtrl.prototype.toggleImage = function () {
+            toggleImage() {
                 this.showImage = !this.showImage;
-            };
-            return ProductListCtrl;
-        }());
+            }
+        }
         ProductListCtrl.$inject = ['dataAccessService'];
         Application.app.controller('productListCtrl', ProductListCtrl);
     })(ProductList = Application.ProductList || (Application.ProductList = {}));

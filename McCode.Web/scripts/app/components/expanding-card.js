@@ -1,10 +1,10 @@
 var App;
 (function (App) {
-    var ExpandingCard = (function () {
-        function ExpandingCard() {
+    class ExpandingCard {
+        constructor() {
             this.expandCard();
         }
-        ExpandingCard.prototype.expandCard = function () {
+        expandCard() {
             var _this = this;
             $('.plus-expander').on('click', function () {
                 var $this = $(this);
@@ -21,14 +21,13 @@ var App;
                 }
                 ;
             });
-        };
-        ExpandingCard.prototype.setHeight = function (element) {
+        }
+        setHeight(element) {
             var height = element.find('.plus-expander').outerHeight() +
                 element.find('.expanding-card__content').outerHeight();
             element.css({ 'height': height });
-        };
-        return ExpandingCard;
-    }());
+        }
+    }
     App.ExpandingCard = ExpandingCard;
 })(App || (App = {}));
 $(function () {

@@ -2,15 +2,14 @@ var Application;
 (function (Application) {
     var Common;
     (function (Common) {
-        var DataAccessService = (function () {
-            function DataAccessService($resource) {
+        class DataAccessService {
+            constructor($resource) {
                 this.$resource = $resource;
             }
-            DataAccessService.prototype.getProductRessource = function () {
+            getProductRessource() {
                 return this.$resource('api/products/:productId');
-            };
-            return DataAccessService;
-        }());
+            }
+        }
         DataAccessService.$inject = ['$http'];
         Common.DataAccessService = DataAccessService;
         Common.appService.service('dataAccessService', DataAccessService);

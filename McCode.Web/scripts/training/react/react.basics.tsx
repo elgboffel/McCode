@@ -17,13 +17,13 @@ namespace App.ReactTraining {
     const CardList = (props) => {
         return (
             <div>
-                {props.cards.map(card => <Card {...card}/>)} 
+                {props.cards.map((card: any) => <Card {...card}/>)} 
             </div> 
         );
     }
+
     class Form extends React.Component {
         state = { userName: '' };
-
         handleSubmit = (event) => {
             event.preventDefault();
             console.log('Event: Form Submit', this.state.userName);

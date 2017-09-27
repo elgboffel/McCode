@@ -1,5 +1,4 @@
-﻿/// <reference path="../typings/owlcarousel/index.d.ts" />
-
+﻿
 module App {
     export class Carousel {
         private _element: HTMLElement;

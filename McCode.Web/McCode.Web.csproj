@@ -48,7 +48,8 @@
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
+    <TypeScriptMapRoot>
+    </TypeScriptMapRoot>
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -425,7 +426,7 @@
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
     <Content Include="Content\components\angularjs\angular.js" />
-    <Content Include="Content\components\es6-shim\es6-shim.js" />
+    <Content Include="Content\components\es6-shim\es6-shim.min.js" />
     <Content Include="Content\components\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\components\font-awesome\less\animated.less" />
     <Content Include="Content\components\font-awesome\less\bordered-pulled.less" />
@@ -445,6 +446,7 @@
     <Content Include="Content\components\picturefill\dist\picturefill.js" />
     <Content Include="Content\components\react\react-dom.js" />
     <Content Include="Content\components\react\react.js" />
+    <Content Include="Content\components\rx\Rx.min.js" />
     <Content Include="Content\images\esper.jpg" />
     <Content Include="Content\images\evil2_1600x1200.jpg" />
     <Content Include="Content\images\Fentezi_25_119.jpg" />
@@ -457,7 +459,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="package.json" />
     <Content Include="robots.txt" />
     <Content Include="scripts\training\react\react.basics.js" />
     <Content Include="Views\Web.config" />
@@ -467,8 +468,6 @@
     <Content Include="App_Data\Models\all.dll.path" />
     <Content Include="App_Data\Models\models.hash" />
     <Content Include="Views\Partials\Modules\_List.cshtml" />
-    <Content Include=".bowerrc" />
-    <Content Include="bower.json" />
     <Content Include="Config\imageprocessor\security.config" />
     <Content Include="Config\imageprocessor\processing.config" />
     <Content Include="Config\imageprocessor\cache.config" />
@@ -498,7 +497,6 @@
     <Content Include="App_Plugins\LeBlender\package.manifest" />
     <Content Include="App_Plugins\LeBlender\editors\leblendereditor\views\LeBlender.cshtml" />
     <Content Include="App_Plugins\LeBlender\editors\leblendereditor\views\Base.cshtml" />
-    <Content Include="scripts\typings\owlcarousel\typings.json" />
     <Content Include="Views\Partials\Grid\Editors\Carousel.cshtml" />
     <Content Include="Views\Partials\Grid\Editors\Factbox.cshtml" />
     <Content Include="Views\Angular.cshtml" />
@@ -654,7 +652,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Gulpfile.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -685,38 +682,16 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\app\angular\infinity-list.ctrl.ts" />
     <TypeScriptCompile Include="scripts\app\components\expanding-card.ts" />
     <TypeScriptCompile Include="scripts\app\components\navbar-preview.ts" />
     <TypeScriptCompile Include="scripts\app\navbar.ts" />
-    <TypeScriptCompile Include="scripts\app\productApp\app.ts" />
-    <TypeScriptCompile Include="scripts\app\productApp\product.ts" />
-    <TypeScriptCompile Include="scripts\app\productApp\productListCtrl.ts" />
-    <TypeScriptCompile Include="scripts\app\productApp\services\common.services.ts" />
-    <TypeScriptCompile Include="scripts\app\productApp\services\dataAccessService.ts" />
-    <TypeScriptCompile Include="scripts\app\angular\w3.ctrl.ts" />
-    <TypeScriptCompile Include="scripts\app\angular\app.ts" />
     <TypeScriptCompile Include="scripts\app\carousel.jquery.ts" />
     <TypeScriptCompile Include="scripts\training\react\react.basics.tsx" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-mocks.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-resource.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-route.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular-sanitize.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\angularjs\angular.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\bootstrap\bootstrap.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\owlcarousel\index.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\handlebars\handlebars-1.0.0.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\react\react-dom.d.ts" />
-    <TypeScriptCompile Include="scripts\typings\react\react.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Models\PartialModels\" />
+    <Folder Include="Models\" />
     <Folder Include="Views\Partials\Shared\" />
   </ItemGroup>
   <PropertyGroup>

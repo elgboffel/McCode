@@ -1,18 +1,15 @@
-/// <reference path="../typings/owlcarousel/index.d.ts" />
 var App;
 (function (App) {
-    var Carousel = (function () {
-        function Carousel(element) {
+    class Carousel {
+        constructor(element) {
             this._element = element;
             this._defaultOptions = JSON.parse(this._element.getAttribute("data-options"));
             this.activate();
-            //this.placeNavigation();
         }
-        Carousel.prototype.activate = function () {
+        activate() {
             $(this._element).owlCarousel(this._defaultOptions);
-        };
-        return Carousel;
-    }());
+        }
+    }
     App.Carousel = Carousel;
 })(App || (App = {}));
 $(function () {

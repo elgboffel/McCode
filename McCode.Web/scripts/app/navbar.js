@@ -1,11 +1,11 @@
 var App;
 (function (App) {
-    var Navbar = (function () {
-        function Navbar() {
+    class Navbar {
+        constructor() {
             this.fixed();
             this.toggleUtilityBar();
         }
-        Navbar.prototype.fixed = function () {
+        fixed() {
             $(window).on('scroll', function () {
                 var element = $('.navbar');
                 var windowPosition = $(window).scrollTop();
@@ -14,15 +14,14 @@ var App;
                 else
                     element.removeClass('navbar--fixed');
             });
-        };
-        Navbar.prototype.toggleUtilityBar = function () {
+        }
+        toggleUtilityBar() {
             var element = $('.utility-bar--toggle');
             element.on('click', function () {
                 $('.navbar').toggleClass('utility-bar--visible');
             });
-        };
-        return Navbar;
-    }());
+        }
+    }
     App.Navbar = Navbar;
 })(App || (App = {}));
 $(function () {
