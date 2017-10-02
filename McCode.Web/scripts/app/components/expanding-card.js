@@ -1,10 +1,11 @@
+"use strict";
 var App;
 (function (App) {
-    class ExpandingCard {
-        constructor() {
+    var ExpandingCard = (function () {
+        function ExpandingCard() {
             this.expandCard();
         }
-        expandCard() {
+        ExpandingCard.prototype.expandCard = function () {
             var _this = this;
             $('.plus-expander').on('click', function () {
                 var $this = $(this);
@@ -21,13 +22,14 @@ var App;
                 }
                 ;
             });
-        }
-        setHeight(element) {
+        };
+        ExpandingCard.prototype.setHeight = function (element) {
             var height = element.find('.plus-expander').outerHeight() +
                 element.find('.expanding-card__content').outerHeight();
             element.css({ 'height': height });
-        }
-    }
+        };
+        return ExpandingCard;
+    }());
     App.ExpandingCard = ExpandingCard;
 })(App || (App = {}));
 $(function () {

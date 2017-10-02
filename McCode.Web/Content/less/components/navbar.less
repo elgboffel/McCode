@@ -2,93 +2,6 @@
 @import (reference) "../../components/bootstrap/less/mixins.less";
 @import (reference) "../mixins.less";
 
-.link-effect(@color, @transitions-time) {
-    position: relative;
-    margin: 0 5px;
-
-    &:before, &:after {
-        content: "";
-        position: absolute;
-        background-color: @color;
-    }
-
-    &:before {
-        left: 0;
-        height: 100%;
-        width: 1px;
-        transform: scaleY(0);
-        transform-origin: bottom;
-    }
-
-    &:after {
-        left: 0;
-        top: 0;
-        height: 1px;
-        width: 100%;
-        transform: scaleX(0);
-        transform-origin: left;
-    }
-
-    > a {
-        &:before, &:after {
-            content: "";
-            position: absolute;
-            background-color: @color;
-        }
-
-        &:before {
-            top: 0;
-            right: 0;
-            height: 100%;
-            width: 1px;
-            transform: scaleY(0);
-            transform-origin: top;
-        }
-
-        &:after {
-            left: 0;
-            bottom: 0;
-            height: 1px;
-            width: 100%;
-            transform: scaleX(0);
-            transform-origin: right;
-        }
-    }
-
-    &:hover, &:focus {
-        &:before, &:after {
-        }
-
-        &:before {
-            transition: transform @transitions-time / 2 linear;
-            transform: scaleY(1);
-        }
-
-        &:after {
-            transition: transform @transitions-time linear;
-            transition-delay: @transitions-time * 0.5;
-            transform: scaleX(1);
-        }
-
-        > a {
-            &:before, &:after {
-            }
-
-            &:before {
-                transition: transform @transitions-time / 2 linear;
-                transition-delay: @transitions-time * 1.5;
-                transform: scaleY(1);
-            }
-
-            &:after {
-                transition: transform @transitions-time linear;
-                transition-delay: @transitions-time * 2;
-                transform: scaleX(1);
-            }
-        }
-    }
-}
-
 .navbar {
     position: relative;
     width: 100%;
@@ -141,7 +54,7 @@
             > li {
                 position: relative;
                 line-height: 1;
-                .link-effect(@brand-primary, 200ms);
+                .square-hover(@brand-primary, 200ms);
 
                 &:hover, &:focus {
                     .dropdown {

@@ -1,7 +1,8 @@
+"use strict";
 var Application;
 (function (Application) {
-    class W3Ctrl {
-        constructor($scope, $location, $interval) {
+    var W3Ctrl = (function () {
+        function W3Ctrl($scope, $location, $interval) {
             this.$scope = $scope;
             this.$location = $location;
             this.$interval = $interval;
@@ -20,7 +21,8 @@ var Application;
             this.$scope.currentUrl = $location.absUrl();
             this.$scope.currentTime = new Date().toLocaleTimeString();
         }
-    }
+        return W3Ctrl;
+    }());
     Application.app.controller('w3Ctrl', W3Ctrl);
 })(Application || (Application = {}));
 //# sourceMappingURL=w3.ctrl.js.map

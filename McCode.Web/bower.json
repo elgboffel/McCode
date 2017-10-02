@@ -6,7 +6,8 @@
     "picturefill": "^3.0.1",
     "owl-carousel2": "^2.2.0",
     "es6-shim": "^0.35.3",
-    "react": "^15.6.1"
+    "react": "^15.6.1",
+    "axios": "^0.16.2"
   },
   "resolutions": {
     "bootstrap": "^3.3.5"

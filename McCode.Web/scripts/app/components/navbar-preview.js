@@ -1,22 +1,23 @@
+"use strict";
 var App;
 (function (App) {
-    class NavbarPreview {
-        constructor(element) {
+    var NavbarPreview = (function () {
+        function NavbarPreview(element) {
             this.element = element;
             this.openDropdown(element);
         }
-        openDropdown(element) {
-            let _this = this;
+        NavbarPreview.prototype.openDropdown = function (element) {
+            var _this = this;
             element.addEventListener('click', function () {
-                let navbarPreview = this.closest('.navbar-preview');
+                var navbarPreview = this.closest('.navbar-preview');
                 this.classList.toggle('navbar-preview__expander--expanded');
                 _this.toggleNavbarHeight(navbarPreview);
             });
-        }
-        toggleNavbarHeight(element) {
-            let preview = element.querySelector('.navbar-preview__preview');
-            let elementHeight = element.offsetHeight;
-            let dropdownHeight = element.querySelector('ul').offsetHeight;
+        };
+        NavbarPreview.prototype.toggleNavbarHeight = function (element) {
+            var preview = element.querySelector('.navbar-preview__preview');
+            var elementHeight = element.offsetHeight;
+            var dropdownHeight = element.querySelector('ul').offsetHeight;
             if (element.classList.contains('js|open')) {
                 element.style.height = '63px';
                 element.classList.toggle('js|open');
@@ -29,8 +30,9 @@ var App;
                 element.classList.toggle('js|open');
                 document.body.classList.remove('overflow-hidden');
             }
-        }
-    }
+        };
+        return NavbarPreview;
+    }());
     App.NavbarPreview = NavbarPreview;
 })(App || (App = {}));
 (function () {

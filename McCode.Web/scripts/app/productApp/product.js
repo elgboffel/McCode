@@ -1,9 +1,10 @@
+"use strict";
 var Application;
 (function (Application) {
     var Domain;
     (function (Domain) {
-        class Product {
-            constructor(productId, productName, productCode, releaseDate, price, description, imageUrl) {
+        var Product = (function () {
+            function Product(productId, productName, productCode, releaseDate, price, description, imageUrl) {
                 this.productId = productId;
                 this.productName = productName;
                 this.productCode = productCode;
@@ -12,10 +13,11 @@ var Application;
                 this.description = description;
                 this.imageUrl = imageUrl;
             }
-            calculateDiscount(percent) {
+            Product.prototype.calculateDiscount = function (percent) {
                 return this.price - (this.price * percent / 100);
-            }
-        }
+            };
+            return Product;
+        }());
         Domain.Product = Product;
     })(Domain = Application.Domain || (Application.Domain = {}));
 })(Application || (Application = {}));

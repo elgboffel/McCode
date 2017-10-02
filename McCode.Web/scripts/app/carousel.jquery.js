@@ -1,15 +1,17 @@
+"use strict";
 var App;
 (function (App) {
-    class Carousel {
-        constructor(element) {
+    var Carousel = (function () {
+        function Carousel(element) {
             this._element = element;
             this._defaultOptions = JSON.parse(this._element.getAttribute("data-options"));
             this.activate();
         }
-        activate() {
+        Carousel.prototype.activate = function () {
             $(this._element).owlCarousel(this._defaultOptions);
-        }
-    }
+        };
+        return Carousel;
+    }());
     App.Carousel = Carousel;
 })(App || (App = {}));
 $(function () {

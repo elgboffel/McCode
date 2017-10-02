@@ -1,23 +1,26 @@
+"use strict";
 var Application;
 (function (Application) {
     var ProductList;
     (function (ProductList) {
         'use strict';
-        class ProductListCtrl {
-            constructor(dataAccessService) {
+        var ProductListCtrl = (function () {
+            function ProductListCtrl(dataAccessService) {
+                var _this = this;
                 this.dataAccessService = dataAccessService;
                 this.title = 'Product List',
                     this.showImage = false;
                 this.products = [];
                 var productRessource = dataAccessService.getProductRessource();
-                productRessource.query((data) => {
-                    this.products;
+                productRessource.query(function (data) {
+                    _this.products;
                 });
             }
-            toggleImage() {
+            ProductListCtrl.prototype.toggleImage = function () {
                 this.showImage = !this.showImage;
-            }
-        }
+            };
+            return ProductListCtrl;
+        }());
         ProductListCtrl.$inject = ['dataAccessService'];
         Application.app.controller('productListCtrl', ProductListCtrl);
     })(ProductList = Application.ProductList || (Application.ProductList = {}));

@@ -1,7 +1,8 @@
+"use strict";
 var Application;
 (function (Application) {
-    class InfinityList {
-        constructor($scope, $http) {
+    var InfinityList = (function () {
+        function InfinityList($scope, $http) {
             this.$scope = $scope;
             this.$http = $http;
             var _scope = this.$scope;
@@ -28,7 +29,8 @@ var Application;
                 });
             };
         }
-    }
+        return InfinityList;
+    }());
     Application.app.controller('infiniteListCtrl', InfinityList);
 })(Application || (Application = {}));
 //# sourceMappingURL=infinity-list.ctrl.js.map

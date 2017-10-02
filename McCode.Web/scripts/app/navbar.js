@@ -1,11 +1,12 @@
+"use strict";
 var App;
 (function (App) {
-    class Navbar {
-        constructor() {
+    var Navbar = (function () {
+        function Navbar() {
             this.fixed();
             this.toggleUtilityBar();
         }
-        fixed() {
+        Navbar.prototype.fixed = function () {
             $(window).on('scroll', function () {
                 var element = $('.navbar');
                 var windowPosition = $(window).scrollTop();
@@ -14,14 +15,15 @@ var App;
                 else
                     element.removeClass('navbar--fixed');
             });
-        }
-        toggleUtilityBar() {
+        };
+        Navbar.prototype.toggleUtilityBar = function () {
             var element = $('.utility-bar--toggle');
             element.on('click', function () {
                 $('.navbar').toggleClass('utility-bar--visible');
             });
-        }
-    }
+        };
+        return Navbar;
+    }());
     App.Navbar = Navbar;
 })(App || (App = {}));
 $(function () {

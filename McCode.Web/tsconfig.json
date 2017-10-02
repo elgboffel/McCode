@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es2015",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "outDir": "scripts/dist/",
+    "target": "es2015",
+    "module": "commonjs",
+    "sourceMap": false,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,
-    "jsx": "react",
-    "typeRoots": [
-      "node_modules/@types/"
-    ]
+    "alwaysStrict": true,
+    "jsx": "react"
   },
   "compileOnSave": true,
   "exclude": [

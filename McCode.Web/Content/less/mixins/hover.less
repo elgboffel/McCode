@@ -41,7 +41,7 @@
     }
 }
 
-.link-effect(@color, @transitions-time) {
+.square-hover(@color: @brand-primary, @transitions-time: 200ms) {
     position: relative;
     margin: 0 5px;
 
@@ -68,7 +68,7 @@
         transform-origin: left;
     }
 
-    > span, a {
+    > span, a, .btn, button {
         &:before, &:after {
             content: "";
             position: absolute;
