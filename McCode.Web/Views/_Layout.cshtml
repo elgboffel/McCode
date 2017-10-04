@@ -32,7 +32,19 @@
     @Html.RenderCssHere()
 </head>
 <body ng-app="app">
-    @{Html.RenderPartial("Components/Navbars/_NavbarPreview", Model); }
+    @*@{Html.RenderPartial("Components/Navbars/_NavbarPreview", Model); }*@
+
+    @{ Html.RenderPartial(
+         "Components/_CollapseMenu",
+         new CollapseMenuViewModel
+         {
+             StartNode = Model.Ancestor<Website>(),
+             MaxLevelsRendered = 2
+         }
+     ); }
+
+
+
     
     @*@Html.CachedPartial("_NavbarMobile", Model, 3600, cacheByPage: true)*@
     <main class="@Model.DocumentTypeAlias.ToLower()">

@@ -676,6 +676,7 @@
     <Content Include="scripts\dist\app\productApp\productListCtrl.js.map" />
     <Content Include="scripts\dist\app\productApp\services\common.services.js.map" />
     <Content Include="scripts\dist\app\productApp\services\dataAccessService.js.map" />
+    <Content Include="Views\Partials\Components\_CollapseMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -689,6 +690,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CollapseMenuController.cs" />
+    <Compile Include="Controllers\TreeMenuController.cs" />
+    <Compile Include="Models\TreeMenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyValueConverters\LeafletMapPropertyValueConverter.cs" />
     <Compile Include="ViewModels\Components\BreadcrumbViewModel.cs" />
@@ -696,6 +700,7 @@
     <Compile Include="ViewModels\Components\CardViewModel.cs" />
     <Compile Include="ViewModels\Components\CarouselCardsViewModel.cs" />
     <Compile Include="ViewModels\Components\CarouselViewModel.cs" />
+    <Compile Include="ViewModels\Components\CollapseMenuViewModel.cs" />
     <Compile Include="ViewModels\Components\ContactCardViewModel.cs" />
     <Compile Include="ViewModels\Components\HeroViewModel.cs" />
     <Compile Include="ViewModels\Components\ListGroupedByDateViewModel.cs" />
@@ -723,8 +728,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\css\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
     <Folder Include="node_modules\" />
     <Folder Include="Views\Partials\Shared\" />
   </ItemGroup>

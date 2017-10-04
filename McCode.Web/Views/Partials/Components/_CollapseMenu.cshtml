@@ -1,0 +1,47 @@
+﻿@inherits UmbracoViewPage<CollapseMenuViewModel>
+@using Umbraco.Web;
+
+@{ 
+    var rootChildren = Model.StartNode.Children()
+        .Where(x => x.IsVisible())
+        .Select(x => new CollapseMenuPage(x));
+}
+
+@if (rootChildren.Any())
+{
+    <nav class="collapse-menu" role="navigation">
+        @renderChildren(rootChildren)
+    </nav>
+}
+
+
+@helper renderChildren(IEnumerable<CollapseMenuPage> children)
+{
+    <ul>
+        @foreach (var page in children)
+        {
+            @renderPage(page)
+        }
+    </ul>
+}
+
+@helper renderPage(CollapseMenuPage content)
+{ 
+    var resetLevel = content.Level - Model.StartNode.Level;
+    var children = content.Children;
+    var renderLevel = children.Any() &&
+            content.Level <= Model.MaxLevelsRendered ?
+            true :
+            false;
+
+    <li>
+        <a href="@content.Url">@content.UrlName @resetLevel</a>
+        @if (renderLevel)
+        {
+            <div class="collapse-menu__expander"></div>
+            @renderChildren(children)
+        }
+    </li>
+}
+
+
