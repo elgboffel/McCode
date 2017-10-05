@@ -2,9 +2,14 @@
 @using Umbraco.Web;
 
 @{ 
+    Html
+        .RequiresJs("~/Content/components/react/react.min.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/Content/components/react/react-dom.min.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/Content/components/axios/dist/axios.min.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/scripts/dist/app/components/collapse-menu.js", 1, 2, new { @defer = string.Empty });
+
     var rootChildren = Model.StartNode.Children()
-        .Where(x => x.IsVisible())
-        .Select(x => new CollapseMenuPage(x));
+.Where(x => x.IsVisible());
 }
 
 @if (rootChildren.Any())
@@ -15,31 +20,32 @@
 }
 
 
-@helper renderChildren(IEnumerable<CollapseMenuPage> children)
+@helper renderChildren(IEnumerable<IPublishedContent> children)
 {
-    <ul>
-        @foreach (var page in children)
-        {
-            @renderPage(page)
-        }
-    </ul>
+    foreach (var page in children)
+    {
+        @renderPage(page)
+    }
 }
 
-@helper renderPage(CollapseMenuPage content)
+@helper renderPage(IPublishedContent content)
 { 
     var resetLevel = content.Level - Model.StartNode.Level;
+    var isAncestor = content.IsAncestorOrSelf(Model.StartNode);
+    var expanderType = resetLevel != 1 ? "slide" : "expand";
     var children = content.Children;
-    var renderLevel = children.Any() &&
-            content.Level <= Model.MaxLevelsRendered ?
-            true :
-            false;
 
-    <li>
+    <li class="collapse-menu__section @Umbraco.If(isAncestor, "collapse-menu__ancestor")">
         <a href="@content.Url">@content.UrlName @resetLevel</a>
-        @if (renderLevel)
+        @if (children.Any())
         {
-            <div class="collapse-menu__expander"></div>
-            @renderChildren(children)
+            <button role="button" class="collapse-menu__btn collapse-menu__@(expanderType)">Get</button>
+             <ul class="collapse-menu__children">
+                @if (content.Level <= Model.MaxLevelsRendered)
+                {
+                    @renderChildren(children)
+                }
+            </ul>
         }
     </li>
 }

@@ -19,7 +19,7 @@ namespace McCode.Web.ViewModels.Components
         public CollapseMenuViewModel()
         {
             StartNodeLevel = 1;
-            MaxLevelsRendered = 99;
+            MaxLevelsRendered = 2;
         }
     }
 
@@ -44,16 +44,21 @@ namespace McCode.Web.ViewModels.Components
 
         public virtual bool HasChildren { get; set; }
 
-        public CollapseMenuPage(IPublishedContent context)
+
+        public CollapseMenuPage(IPublishedContent context, bool fetchChildren = false)
         {
             Id = context.Id;
             UrlName = context.Name;
             Url = context.Url;
             Level = context.Level;
-            Children = context.Children()
-                .Where(x => x.IsVisible())
-                .Select(x => new CollapseMenuPage(x));
-            HasChildren = Children.Any();
+            HasChildren = context.Children.Any();
+
+            if (fetchChildren)
+            {
+                Children = context.Children()
+                    .Where(x => x.IsVisible())
+                    .Select(x => new CollapseMenuPage(x));
+            }
         }
     }
 }

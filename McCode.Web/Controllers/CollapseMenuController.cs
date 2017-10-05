@@ -27,7 +27,7 @@ namespace McCode.Web.Controllers
 
             var childPages = page.Children()
                 .Where(x => x.IsVisible())
-                .Select(x => new CollapseMenuPage(x));
+                .Select(x => new CollapseMenuPage(x, true));
 
             if (!childPages.Any())
                 return Content(HttpStatusCode.NotFound, $"No children found from page with ID: {id}");

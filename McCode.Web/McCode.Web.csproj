@@ -470,6 +470,7 @@
     <Content Include="scripts\dist\app\angular\infinity-list.ctrl.js" />
     <Content Include="scripts\dist\app\angular\w3.ctrl.js" />
     <Content Include="scripts\dist\app\carousel.jquery.js" />
+    <Content Include="scripts\dist\app\components\collapse-menu.js" />
     <Content Include="scripts\dist\app\components\expanding-card.js" />
     <Content Include="scripts\dist\app\components\navbar-preview.js" />
     <Content Include="scripts\dist\app\navbar.js" />
@@ -668,8 +669,6 @@
     <Content Include="scripts\dist\app\angular\infinity-list.ctrl.js.map" />
     <Content Include="scripts\dist\app\angular\w3.ctrl.js.map" />
     <Content Include="scripts\dist\app\carousel.jquery.js.map" />
-    <Content Include="scripts\dist\app\components\expanding-card.js.map" />
-    <Content Include="scripts\dist\app\components\navbar-preview.js.map" />
     <Content Include="scripts\dist\app\navbar.js.map" />
     <Content Include="scripts\dist\app\productApp\app.js.map" />
     <Content Include="scripts\dist\app\productApp\product.js.map" />
@@ -719,6 +718,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="scripts\app\components\collapse-menu.tsx" />
     <TypeScriptCompile Include="scripts\app\components\expanding-card.ts" />
     <TypeScriptCompile Include="scripts\app\components\navbar-preview.ts" />
     <TypeScriptCompile Include="scripts\app\navbar.ts" />
